@@ -5,17 +5,20 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itbank.model.FoodDTO;
+import com.itbank.model.NutritionDTO;
 import com.itbank.service.FoodService;
 import com.itbank.service.NutritionService;
 
 @RestController
 @RequestMapping("/diet")
-public class SearchAPI {
+public class DietAPI {
 	
 	@Autowired private FoodService fs;
 	@Autowired private NutritionService ns;
@@ -37,6 +40,12 @@ public class SearchAPI {
 		List<FoodDTO> foodList = fs.getSearchList(map);
 		
 		return foodList;		
+	}
+	
+	@PostMapping("/addFood")
+	public int addFood(@RequestBody NutritionDTO dto) {
+		int row = ns.addFood(dto);
+		return row;
 	}
 	
 }

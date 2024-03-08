@@ -8,6 +8,15 @@
 <meta charset="UTF-8">
 <title>FinalProject</title>
 <style>
+	@font-face {
+        font-family: 'GangwonEdu_OTFBoldA';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    body {
+        font-family: 'GangwonEdu_OTFBoldA';
+ 	}
  	*{ 
  		padding:0; 
  		margin:0; 
@@ -33,7 +42,7 @@
 	.h_bar > div:nth-child(1){
 	}
 	.frame{
-	  	padding-top: 140px;
+	  	padding-top: 160px;
 	  	background-color:#f1f3f5;
 	  	height:2000px;
     }  

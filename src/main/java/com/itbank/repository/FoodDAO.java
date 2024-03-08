@@ -3,11 +3,9 @@ package com.itbank.repository;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
 import com.itbank.model.FoodDTO;
-import com.itbank.model.NutritionDTO;
 
 public interface FoodDAO {
 
@@ -17,8 +15,7 @@ public interface FoodDAO {
 			+ "FETCH FIRST 20 ROWS ONLY")
 	List<FoodDTO> selectList();
 
-	@Insert ("insert into health_nutrition (userid, food_idx, meal_time) values (#{userid}, #{food_idx}, #{meal_time})")
-	int insert(NutritionDTO nutritionDto);
+	
 
 	@Select("select * from health_food where food_name like #{food_name} AND group_name like #{group_name}")
 	List<FoodDTO> selectSearchList(HashMap<String, Object> map);

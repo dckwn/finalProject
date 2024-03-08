@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itbank.model.FoodDTO;
-import com.itbank.model.NutritionDTO;
 import com.itbank.repository.FoodDAO;
 
 @Service
@@ -20,9 +19,7 @@ public class FoodService {
 		return foodDao.selectList();
 	}
 
-	public int addFood(NutritionDTO nutritionDto) {
-		return foodDao.insert(nutritionDto);
-	}
+	
 
 	public List<FoodDTO> getSearchList(HashMap<String, Object> map) {
 		List<FoodDTO> list = new ArrayList<>(); 
@@ -46,7 +43,6 @@ public class FoodService {
 	}
 
 	public List<String> getCategory() {
-		List<String> cate = foodDao.selectCategory();
 		return foodDao.selectCategory();
 	}
 	
