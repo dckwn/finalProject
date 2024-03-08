@@ -22,5 +22,9 @@ public class NutritionService {
 	public List<FoodDTO> getListByMeal(String meal_time) {	
 		return nutDao.selectByMeal(meal_time);
 	}
+
+	public int addFood(NutritionDTO nutritionDto) {
+		return nutDao.insert(nutritionDto);
+	}
 	
 }

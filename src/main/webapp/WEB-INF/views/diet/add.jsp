@@ -35,7 +35,7 @@
 		border:none;
 		background:none;
 		cursor:pointer;
-		background-image: url('/gitTest/resources/image/search.png');
+		background-image: url('/finalProject/resources/image/search.png');
 		background-size: contain;
 		background-repeat:no-repeat;
 		width:30px;
@@ -79,6 +79,11 @@
     }
     .item>div:nth-child(8){
     	text-align: center;
+    	cursor: pointer;
+    }
+    .item>div:nth-child(8):hover{
+    	background-color:#007bff;
+    	color:white;
     }
     .item:nth-child(1)>div{
 		font-weight: bolder;
@@ -102,24 +107,14 @@
 		</div>	
 	</div>
 	
-	<div id="items">
-<!-- 		<div class="item "> -->
-<!-- 			<div>이름(내용량)</div> -->
-<!-- 			<div>탄수화물(g)</div> -->
-<!-- 			<div>단백질(g)</div> -->
-<!-- 			<div>지방(g)</div> -->
-<!-- 			<div>당(g)</div> -->
-<!-- 			<div>나트륨(mg)</div> -->
-<!-- 			<div>열량 (kcal)</div> -->
-<!-- 		</div> -->
-	</div>
+	<div id="items"></div>
 </div>
 
 <input type="hidden" name="userid" value="test">
 <input type="hidden" name="meal_time" value="${meal_time }">
 			
 
-
+<%@ include file="../footer.jsp" %>
 
 <script>
 	const searchName = document.querySelector('input[name="searchName"]')
@@ -153,7 +148,7 @@
 		
 		arr.forEach(e =>{
 			let tag = ''
-			tag += '<div class="item">'
+			tag += '<div class="item hidden">'
 			tag += '<div>'+e.food_name+'('+e.capacity +'g)</div>'
 			tag += '<div>'+e.tan+'</div>'
 			tag += '<div>'+e.dan+'</div>'
@@ -161,11 +156,42 @@
 			tag += '<div>'+e.dang+'</div>'			
 			tag += '<div>'+e.na+'</div>'			
 			tag += '<div>'+e.kcal+'</div>'			
-			tag += '<div><a href="#">등록</a></div>'			
+			tag += '<div class="dh-add" idx="'+e.idx+'">등록</div>'			
 			tag += '</div>'
 			
 			items.innerHTML += tag;
 			
+		})
+		
+		const addBtnList = document.querySelectorAll('.dh-add')
+		addBtnList.forEach(function(e){
+			e.addEventListener('click', async function(){
+				var idx = e.getAttribute('idx')
+				const meal_time = '${meal_time}'
+				const userid = 'test'
+				const addUrl = '${cpath}/diet/addFood'
+				
+				const opt = {
+					  method: 'POST',
+					  body: JSON.stringify({ 
+						  userid: userid,
+						  food_idx: idx,
+						  meal_time: meal_time
+						  }),
+					  headers: {
+				           'Content-Type': 'application/json; charset=utf-8'
+				       }
+				}
+				
+				const addResult = await fetch(addUrl,opt).then(resp=>resp.text())
+				if(addResult != 0){
+					alert('등록되었습니다')
+					location.href = '${cpath}/diet/home'
+				}
+				else{
+					alert('등록 실패!')
+				}
+			})
 		})
 	}	
 	
