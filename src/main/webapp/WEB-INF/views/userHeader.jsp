@@ -8,10 +8,10 @@
 <meta charset="UTF-8">
 <title>FinalProject</title>
 <style>
-	*{
-		padding:0;
-		margin:0;
-	}
+ 	*{ 
+ 		padding:0; 
+ 		margin:0; 
+ 	} 
 	header{
 		
 	}
@@ -33,7 +33,7 @@
 	.h_bar > div:nth-child(1){
 	}
 	.frame{
-	  	margin-top: 140px;
+	  	padding-top: 140px;
 	  	background-color:#f1f3f5;
 	  	height:2000px;
     }  
