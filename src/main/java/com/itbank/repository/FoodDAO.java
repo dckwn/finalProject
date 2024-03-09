@@ -17,7 +17,8 @@ public interface FoodDAO {
 
 	
 
-	@Select("select * from health_food where food_name like #{food_name} AND group_name like #{group_name}")
+//	@Select("select * from health_food where food_name like #{food_name} AND group_name like #{group_name}")
+//			+ "OFFSET #{offset} ROWS FETCH NEXT ${fetchnum} ROWS ONLY")
 	List<FoodDTO> selectSearchList(HashMap<String, Object> map);
 
 	@Select("SELECT group_name FROM health_food "

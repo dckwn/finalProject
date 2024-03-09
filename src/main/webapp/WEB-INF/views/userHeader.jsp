@@ -44,7 +44,7 @@
 	.frame{
 	  	padding-top: 160px;
 	  	background-color:#f1f3f5;
-	  	height:2000px;
+	  	height: auto;
     }  
     a{
     	text-decoration: none;
