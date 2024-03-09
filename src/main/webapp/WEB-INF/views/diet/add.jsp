@@ -70,7 +70,7 @@
     .item>div {
         flex: 1;
         border: 1px solid grey;
-        padding: 5px 10px;
+        padding: 10px;
         text-align : right;
     }
     .item>div:nth-child(1) {
@@ -124,12 +124,14 @@
 	var selectValues = [];
 	
 	async function clickHandler(){
-		const url = '${cpath}/diet/getSearch?food_name='+searchName.value+'&group_name='+ selectValues
+		let offset = 0;
+		let fetchnum = 40;
+		
+		let url = '${cpath}/diet/getSearch?food_name='+searchName.value+'&group_name='+ selectValues
+			url += '&offset='+offset+'&fetchnum='+fetchnum
 		const items = document.getElementById('items')
 		const result = await fetch(url).then(resp => resp.json())
 		const arr = Array.from(result)
-		
-		console.log(arr)
 		
 		let base = ''
 		if(arr.length != 0){
@@ -193,6 +195,43 @@
 				}
 			})
 		})
+		document.body.onscroll = async function(event) {
+        const ob = {
+        		scrollTop: window.scrollY,               // 스크롤된 세로의 위치
+                clientHeight: window.innerHeight,         // 브라우저에 보여지는 창의 높이
+                scrollHeight: document.body.scrollHeight   // 문서 전체의 높이
+           }
+			console.log(ob)
+           const flag = ob.scrollTop + ob.clientHeight === ob.scrollHeight
+           if(flag) {
+               console.log('추가 불러오기 !!')
+               offset = offset + fetchnum;
+			   fetchnum = 20;
+				
+			   url = '${cpath}/diet/getSearch?food_name='+searchName.value+'&group_name='+ selectValues
+			   url += '&offset='+offset+'&fetchnum='+fetchnum
+               
+               const result = await fetch(url).then(resp => resp.json())
+               const arr = Array.from(result)
+               arr.forEach(e =>{
+					let tag = ''
+					tag += '<div class="item hidden">'
+					tag += '<div>'+e.food_name+'('+e.capacity +'g)</div>'
+					tag += '<div>'+e.tan+'</div>'
+					tag += '<div>'+e.dan+'</div>'
+					tag += '<div>'+e.ji+'</div>'			
+					tag += '<div>'+e.dang+'</div>'			
+					tag += '<div>'+e.na+'</div>'			
+					tag += '<div>'+e.kcal+'</div>'			
+					tag += '<div class="dh-add" idx="'+e.idx+'">등록</div>'			
+					tag += '</div>'
+					
+					items.innerHTML += tag;
+					
+				})
+           }
+    	}
+		
 	}	
 	
 	searchBtn.onclick = clickHandler

@@ -1,5 +1,6 @@
 package com.itbank.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,15 +30,26 @@ public class DietAPI {
 		boolean food = !("".equals(map.get("food_name")));
 		boolean group = !("".equals(map.get("group_name")));
 		
-		if(!food && !group) {
-			map.put("food_name", "---"); 
-		}
-		else if(food && !group) {
-			map.put("group_name", "%");
+		if(food==false) {map.put("food_name", null);}
+		if(group==false) {map.put("group_name", null);}
+		
+		System.out.println("food : "+map.get("food_name"));
+		System.out.println("group : "+map.get("group_name"));
+		System.out.println("offset : "+map.get("offset"));
+		System.out.println("fetchnum : "+map.get("fetchnum"));
+//		
+//		if(!food && !group) {
+//			map.put("food_name", "---"); 
+//		}
+//		else if(food && !group) {
+//			map.put("group_name", "%");
+//		}
+		List<FoodDTO> foodList = new ArrayList<>();
+		if(food==false && group==false) {
+			return foodList;
 		}
 		
-		
-		List<FoodDTO> foodList = fs.getSearchList(map);
+		foodList = fs.getSearchList(map);
 		
 		return foodList;		
 	}
