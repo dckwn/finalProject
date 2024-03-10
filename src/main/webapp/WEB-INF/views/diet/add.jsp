@@ -89,6 +89,13 @@
 		font-weight: bolder;
 		text-align:center;
 	}
+	.dh-load{
+		text-align: center;
+	}
+	.dh-load > img{
+		width: 100px;
+		height:100px;
+	}
 </style>
 </head>
 <body>
@@ -108,6 +115,7 @@
 	</div>
 	
 	<div id="items"></div>
+	<div class="dh-load hidden"><img src="${cpath }/resources/image/Loading_icon.gif"></div>
 </div>
 
 <input type="hidden" name="userid" value="test">
@@ -204,31 +212,38 @@
 			console.log(ob)
            const flag = ob.scrollTop + ob.clientHeight === ob.scrollHeight
            if(flag) {
-               console.log('추가 불러오기 !!')
-               offset = offset + fetchnum;
-			   fetchnum = 20;
-				
-			   url = '${cpath}/diet/getSearch?food_name='+searchName.value+'&group_name='+ selectValues
-			   url += '&offset='+offset+'&fetchnum='+fetchnum
+        	   
+        	   const loading = document.querySelector('.dh-load')
+        	   loading.classList.remove('hidden')
+           
+               setTimeout(async function() {
+            	   loading.classList.add('hidden')
+	               offset = offset + fetchnum;
+				   fetchnum = 20;
+					
+				   url = '${cpath}/diet/getSearch?food_name='+searchName.value+'&group_name='+ selectValues
+				   url += '&offset='+offset+'&fetchnum='+fetchnum
+	               
+	               const result = await fetch(url).then(resp => resp.json())
+	               const arr = Array.from(result)
+	               arr.forEach(e =>{
+						let tag = ''
+						tag += '<div class="item hidden">'
+						tag += '<div>'+e.food_name+'('+e.capacity +'g)</div>'
+						tag += '<div>'+e.tan+'</div>'
+						tag += '<div>'+e.dan+'</div>'
+						tag += '<div>'+e.ji+'</div>'			
+						tag += '<div>'+e.dang+'</div>'			
+						tag += '<div>'+e.na+'</div>'			
+						tag += '<div>'+e.kcal+'</div>'			
+						tag += '<div class="dh-add" idx="'+e.idx+'">등록</div>'			
+						tag += '</div>'
+						
+						items.innerHTML += tag;
+						
+					})
+			   }, 1500);
                
-               const result = await fetch(url).then(resp => resp.json())
-               const arr = Array.from(result)
-               arr.forEach(e =>{
-					let tag = ''
-					tag += '<div class="item hidden">'
-					tag += '<div>'+e.food_name+'('+e.capacity +'g)</div>'
-					tag += '<div>'+e.tan+'</div>'
-					tag += '<div>'+e.dan+'</div>'
-					tag += '<div>'+e.ji+'</div>'			
-					tag += '<div>'+e.dang+'</div>'			
-					tag += '<div>'+e.na+'</div>'			
-					tag += '<div>'+e.kcal+'</div>'			
-					tag += '<div class="dh-add" idx="'+e.idx+'">등록</div>'			
-					tag += '</div>'
-					
-					items.innerHTML += tag;
-					
-				})
            }
     	}
 		
