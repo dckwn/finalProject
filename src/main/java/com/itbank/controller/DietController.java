@@ -2,6 +2,8 @@ package com.itbank.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.itbank.model.FoodDTO;
+import com.itbank.model.MemberDTO;
 import com.itbank.model.NutritionDTO;
 import com.itbank.service.FoodService;
 import com.itbank.service.NutritionService;
@@ -22,9 +25,10 @@ public class DietController {
 	@Autowired private NutritionService ns;
 	
 	@RequestMapping("/home")
-	public ModelAndView home() {
+	public ModelAndView home(HttpSession session) {
 		ModelAndView mav = new ModelAndView("/diet/home");
-		NutritionDTO userNutDTO = ns.getDtoByUser("test");
+		MemberDTO login = (MemberDTO) session.getAttribute("login");
+		NutritionDTO userNutDTO = ns.getDtoByUser(login.getUserid());
 		
 		List<FoodDTO> checkM = ns.getListByMeal("아침");
 		List<FoodDTO> checkL = ns.getListByMeal("점심");

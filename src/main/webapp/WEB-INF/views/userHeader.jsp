@@ -44,7 +44,7 @@
 	.frame{
 	  	padding-top: 160px;
 	  	background-color:#f1f3f5;
-	  	height: auto;
+	  	height: 2000px;
     }  
     a{
     	text-decoration: none;
@@ -65,13 +65,28 @@
     	justify-content: space-between;
     	align-items: center;
     }
+    .hidden{
+    	display:none;
+    }
+    .Mauto{
+		margin: auto;
+	}
+	.center{
+		display:flex;
+		justify-content: center;
+		align-items: center;
+	}
 </style>
 </head>
 <body>
 
 <header>
 	<div class="h_bar">
-		<div><h1><a href="${cpath }">헤헤</a></h1></div>
+		<div><h1><a href="${cpath }">헤헤</a>
+				<c:if test="${login != null }">[${login.userid }] 님 로그인 중
+				<a href="${cpath }/member/logout">(로그아웃)</a>
+				</c:if>
+			</h1></div>
 		<div>
 			<ul class="sb">
 				<li><a href="${cpath }/about">About</a></li>

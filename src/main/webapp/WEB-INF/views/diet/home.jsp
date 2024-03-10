@@ -28,7 +28,7 @@
 
 <div class="frame">
 	<div class="info">
-		<h3>총 칼로리</h3>
+		<h3>[${login.userid }]님의 총 권장 섭취량</h3>
 		<div> [테스트하려고 직접 작성한 값] </div>
 		<div>2275 칼로리 (탄:113 단: 45 지: 68 )</div>
 		<br>
