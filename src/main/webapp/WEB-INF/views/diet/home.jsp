@@ -27,13 +27,17 @@
 
 
 <div class="frame">
-	<div class="dh-when">
+
+	<div>
+	</div>
+
+	<div class="dh-when hidden">
 		<c:forEach var="showDate" items="${dateList }">
 			<input type="radio" id="${showDate }" name="show_date" value="${showDate }">
 		    <label for="${showDate }">${showDate }</label><br>	
 		</c:forEach>
 	</div>
-	<div class="info">
+	<div class="info hidden">
 		<h3>[${login.userid }]님의 총 권장 섭취량 (${param.when })</h3>
 		<div> [테스트하려고 직접 작성한 값] </div>
 		<div>2275 칼로리 (탄:113 단: 45 지: 68 )</div>
@@ -47,7 +51,7 @@
 		<div>나트륨 : ${NutDto.user_na }</div>	
 	</div>
 	
-	<div class="meals">
+	<div class="meals hidden">
 		<div class="achim">
 			<h3>아침</h3>
 			<div>
