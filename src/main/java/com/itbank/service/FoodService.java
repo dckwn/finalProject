@@ -49,5 +49,11 @@ public class FoodService {
 	public List<String> getCategory() {
 		return foodDao.selectCategory();
 	}
+
+
+
+	public int add(FoodDTO foodDto) {
+		return foodDao.insert(foodDto);
+	}
 	
 }

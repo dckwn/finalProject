@@ -29,7 +29,6 @@ public class MemberController {
 	public String login(MemberDTO dto, HttpSession session) {
 		MemberDTO login = ms.login(dto);
 		session.setAttribute("login", login);
-		
 		return "redirect:/";
 	}
 	

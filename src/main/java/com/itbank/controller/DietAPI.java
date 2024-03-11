@@ -33,17 +33,6 @@ public class DietAPI {
 		if(food==false) {map.put("food_name", null);}
 		if(group==false) {map.put("group_name", null);}
 		
-		System.out.println("food : "+map.get("food_name"));
-		System.out.println("group : "+map.get("group_name"));
-		System.out.println("offset : "+map.get("offset"));
-		System.out.println("fetchnum : "+map.get("fetchnum"));
-//		
-//		if(!food && !group) {
-//			map.put("food_name", "---"); 
-//		}
-//		else if(food && !group) {
-//			map.put("group_name", "%");
-//		}
 		List<FoodDTO> foodList = new ArrayList<>();
 		if(food==false && group==false) {
 			return foodList;
@@ -54,9 +43,9 @@ public class DietAPI {
 		return foodList;		
 	}
 	
-	@PostMapping("/addFood")
+	@PostMapping("/addNutrition")
 	public int addFood(@RequestBody NutritionDTO dto) {
-		int row = ns.addFood(dto);
+		int row = ns.addNutrition(dto);
 		return row;
 	}
 	
