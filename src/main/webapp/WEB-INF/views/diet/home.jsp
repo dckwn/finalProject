@@ -27,8 +27,14 @@
 
 
 <div class="frame">
+	<div class="dh-when">
+		<c:forEach var="showDate" items="${dateList }">
+			<input type="radio" id="${showDate }" name="show_date" value="${showDate }">
+		    <label for="${showDate }">${showDate }</label><br>	
+		</c:forEach>
+	</div>
 	<div class="info">
-		<h3>[${login.userid }]님의 총 권장 섭취량</h3>
+		<h3>[${login.userid }]님의 총 권장 섭취량 (${param.when })</h3>
 		<div> [테스트하려고 직접 작성한 값] </div>
 		<div>2275 칼로리 (탄:113 단: 45 지: 68 )</div>
 		<br>
@@ -51,7 +57,7 @@
 					</div>
 				</c:forEach>
 			</div>
-			<a href="${cpath }/diet/add/아침">추가하기</a>
+			<a href="${cpath }/diet/add/아침?when=${param.when}">추가하기</a>
 		</div>
 		<div class="jumshim">
 			<h3>점심</h3>
@@ -62,7 +68,7 @@
 					</div>
 				</c:forEach>
 			</div>
-			<a href="${cpath }/diet/add/점심">추가하기</a>
+			<a href="${cpath }/diet/add/점심?when=${param.when}">추가하기</a>
 		</div>
 		<div class="juneuck">
 			<h3>저녁</h3>
@@ -73,7 +79,7 @@
 					</div>
 				</c:forEach>
 			</div>
-			<a href="${cpath }/diet/add/저녁">추가하기</a>
+			<a href="${cpath }/diet/add/저녁?when=${param.when}">추가하기</a>
 		</div>
 		<div class="gansick">
 			<h3>간식</h3>
@@ -84,12 +90,30 @@
 					</div>
 				</c:forEach>
 			</div>
-			<a href="${cpath }/diet/add/간식">추가하기</a>
+			<a href="${cpath }/diet/add/간식?when=${param.when}">추가하기</a>
 		</div>	
 	</div>
 </div>
 
 <%@ include file="../footer.jsp" %>
+
+
+
+<script>
+	const radioBtnList = document.querySelectorAll('input[type="radio"]')
+	
+	function getByDate(e){
+		location.href = '${cpath}/diet/home?when='+e.target.value
+	}
+	
+	radioBtnList.forEach(e => e.onclick = getByDate)
+	
+</script>
+
+
+
+
+
 
 </body>
 </html>

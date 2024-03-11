@@ -1,6 +1,8 @@
 package com.itbank.repository;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
@@ -19,17 +21,22 @@ public interface NutritionDAO {
 			+ "sum(f.na) as user_na "
 			+ "from health_nutrition n "
 			+ "join health_food f on n.food_idx=f.idx "
-			+ "where userid=#{userid} AND TRUNC(n.add_date)=TRUNC(sysdate)")
-	NutritionDTO selectDtoByUser(String userid);
+			+ "where userid=#{userid} AND TRUNC(n.add_date)=TRUNC(#{when})")
+	NutritionDTO selectDtoByUser(Map<String, Object> map);
 
 	@Select("select "
 			+ "f.food_name, f.kcal, f.capacity "
 			+ "from health_nutrition n join health_food f on n.food_idx=f.idx "
-			+ "where meal_time=#{meal_time} AND TRUNC(n.add_date)=TRUNC(sysdate)")
-	List<FoodDTO> selectByMeal(String meal_time);
+			+ "where meal_time=#{meal_time} AND userid=#{userid} AND TRUNC(n.add_date)=TRUNC(#{when})")
+	List<FoodDTO> selectByMeal(Map<String, Object> map);
 
-	@Insert ("insert into health_nutrition (userid, food_idx, meal_time) values (#{userid}, #{food_idx}, #{meal_time})")
+	@Insert ("insert into health_nutrition (userid, food_idx, meal_time, add_date) values (#{userid}, #{food_idx}, #{meal_time}, #{add_date})")
 	int insert(NutritionDTO nutritionDto);
+
+	@Select ("SELECT DISTINCT TRUNC(add_date) as showDate "
+			+ "FROM health_nutrition "
+			+ "WHERE userid = #{userid}")
+	List<Date> showDate(String userid);
 	
 	
 	

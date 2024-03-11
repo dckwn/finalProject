@@ -1,5 +1,6 @@
 package com.itbank.controller;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.itbank.model.FoodDTO;
@@ -25,22 +28,26 @@ public class DietController {
 	@Autowired private NutritionService ns;
 	
 	@RequestMapping("/home")
-	public ModelAndView home(HttpSession session) {
+	public ModelAndView home(HttpSession session, @RequestParam(required=false) Date when) {
 		ModelAndView mav = new ModelAndView("/diet/home");
 		MemberDTO login = (MemberDTO) session.getAttribute("login");
-		NutritionDTO userNutDTO = ns.getDtoByUser(login.getUserid());
+		String userid = login.getUserid();
+		NutritionDTO userNutDTO = ns.getDtoByUser(userid, when);
 		
-		List<FoodDTO> checkM = ns.getListByMeal("아침");
-		List<FoodDTO> checkL = ns.getListByMeal("점심");
-		List<FoodDTO> checkD = ns.getListByMeal("저녁");
-		List<FoodDTO> checkY = ns.getListByMeal("간식");
+		List<FoodDTO> checkM = ns.getListByMeal("아침", userid, when);
+		List<FoodDTO> checkL = ns.getListByMeal("점심", userid, when);
+		List<FoodDTO> checkD = ns.getListByMeal("저녁", userid, when);
+		List<FoodDTO> checkY = ns.getListByMeal("간식", userid, when);
+		
+		List<Date> dateList = ns.showDate(userid);
 		
 		if(checkM.size() != 0) {mav.addObject("foodM", checkM);}
 		if(checkL.size() != 0) {mav.addObject("foodL", checkL);}
 		if(checkD.size() != 0) {mav.addObject("foodD", checkD);}
 		if(checkY.size() != 0) {mav.addObject("foodY", checkY);}
 		
-		mav.addObject("NutDto", userNutDTO);
+		if(userNutDTO != null) {mav.addObject("NutDto", userNutDTO);}
+		if(dateList != null) {mav.addObject("dateList", dateList);}
 		
 		return mav;
 	}
@@ -55,5 +62,12 @@ public class DietController {
 		
 		return mav;
 	}
+	
+	@PostMapping("/add/{meal}")
+	public String add(FoodDTO foodDto) {
+		int row = fs.add(foodDto);
+		return "redirect:/diet/add/{meal}";
+	}
+	
 	
 }
