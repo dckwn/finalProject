@@ -8,7 +8,6 @@
 <title>Insert title here</title>
 <style>
 .dh-calender{
-	width:100%;
 	margin:auto;
 	width:35%;
 }
@@ -33,16 +32,12 @@
 	align-items: center;
 	border-radius: 25px;
 	cursor: pointer;
-	color: #dadada;
+ 	color: #dadada; 
 	font-size: 20px;
 }
 
 .dh-day input[type=radio]:checked+label {
-	margin-left: 12px;
-	width: 30px;
-	height: 30px;
-	text-align: center;
-	background-color: #dadada;
+ 	background-color: #dadada; 
 }
 span#date {
 	display: table-cell;
@@ -95,15 +90,21 @@ a#nextM{
 		
 			<div class="dateItem">
 				<div><h3 id="month">${month} ${cal.month }</h3></div>
-				<span id="date">Sun</span> <span id="date">MON</span><span
-					id="date">TUE</span><span id="date">WED</span> <span id="date">THU</span><span
-					id="date">FRI</span><span id="date">SAT</span>
+				<div>
+					<span id="date">Sun</span> 
+					<span id="date">MON</span>
+					<span id="date">TUE</span>
+					<span id="date">WED</span>
+					<span id="date">THU</span>
+					<span id="date">FRI</span>
+					<span id="date">SAT</span>
+				</div>
 			</div>
 			<div class="dh-dayItem">
 				<c:forEach var="i" begin="1" end="${cal.startDayOfWeek-1 }">
 				<div class="dh-day">
-					<input type="radio" id="day" disabled /> <label
-						style="color: grey;" for="day"></label>
+					<input type="radio" id="day" disabled /> 
+					<label style="color: grey;" for="day"></label>
 				</div>
 				</c:forEach>
 				<c:forEach var="i" begin="1" end="${cal.lastDay }">
@@ -117,8 +118,8 @@ a#nextM{
 					</c:if>
 					<c:if test="${day == 0}">
 						<div class="dh-day">
-							<input type="radio" id="day" disabled /> <label
-								style="color: grey;" for="day">${i }</label>
+							<input type="radio" name="when" id="day${i}" value="${i}"/> 
+							<label style="color: grey;" for="day${i}">${i }</label>
 						</div>
 					</c:if>
 				</c:forEach>
@@ -132,6 +133,24 @@ a#nextM{
 		</div>
 		
 	</div>
+	
+	<script>
+		const dayList = document.querySelectorAll('input[type="radio"]');
+		
+		function getDay(e) {
+			let month = '${month}'
+			if(month < 10){month = '0'+ month}
+			let when = '2024-'+month+'-'
+		    let day = e.target.value
+		    if(day < 10){day = '0'+ day}
+		    when += day
+		    alert(when)
+		}
+	
+		dayList.forEach(radio => {
+		    radio.addEventListener('click', getDay);
+		});
+	</script>
 	
 <%@ include file="footer.jsp" %>
 </body>
