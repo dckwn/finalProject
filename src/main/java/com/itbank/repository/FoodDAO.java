@@ -33,8 +33,8 @@ public interface FoodDAO {
 			+ ") WHERE rownum <= 5")
 	List<String> selectCategory();
 
-	@Insert("insert into health_food (group_name, food_name, capacity, kcal, tan, dan, ji ,dang, na, kcal) "
-			+ "values (#{group_name}, #{food_name}, #{capacity}, #{kcal}, #{tan}, #{dan}, #{ji}, #{dang}, #{na}, #{kcal})")
+	@Insert("insert into health_food (group_name, food_name, capacity, tan, dan, ji ,dang, na, kcal) "
+			+ "values (#{group_name}, #{food_name}, #{capacity}, #{tan}, #{dan}, #{ji}, #{dang}, #{na}, #{kcal})")
 	int insert(FoodDTO foodDto);
 
 }

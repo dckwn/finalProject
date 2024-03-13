@@ -248,8 +248,6 @@
 				const addUrl = '${cpath}/diet/addNutrition'
 				const when = '${param.when}'
 				
-				alert('${param.when}')
-				alert(when)
 				
 				
 				const opt = {
@@ -268,7 +266,7 @@
 				const addResult = await fetch(addUrl,opt).then(resp=>resp.text())
 				if(addResult != 0){
 					alert('등록되었습니다')
-					location.href = '${cpath}/diet/home'
+					location.href = '${cpath}/diet/home?when='+when
 				}
 				else{
 					alert('등록 실패!')

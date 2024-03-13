@@ -8,19 +8,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.itbank.model.FeedDTO;
+import com.itbank.model.ReplyDTO;
 import com.itbank.service.FeedService;
+import com.itbank.service.ReplyService;
 
-import oracle.jdbc.logging.annotations.DefaultLogger;
 
 @Controller
 @RequestMapping("/social")
-public class SocailController {
+public class SocialController {
 	
 	@Autowired private FeedService fs;
+	@Autowired private ReplyService rs;
 	
 	@GetMapping("/home")
 	public ModelAndView home() {
@@ -35,8 +36,21 @@ public class SocailController {
 		ModelAndView mav = new ModelAndView("/social/feed/view");
 		FeedDTO dto = fs.getHealth_board(idx);
 		mav.addObject("dto", dto);
+		List<ReplyDTO> replylist = rs.getReplyList(idx);
+		mav.addObject("replylist", replylist);
 		return mav;
 	}
+	
+
+	
+	@PostMapping("/view/{idx}")
+	public String replyAdd(@PathVariable("idx")int idx, ReplyDTO dto) {
+		int row = rs.replyAdd(dto);
+		System.out.println(dto.getIdx());
+		System.out.println(row != 0 ? "성공" : "실패");
+		return "redirect:/social/view/{idx}";
+	}
+	
 	
 	@GetMapping("/feed/myboard")
 	public ModelAndView myboard() {
