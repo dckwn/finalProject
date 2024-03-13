@@ -1,6 +1,6 @@
 package com.itbank.model;
 
-public class ReplyDTO {
+public class replyDTO {
 
 	private int idx;
 	private int board_id;
