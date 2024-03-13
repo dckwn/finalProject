@@ -91,7 +91,7 @@
 		<div>
 			<ul class="sb">
 				<li><a href="${cpath }/about">About</a></li>
-				<li><a href="${cpath }/ticket/home">Ticket</a></li>
+				<li><a href="${cpath }/ticket/tkHome">Ticket</a></li>
 				<li><a href="${cpath }/diet/home?when=<%= LocalDate.now() %>">Diet</a></li>
 				<li><a href="${cpath }/social/home">Social</a></li>
 				<li><a href="${cpath }/member/login">Login</a></li>

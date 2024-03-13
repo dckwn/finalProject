@@ -2,6 +2,8 @@ package com.itbank.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import com.itbank.model.DealDTO;
+import com.itbank.model.MemberDTO;
 import com.itbank.model.TicketDTO;
 import com.itbank.service.DealService;
 import com.itbank.service.TicketService;
@@ -56,10 +59,11 @@ public class TicketController {
 	
 	// 구매한 거 리스트
 	@GetMapping("/Buy/{counts}")
-	public ModelAndView buybb(@PathVariable("counts") String counts) {
+	public ModelAndView buybb(@PathVariable("counts") String counts, HttpSession session) {
 		ModelAndView mav = new ModelAndView("redirect:/ticket/tkList");
-		int row = ts.buy(counts, "test");
-		List<DealDTO> list = ds.buyList("test");
+		MemberDTO login = (MemberDTO) session.getAttribute("login");
+		int row = ts.buy(counts, login.getUserid());
+		List<DealDTO> list = ds.buyList(login.getUserid());
 		mav.addObject("list",list);
 		mav.addObject("counts", counts);
 		return mav;
@@ -68,17 +72,19 @@ public class TicketController {
 	
 	// 이용권 조회
 	@GetMapping("/tkList")
-	public ModelAndView buybb() {
+	public ModelAndView buybb(HttpSession session) {
 		ModelAndView mav = new ModelAndView("/ticket/tkList");
-		List<DealDTO> list = ds.buyList("test");
+		MemberDTO login = (MemberDTO) session.getAttribute("login");
+		List<DealDTO> list = ds.buyList(login.getUserid());
 		mav.addObject("list",list);
 		return mav;	
 	}
 	
 	// 이용권 사용
 	@GetMapping("/useTicket")
-	public String use() {
-		int row = ds.update("test");
+	public String use(HttpSession session) {
+		MemberDTO login = (MemberDTO) session.getAttribute("login");
+		int row = ds.update(login.getUserid());
 		System.out.println(row != 0 ? "사용 성공" : "사용 실패");
 		return "redirect:/ticket/abList";
 	}
