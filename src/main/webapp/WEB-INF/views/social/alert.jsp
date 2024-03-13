@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="userHeader.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,9 +8,20 @@
 </head>
 <body>
 
-	<div class="frame">
-	</div>
+<script>
+	const url = '${url}'
+	const msg = '${msg}'
+	const cpath = '${cpath}'
 	
-<%@ include file="footer.jsp" %>
+	if(url == '') {
+		alert(msg)
+		location.href = cpath + url
+	}
+	else {
+		alert(msg)
+		history.go(-1)
+	}
+</script>
+
 </body>
 </html>
