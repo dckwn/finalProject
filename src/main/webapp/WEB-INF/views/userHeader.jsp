@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.time.LocalDate" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="cpath" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
@@ -91,7 +92,7 @@
 			<ul class="sb">
 				<li><a href="${cpath }/about">About</a></li>
 				<li><a href="${cpath }/ticket/home">Ticket</a></li>
-				<li><a href="${cpath }/diet/home">Diet</a></li>
+				<li><a href="${cpath }/diet/home?when=<%= LocalDate.now() %>">Diet</a></li>
 				<li><a href="${cpath }/social/home">Social</a></li>
 				<li><a href="${cpath }/member/login">Login</a></li>
 			</ul>

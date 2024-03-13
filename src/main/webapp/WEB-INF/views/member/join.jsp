@@ -240,14 +240,14 @@ p#result {
 						</div>
 						<div class="dh-loform">
 							<div class="center">
-								<img src="${cpath }/icon/email1.png" height="20" width="21"
+								<img src="${cpath }/icon/phone_num.png" height="25" width="26"
 									style="padding-right: 20px;"> <input class="dh-input"
 									type="text" name="phone_num" placeholder="전화번호">
 							</div>
 						</div>
 						<div class="dh-loform">
 							<div class="center">
-								<img src="${cpath }/icon/email1.png" height="20" width="21"
+								<img src="${cpath }/icon/birth.png" height="25" width="26"
 									style="padding-right: 20px;"> <input class="dh-input"
 									type="text" name="strbirth" placeholder="생년월일 (생년/월/일)">
 							</div>
