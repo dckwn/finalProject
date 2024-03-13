@@ -33,17 +33,21 @@
 	</div>
 
 	<fieldset>
-	댓글 리스트(수정 삭제)
-		<div>left(다른 사람의 댓글)</div>
-<%-- 		${dto.content } --%>
-<%-- 		<a>${dto.writer }</a> --%>
-<%-- 		${dto.writedate } --%>
-		<div>right(나의 댓글)</div>
+	댓글리스트
+		<c:forEach var="reply" items="${replylist }">
+			<ul>
+				<li>${reply.writer }</li>
+				<li>${reply.content }</li>
+				<li>${reply.writedate }</li>
+			</ul>
+		</c:forEach>
 	</fieldset>
 	<fieldset>	
 		<form method="POST">
+			<p><input type="hidden" name="board_id" value="${dto.idx}"></p>
+			<p><input type="text" name="writer" placeholder="작성자를 입력하시오" required autofocus></p>
 			<p>
-				<textarea name="content" placeholder="댓글을 입력 하세요" style="width: ; height: ;" ></textarea>
+				<textarea name="content" placeholder="댓글을 입력 하세요"></textarea>
 			</p>
 			<p><input type="submit" value="작성"></p>
 		</form>
