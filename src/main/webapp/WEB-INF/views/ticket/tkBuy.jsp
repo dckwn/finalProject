@@ -12,7 +12,7 @@
 <div class="frame">
 
    <div class="dg-left">
-      <h1 style="color: blue;">신유진님,</h1>
+      <h1 style="color: blue;">${login.userid }님,</h1>
       <div>
          <p class="dg-tfont1">총 구매 개수는</p><p class="dg-sfont2"></p>
       </div>

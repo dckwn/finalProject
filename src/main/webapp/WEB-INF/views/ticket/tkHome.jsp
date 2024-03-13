@@ -31,7 +31,7 @@ justify-content: space-around;
 
 <div class="frame">
 	
-	<h1>신유진님,</h1>	
+	<h1>[${login.userid}]님,</h1>	
 	<h3>Health Protector에 오신 것을 환영합니다</h3>
 	
 

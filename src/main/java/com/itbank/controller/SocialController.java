@@ -18,7 +18,7 @@ import oracle.jdbc.logging.annotations.DefaultLogger;
 
 @Controller
 @RequestMapping("/social")
-public class SocailController {
+public class SocialController {
 	
 	@Autowired private FeedService fs;
 	

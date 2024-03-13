@@ -17,7 +17,7 @@ public interface DealDAO {
 	@Select("select health_deal.idx, userid, ticket_id, tk_value * 0.75 as tk_value, TRUNC(buyday) as buyDay, TRUNC(expirday) as expirDay ,tkCount from health_deal"
 			+ " join health_ticket"
 			+ " on health_ticket.idx = health_deal.ticket_id"
-			+ " where userid='test'"
+			+ " where userid=#{userid}"
 			+ " group by health_deal.idx, userid, health_deal.ticket_id,tk_value, TRUNC(buyday), TRUNC(expirday), tkCount")
 	List<DealDTO> buyList(String userid);
 
