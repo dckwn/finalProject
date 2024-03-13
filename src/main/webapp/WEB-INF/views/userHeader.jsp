@@ -8,17 +8,6 @@
 <meta charset="UTF-8">
 <title>FinalProject</title>
 <style>
-	font-face {
-            font-family: 'GangwonEdu_OTFBoldA';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-    }
-    
-    body {
-            font-family: 'GangwonEdu_OTFBoldA';
- 	}
- 	
 	*{
 		padding:0;
 		margin:0;
@@ -67,15 +56,21 @@
     	justify-content: space-between;
     	align-items: center;
     }
-    
-/*  feed/home   */	
-/*  myblog   */
-/*    write    */
-/*    modify    */
-
+    @font-face {
+            font-family: 'GangwonEdu_OTFBoldA';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+    body {
+         	font-family: 'GangwonEdu_OTFBoldA';
+ }
 </style>
 </head>
 <body>
+
+
+
 
 <header>
 	<div class="h_bar">
@@ -83,7 +78,7 @@
 		<div>
 			<ul class="sb">
 				<li><a href="${cpath }/about">About</a></li>
-				<li><a href="${cpath }/ticket/home">Ticket</a></li>
+				<li><a href="${cpath }/ticket/tkHome">Ticket</a></li>
 				<li><a href="${cpath }/diet/home">Diet</a></li>
 				<li><a href="${cpath }/social/home">Social</a></li>
 				<li><a href="${cpath }/member/login">Login</a></li>
@@ -93,3 +88,5 @@
 </header>
 
 
+</body>
+</html>
