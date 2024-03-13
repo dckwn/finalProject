@@ -46,7 +46,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<view-controller path="/" view-name="home"/>
+<!-- 	<view-controller path="/" view-name="home"/> -->
 	
 <!-- 	<websocket:handlers> -->
 <!-- 		<websocket:mapping handler="chatComponent" path="/chat"/> -->
@@ -55,12 +55,12 @@
 	
 <!-- 	<beans:bean id="chatComponent" class="com.itbank.component.ChatComponent"></beans:bean> -->
 	
-	<websocket:message-broker application-destination-prefix="/app">
-		<websocket:stomp-endpoint path="/endpoint">
-			<websocket:sockjs websocket-enabled="true"/>
-		</websocket:stomp-endpoint>
-		<websocket:simple-broker prefix="/broker"/>
-	</websocket:message-broker>
+<!-- 	<websocket:message-broker application-destination-prefix="/app"> -->
+<!-- 		<websocket:stomp-endpoint path="/endpoint"> -->
+<!-- 			<websocket:sockjs websocket-enabled="true"/> -->
+<!-- 		</websocket:stomp-endpoint> -->
+<!-- 		<websocket:simple-broker prefix="/broker"/> -->
+<!-- 	</websocket:message-broker> -->
 	
 	<context:component-scan base-package="com.itbank.controller" />
 	
