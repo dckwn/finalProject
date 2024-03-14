@@ -247,7 +247,7 @@ p#result {
 						</div>
 						<div class="dh-loform">
 							<div class="center">
-								<img src="${cpath }/icon/birth.png" height="25" width="26"
+								<img src="${cpath }/icon/birth.png" height="22" width="23"
 									style="padding-right: 20px;"> <input class="dh-input"
 									type="text" name="strbirth" placeholder="생년월일 (생년/월/일)">
 							</div>
