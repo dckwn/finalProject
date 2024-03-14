@@ -7,9 +7,21 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	.info{
+	.dh-info{
 		width:1000px;
 		margin: auto;
+	}
+	.dh-infoDetail{
+		display:flex;
+		justify-content: space-around;
+		padding:20px;
+	}
+	.dh-infoDetail>div:nth-child(1){
+		flex:2;
+	}
+	.dh-infoDetail>div:nth-child(2){
+		flex:3;
+		padding:20px;
 	}
 	.meals{
 		display:flex;
@@ -22,6 +34,7 @@
 		padding: 10px;
 	}
 	.dh-calender{
+	position:relative;
 	margin:auto;
 	width:35%;
 }
@@ -73,15 +86,15 @@ h3#month{
 	position:absolute;
 	width:100px;
 	height:100px;
-	top: 320px;
-	left: 540px;
+	top: 180px;
+	left: -50px;
 }
 .next{
 	position:absolute;
 	width:100px;
 	height:100px;
-	top: 320px;
-	right: 500px;
+	top: 180px;
+	right: -70px;
 }
 a#prevM{
 	vertical-align: middle;
@@ -96,13 +109,14 @@ a#nextM{
 	font-size: 100px;
 }
 .dh-doughnut{
-	width:50%;
+	width:368px;
+	height:368px;
 }
 </style>
 
 </head>
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 
 
 <div class="frame">
@@ -124,8 +138,8 @@ a#nextM{
 			<div class="dh-dayItem">
 				<c:forEach var="i" begin="1" end="${cal.startDayOfWeek-1 }">
 				<div class="dh-day">
-					<input type="radio" id="day" disabled /> 
-					<label style="color: grey;" for="day"></label>
+					<input type="radio" id="day${i+100}" disabled /> 
+					<label style="color: grey;" for="day${i+100}"></label>
 				</div>
 				</c:forEach>
 				<c:forEach var="i" begin="1" end="${cal.lastDay }">
@@ -154,22 +168,26 @@ a#nextM{
 		</div>
 
 	
-	<div class="info">
-		<h3>[${login.userid }] (${param.when })</h3>
+	<div class="dh-info">
+		[${login.userid }] (${param.when })
 		<div>${info.intake } 칼로리 (탄:${info.userTan } 단: ${info.userDan } 지: ${info.userJi } )</div>
-		<div class="dh-doughnut">
-			<canvas id="doughnut-chart" width="auto" height="150vh">
-			</canvas>
+		<div class="dh-infoDetail">
+			<div class="dh-doughnut">
+				<canvas id="myChart" width="auto" height="300vh">
+				</canvas>
+			</div>
+			<div>
+				<c:if test="${NutDto != null }">
+					<br>
+					<div>칼로리 : ${NutDto.user_kcal }</div>
+					<div>탄수화물 : ${NutDto.user_tan }</div>
+					<div>단백질 : ${NutDto.user_dan }</div>
+					<div>지방 : ${NutDto.user_ji }</div>
+					<div>당 : ${NutDto.user_dang }</div>		
+					<div>나트륨 : ${NutDto.user_na }</div>	
+				</c:if>
+			</div>
 		</div>
-		<c:if test="${NutDto != null }">
-			<br>
-			<div>칼로리 : ${NutDto.user_kcal }</div>
-			<div>탄수화물 : ${NutDto.user_tan }</div>
-			<div>단백질 : ${NutDto.user_dan }</div>
-			<div>지방 : ${NutDto.user_ji }</div>
-			<div>당 : ${NutDto.user_dang }</div>		
-			<div>나트륨 : ${NutDto.user_na }</div>	
-		</c:if>
 	</div>
 	
 	<div class="meals">
@@ -243,28 +261,64 @@ a#nextM{
 		
 		let minus = all - (m+l+d+y)
 		
-		new Chart(document.getElementById("doughnut-chart"), {
-		    type: 'doughnut',
-		    data: {
+		const data = {
 		      labels: ["아침", "점심", "저녁", "간식", "남은 양"],
-		      datasets: [
-		        {
-		          label: "Population (millions)",
+		      datasets: [{
+		          label: "Diet",
 		          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#f1f3f5"],
-		          data: [m,l,d,y,minus]
-		        }
-		      ],
-		      borderWidth: 0,
-              scaleBeginAtZero: true
-		    },
+		          data: [m,l,d,y,minus],
+			      borderWidth: 0,
+	              scaleBeginAtZero: true
+		        }]
+		}
+		
+		const doughnutLabelPlugin = {
+// 			beforeDraw: function(chart) {
+// 		        console.log("Plugin is running before drawing!");
+// 		    }
+// 		    afterDraw: function(chart) {
+// 		    	console.log("Plugin is running!");
+// 		        const ctx = chart.ctx
+// 		        const width = chart.width
+// 		        const height = chart.height
+// 		        const text = '텍스트' // 표시할 텍스트
+
+// 		        // 텍스트 스타일 설정
+// 		        ctx.font = 'bold 20px Arial'
+// 		        ctx.fillStyle = 'black'
+// 		        ctx.textAlign = 'center'
+// 		        ctx.textBaseline = 'middle'
+
+// 		        // 텍스트를 화면 중앙에 위치시킵니다.
+// 		        const textX = width / 2
+// 		        const textY = height / 2
+
+// 		        // 텍스트 그리기
+// 		        ctx.fillText(text, textX, textY)
+// 		    }
+		}
+		
+		new Chart(document.getElementById('myChart'), {
+		    type: 'doughnut',
+		    data,
 		    options: {
-		    	
-		      title: {
-		        display: false,
-		        text: '총 권장 섭취량  '+all
-		      }
+		        cutoutPercentage: 65, // 도넛 차트의 중심에 텍스트를 표시하기 위해 cutoutPercentage를 설정합니다.
+		        legend: {
+		            display: false // 레이블을 표시하지 않도록 설정합니다.
+		        },
+		        animation: {
+		            animateScale: true, // 애니메이션을 허용합니다.
+		            animateRotate: true // 도넛 차트 회전 애니메이션을 허용합니다.
+		        },
+		        tooltips: {
+		            //enabled: false // 툴팁을 비활성화합니다.
+		        },
+		        plugins: {
+		            doughnutLabelPlugin // 사용자 정의 플러그인 추가
+		        }
 		    }
-		});
+		})
+		
 		
 		
 		function getDay(e) {
