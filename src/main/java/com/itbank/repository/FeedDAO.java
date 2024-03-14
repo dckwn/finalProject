@@ -24,10 +24,12 @@ public interface FeedDAO {
 	int insert(FeedDTO dto);
 
 	@Update("update health_board set"
-			+ " writer = #{writer}, "
 			+ " title = #{title}, "
 			+ " maintext = #{maintext}"
+			+ " origianlFileName = #{origianlFileName}"
+			+ " storedFileName = #{storedFileName}"
 			+ " where"
+			+ " writer = #{writer} and "
 			+ " idx = #{idx}")
 	int update(FeedDTO dto);
 
