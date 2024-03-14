@@ -95,10 +95,14 @@ a#nextM{
 	font-weight: 400;
 	font-size: 100px;
 }
+.dh-doughnut{
+	width:50%;
+}
 </style>
+
 </head>
 <body>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
 
 <div class="frame">
@@ -151,17 +155,21 @@ a#nextM{
 
 	
 	<div class="info">
-		<h3>[${login.userid }]님의 총 권장 섭취량 (${param.when })</h3>
-		<div> [테스트하려고 직접 작성한 값] </div>
-		<div>2275 칼로리 (탄:113 단: 45 지: 68 )</div>
-		<br>
-		<div> [DB에서 받은 값] </div>
-		<div>칼로리 : ${NutDto.user_kcal }</div>
-		<div>탄수화물 : ${NutDto.user_tan }</div>
-		<div>단백질 : ${NutDto.user_dan }</div>
-		<div>지방 : ${NutDto.user_ji }</div>
-		<div>당 : ${NutDto.user_dang }</div>		
-		<div>나트륨 : ${NutDto.user_na }</div>	
+		<h3>[${login.userid }] (${param.when })</h3>
+		<div>${info.intake } 칼로리 (탄:${info.userTan } 단: ${info.userDan } 지: ${info.userJi } )</div>
+		<div class="dh-doughnut">
+			<canvas id="doughnut-chart" width="auto" height="150vh">
+			</canvas>
+		</div>
+		<c:if test="${NutDto != null }">
+			<br>
+			<div>칼로리 : ${NutDto.user_kcal }</div>
+			<div>탄수화물 : ${NutDto.user_tan }</div>
+			<div>단백질 : ${NutDto.user_dan }</div>
+			<div>지방 : ${NutDto.user_ji }</div>
+			<div>당 : ${NutDto.user_dang }</div>		
+			<div>나트륨 : ${NutDto.user_na }</div>	
+		</c:if>
 	</div>
 	
 	<div class="meals">
@@ -170,7 +178,7 @@ a#nextM{
 			<div>
 				<c:forEach var="m" items="${foodM }">
 					<div>
-						<p>${m.food_name } (${m.kcal } kcal)</p>
+						<p>${m.food_name } (<span class="dh-m">${m.kcal }</span> kcal)</p>
 					</div>
 				</c:forEach>
 			</div>
@@ -181,7 +189,7 @@ a#nextM{
 			<div>
 				<c:forEach var="l" items="${foodL }">
 					<div>
-						<p>${l.food_name } (${l.kcal } kcal)</p>
+						<p>${l.food_name } (<span class="dh-l">${l.kcal }</span> kcal)</p>
 					</div>
 				</c:forEach>
 			</div>
@@ -192,7 +200,7 @@ a#nextM{
 			<div>
 				<c:forEach var="d" items="${foodD }">
 					<div>
-						<p>${d.food_name } (${d.kcal } kcal)</p>
+						<p>${d.food_name } (<span class="dh-d">${d.kcal }</span> kcal)</p>
 					</div>
 				</c:forEach>
 			</div>
@@ -203,7 +211,7 @@ a#nextM{
 			<div>
 				<c:forEach var="y" items="${foodY }">
 					<div>
-						<p>${y.food_name } (${y.kcal } kcal)</p>
+						<p>${y.food_name } (<span class="dh-y">${y.kcal }</span> kcal)</p>
 					</div>
 				</c:forEach>
 			</div>
@@ -217,6 +225,47 @@ a#nextM{
 
 <script>
 		const dayList = document.querySelectorAll('input[type="radio"]');
+		const dhm = document.querySelectorAll('.dh-m')
+		const dhl = document.querySelectorAll('.dh-l')
+		const dhd = document.querySelectorAll('.dh-d')
+		const dhy = document.querySelectorAll('.dh-y')
+		const all = '${info.intake}'
+		
+		let m = 0
+		let l = 0
+		let d = 0
+		let y = 0
+		
+		dhm.forEach(e=> m += +e.innerText)
+		dhl.forEach(e=> l += +e.innerText)
+		dhd.forEach(e=> d += +e.innerText)
+		dhy.forEach(e=> y += +e.innerText)
+		
+		let minus = all - (m+l+d+y)
+		
+		new Chart(document.getElementById("doughnut-chart"), {
+		    type: 'doughnut',
+		    data: {
+		      labels: ["아침", "점심", "저녁", "간식", "남은 양"],
+		      datasets: [
+		        {
+		          label: "Population (millions)",
+		          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#f1f3f5"],
+		          data: [m,l,d,y,minus]
+		        }
+		      ],
+		      borderWidth: 0,
+              scaleBeginAtZero: true
+		    },
+		    options: {
+		    	
+		      title: {
+		        display: false,
+		        text: '총 권장 섭취량  '+all
+		      }
+		    }
+		});
+		
 		
 		function getDay(e) {
 			let month = '${month}'
@@ -233,17 +282,6 @@ a#nextM{
 		});
 	</script>
 
-
-<script>
-// 	const radioBtnList = document.querySelectorAll('input[type="radio"]')
-	
-// 	function getByDate(e){
-// 		location.href = '${cpath}/diet/home?when='+e.target.value
-// 	}
-	
-// 	radioBtnList.forEach(e => e.onclick = getByDate)
-	
-</script>
 
 
 

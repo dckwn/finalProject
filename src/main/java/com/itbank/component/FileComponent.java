@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class FileComponent {
 
-	private String saveDirectory = "c:\\upload";
+	private String saveDirectory = "d:\\upload";
 	
 	public FileComponent() {
 		File f = new File(saveDirectory);

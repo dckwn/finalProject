@@ -20,9 +20,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.itbank.component.CalenderComponent;
 import com.itbank.model.CalenderDTO;
 import com.itbank.model.FoodDTO;
+import com.itbank.model.InfoDTO;
 import com.itbank.model.MemberDTO;
 import com.itbank.model.NutritionDTO;
 import com.itbank.service.FoodService;
+import com.itbank.service.InfoService;
 import com.itbank.service.NutritionService;
 
 @Controller
@@ -31,6 +33,7 @@ public class DietController {
 
 	@Autowired private FoodService fs;
 	@Autowired private NutritionService ns;
+	@Autowired private InfoService is;
 	@Autowired private CalenderComponent cal;
 	
 	@RequestMapping("/home")
@@ -38,7 +41,7 @@ public class DietController {
 		ModelAndView mav = new ModelAndView("/diet/home");
 		MemberDTO login = (MemberDTO) session.getAttribute("login");
 		String userid = login.getUserid();
-		
+		InfoDTO infoDto = is.getOne(userid);
 		String whenStr = map.get("when"); // 예시로 날짜 문자열을 설정
 		java.util.Date utilDate = new java.util.Date();
 		if(whenStr != null) {
@@ -84,7 +87,7 @@ public class DietController {
 		
 		mav.addObject("cal", dto);
 		mav.addObject("month", month);
-		
+		mav.addObject("info", infoDto);
 		
 		return mav;
 	}
@@ -106,5 +109,15 @@ public class DietController {
 		return "redirect:/diet/add/{meal}";
 	}
 	
+	
+	@GetMapping("/info")
+	public void info() {}
+	
+	@PostMapping("/info")
+	public String info(InfoDTO infoDto) {
+		int row = is.add(infoDto);
+		
+		return "redirect:/diet/home";
+	}
 	
 }

@@ -47,7 +47,7 @@ public class MemberController {
 		
 		System.out.println(row!=0 ? "가입 성공":"가입 실패");
 		
-		return "home";
+		return "redirect:/";
 	}
 	
 	@PostMapping("/check")

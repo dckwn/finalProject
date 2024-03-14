@@ -20,4 +20,7 @@ public interface MemberDAO {
 	@Insert("insert into health_member (userid, userpw, username, birth, profile_image, gender, phone_num, email) "
 			+ "values (#{userid}, #{userpw}, #{username}, #{birth}, #{profile_image}, #{gender}, #{phone_num}, #{email})")
 	int insert(MemberDTO dto);
+
+	@Select("select * from health_member where userid=#{userid}")
+	MemberDTO selectOne(String userid);
 }

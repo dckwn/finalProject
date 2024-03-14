@@ -57,4 +57,6 @@ public class MemberService {
 		return memberDao.check(param);
 	}
 	
+	
+	
 }
