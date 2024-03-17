@@ -15,7 +15,7 @@ public class CalenderComponent {
 		return cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);	
 	}
 	
-	public String getYoil(int num) {
+	public String getMonth(int num) {
 		String month = "";
 		switch(num) {
 		case 1: month ="January"; break;

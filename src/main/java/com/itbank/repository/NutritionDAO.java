@@ -33,10 +33,10 @@ public interface NutritionDAO {
 	@Insert ("insert into health_nutrition (userid, food_idx, meal_time, add_date) values (#{userid}, #{food_idx}, #{meal_time}, #{add_date})")
 	int insert(NutritionDTO nutritionDto);
 
-	@Select ("SELECT DISTINCT TRUNC(add_date) as showDate "
+	@Select ("SELECT DISTINCT EXTRACT(DAY FROM add_date) AS day "
 			+ "FROM health_nutrition "
-			+ "WHERE userid = #{userid}")
-	List<Date> showDate(String userid);
+			+ "WHERE EXTRACT(MONTH FROM add_date) = #{month} and userid=#{userid}")
+	List<Integer> showDate(Map<String, Object> map);
 	
 	
 	

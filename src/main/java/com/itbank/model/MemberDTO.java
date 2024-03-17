@@ -1,8 +1,11 @@
 package com.itbank.model;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.socket.WebSocketSession;
 
 public class MemberDTO {
 	private int idx;
@@ -19,10 +22,22 @@ public class MemberDTO {
 	
 	private MultipartFile profile_Upload;
 	private String strbirth;
+	private Set<WebSocketSession> sessions = new HashSet<>();
 	
 
 	
 	
+
+	public Set<WebSocketSession> getSessions() {
+		return sessions;
+	}
+
+
+	public void setSessions(Set<WebSocketSession> sessions) {
+		this.sessions = sessions;
+	}
+
+
 	public Date getBirth() {
 		return birth;
 	}
