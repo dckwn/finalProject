@@ -32,7 +32,7 @@ public class HomeController {
         if(strmonth == null) {month = Integer.parseInt(sdf.format(wantDate));}	
         else {month = Integer.parseInt(strmonth);}
 		
-		dto.setMonth(cal.getYoil(month));
+		dto.setMonth(cal.getMonth(month));
 		dto.setLastDay(cal.getLastDay(month));
 		dto.setStartDayOfWeek(cal.getStartDayOfWeek(month));
 		

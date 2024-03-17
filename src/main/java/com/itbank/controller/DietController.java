@@ -61,15 +61,13 @@ public class DietController {
 		List<FoodDTO> checkD = ns.getListByMeal("저녁", userid, when);
 		List<FoodDTO> checkY = ns.getListByMeal("간식", userid, when);
 		
-		List<Date> dateList = ns.showDate(userid);
-		
 		if(checkM.size() != 0) {mav.addObject("foodM", checkM);}
 		if(checkL.size() != 0) {mav.addObject("foodL", checkL);}
 		if(checkD.size() != 0) {mav.addObject("foodD", checkD);}
 		if(checkY.size() != 0) {mav.addObject("foodY", checkY);}
 		
 		if(userNutDTO != null) {mav.addObject("NutDto", userNutDTO);}
-		if(dateList != null) {mav.addObject("dateList", dateList);}
+		
 		
 		CalenderDTO dto = new CalenderDTO();
 		
@@ -81,10 +79,12 @@ public class DietController {
         if(strmonth == null) {month = Integer.parseInt(sdf.format(wantDate));}	
         else {month = Integer.parseInt(strmonth);}
 		
-		dto.setMonth(cal.getYoil(month));
+		dto.setMonth(cal.getMonth(month));
 		dto.setLastDay(cal.getLastDay(month));
 		dto.setStartDayOfWeek(cal.getStartDayOfWeek(month));
+		List<Integer> dateList = ns.showDate(userid, month);
 		
+		if(dateList != null) {mav.addObject("dateList", dateList);}
 		mav.addObject("cal", dto);
 		mav.addObject("month", month);
 		mav.addObject("info", infoDto);
