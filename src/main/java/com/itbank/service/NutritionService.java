@@ -48,8 +48,11 @@ public class NutritionService {
 		return nutDao.insert(nutritionDto);
 	}
 
-	public List<Date> showDate(String userid) {
-		return nutDao.showDate(userid);
+	public List<Integer> showDate(String userid, int month) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userid", userid);
+		map.put("month", month);
+		return nutDao.showDate(map);
 	}
 	
 }

@@ -17,11 +17,13 @@
 		padding:20px;
 	}
 	.dh-infoDetail>div:nth-child(1){
-		flex:2;
+		position:relative;
+		flex:3;
 	}
 	.dh-infoDetail>div:nth-child(2){
 		flex:3;
 		padding:20px;
+		border: 1px solid black;
 	}
 	.meals{
 		display:flex;
@@ -36,7 +38,7 @@
 	.dh-calender{
 	position:relative;
 	margin:auto;
-	width:35%;
+	width:680px;
 }
 .dh-dayItem {
 	display: flex;
@@ -44,7 +46,7 @@
 	
 }
 .dh-day {
-	width: 55px;
+	width: 57px;
 	height: 50px;
 	padding: 2px 18px;
 }
@@ -57,6 +59,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	width: 35px;
+	height: 35px;
 	border-radius: 25px;
 	cursor: pointer;
  	color: #dadada; 
@@ -64,6 +68,7 @@
 }
 
 .dh-day input[type=radio]:checked+label {
+	
  	background-color: #dadada; 
 }
 span#date {
@@ -109,14 +114,21 @@ a#nextM{
 	font-size: 100px;
 }
 .dh-doughnut{
-	width:368px;
-	height:368px;
+	height:500px;
+	border: 1px solid black;
+}
+.dh-doughnutText{
+	position:absolute;
+	font-size: 30px;
+	top:220px;
+	left:140px;
 }
 </style>
 
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+
 
 
 <div class="frame">
@@ -143,17 +155,16 @@ a#nextM{
 				</div>
 				</c:forEach>
 				<c:forEach var="i" begin="1" end="${cal.lastDay }">
-					<c:set var="day" value="" />
-					
-					<c:if test="${day != 0}">
+					<c:set var="day" value="${param.day }" />
+					<c:if test="${!dateList.contains(i)}">
 						<div class="dh-day">
-							<input type="radio" name="date_id" id="day${i}" value="${day }" ${param.date_id == day ? 'checked':''} />
+							<input type="radio" name="when" id="day${i}" value="${i}" ${day==i ? 'checked':''} />
 							<label for="day${i}">${i }</label>
 						</div>
 					</c:if>
-					<c:if test="${day == 0}">
+					<c:if test="${dateList.contains(i)}">
 						<div class="dh-day">
-							<input type="radio" name="when" id="day${i}" value="${i}"/> 
+							<input type="radio" name="when" id="day${i}" value="${i}" ${day==i ? 'checked':''}/> 
 							<label style="color: grey;" for="day${i}">${i }</label>
 						</div>
 					</c:if>
@@ -170,15 +181,16 @@ a#nextM{
 	
 	<div class="dh-info">
 		[${login.userid }] (${param.when })
-		<div>${info.intake } 칼로리 (탄:${info.userTan } 단: ${info.userDan } 지: ${info.userJi } )</div>
 		<div class="dh-infoDetail">
 			<div class="dh-doughnut">
-				<canvas id="myChart" width="auto" height="300vh">
+				<canvas id="myChart" width="300vh" height="300vh">
 				</canvas>
+					<div class="dh-doughnutText">총 : ${info.intake } (kcal)</div>
 			</div>
 			<div>
 				<c:if test="${NutDto != null }">
 					<br>
+					<div>${info.intake } 칼로리 (탄:${info.userTan } 단: ${info.userDan } 지: ${info.userJi } )</div>
 					<div>칼로리 : ${NutDto.user_kcal }</div>
 					<div>탄수화물 : ${NutDto.user_tan }</div>
 					<div>단백질 : ${NutDto.user_dan }</div>
@@ -304,14 +316,30 @@ a#nextM{
 		    options: {
 		        cutoutPercentage: 65, // 도넛 차트의 중심에 텍스트를 표시하기 위해 cutoutPercentage를 설정합니다.
 		        legend: {
-		            display: false // 레이블을 표시하지 않도록 설정합니다.
+		            display: true, // 레이블을 표시하지 않도록 설정합니다.
+		            labels: {
+		                fontSize: 12 // 라벨의 폰트 크기를 12px로 설정합니다.
+		            }
 		        },
 		        animation: {
 		            animateScale: true, // 애니메이션을 허용합니다.
 		            animateRotate: true // 도넛 차트 회전 애니메이션을 허용합니다.
 		        },
 		        tooltips: {
-		            //enabled: false // 툴팁을 비활성화합니다.
+		            enabled: true,
+		            callbacks: {
+		                // 툴팁에 표시될 라벨을 동적으로 생성하는 콜백 함수
+		                label: function(tooltipItem, data) {
+		                	var label = data.labels[tooltipItem.index];
+		                    var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+		                    var labelText = label +' ('+ value + 'kcal)'; 
+		                    return labelText;
+		                }
+		            },
+			        backgroundColor: 'rgba(0, 0, 0, 0)',
+			        bodyFontFamily: 'GangwonEdu_OTFBoldA',
+			        bodyFontSize: 20, // 툴팁 본문의 폰트 크기를 설정합니다.
+			        bodyFontColor: 'black'
 		        },
 		        plugins: {
 		            doughnutLabelPlugin // 사용자 정의 플러그인 추가
@@ -328,7 +356,7 @@ a#nextM{
 		    let day = e.target.value
 		    if(day < 10){day = '0'+ day}
 		    when += day
-		    location.href = '${cpath}/diet/home?strmonth=${month}&when='+when
+		    location.href = '${cpath}/diet/home?strmonth=${month}&when='+when+'&day='+day
 		}
 	
 		dayList.forEach(radio => {
