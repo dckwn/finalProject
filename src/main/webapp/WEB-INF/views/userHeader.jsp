@@ -1,3 +1,5 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.time.LocalDate" %>
@@ -81,6 +83,11 @@
 </head>
 <body>
 
+<%
+    // 현재 날짜에서 일수를 추출합니다.
+    String day = new SimpleDateFormat("dd").format(new Date());
+%>
+
 <header>
 	<div class="h_bar">
 		<div><h1><a href="${cpath }">헤헤</a>
@@ -92,7 +99,7 @@
 			<ul class="sb">
 				<li><a href="${cpath }/about">About</a></li>
 				<li><a href="${cpath }/ticket/tkHome">Ticket</a></li>
-				<li><a href="${cpath }/diet/home?when=<%= LocalDate.now() %>">Diet</a></li>
+				<li><a href="${cpath }/diet/home?when=<%= LocalDate.now() %>&day=<%=day%>">Diet</a></li>
 				<li><a href="${cpath }/social/home">Social</a></li>
 				<li><a href="${cpath }/member/login">Login</a></li>
 			</ul>
