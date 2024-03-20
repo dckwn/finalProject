@@ -43,4 +43,14 @@ public class TicketService {
 		return 0;
 	}
 
+	public int getAlarm(String userid) {
+		int totalCount = 0;
+		String tmp = dao.getAlarm(userid);
+		if(tmp != null) {
+			totalCount = Integer.parseInt(tmp);
+		}
+		
+		return totalCount;
+	}
+
 }

@@ -23,6 +23,11 @@ public interface TicketDAO {
 			+ " (SYSDATE + NVL((SELECT SUM(tkcount) FROM health_deal WHERE userid = #{userid}), 0) + 180),"
 			+ " (select tk_value from health_ticket where idx = #{ticket_id}))")
 	int buy(Map<String, Object> map);
+
+	@Select("SELECT sum(tkcount) AS total_tk_count"
+	         + " FROM health_deal"
+	         + " WHERE userid = #{userid}")
+	String getAlarm(String userid);
 	
 	
 }

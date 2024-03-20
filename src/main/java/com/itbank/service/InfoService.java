@@ -25,11 +25,12 @@ public class InfoService {
 
 	public InfoDTO getOne(String userid) {
 		InfoDTO dto = infoDao.selectOne(userid);
-		int intake = dto.getIntake();
-		dto.setUserTan((int) (intake * 0.5 / 4));
-		dto.setUserDan((int) (intake * 0.3 / 4));
-		dto.setUserJi((int) (intake * 0.2 / 9));
-		
+		if(dto != null) {
+			int intake = dto.getIntake();
+			dto.setUserTan((int) (intake * 0.5 / 4));
+			dto.setUserDan((int) (intake * 0.3 / 4));
+			dto.setUserJi((int) (intake * 0.2 / 9));
+		}
 		return dto;
 	}
 	

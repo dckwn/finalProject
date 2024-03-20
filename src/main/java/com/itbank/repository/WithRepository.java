@@ -47,6 +47,9 @@ public interface WithRepository {
 			+ " values (#{title}, #{writer}, #{choice}, #{category}, #{peopleNum}, #{start_date}, #{end_date}) ") 
 	int add(WithDTO dto);
 
+	@Delete("DELETE FROM health_with WHERE withPeople = #{userid} AND board_id = #{idx}")
+	int cancel(Map<String, Object> map);
+
 
 //	@Insert("insert into health_board (title,writer,maintext,image,category,choice, write_date ,start_date ,end_date,peopleNum)"
 //			+ "values(#{title}, #{writer},#{maintext},#{image},#{category,#{choice},#{write_date},#{start_date} ,#{end_date},#{peopleNum})")

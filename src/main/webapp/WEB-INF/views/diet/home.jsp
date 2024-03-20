@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+	*{  
+ 		box-sizing: unset; 
+ 	} 
 	.dh-info{
 		width:1000px;
 		margin: auto;
@@ -35,10 +38,43 @@
 		width: 450px;
 		padding: 10px;
 	}
+	
+	.dh-calM{
+		width:1000px;
+		height: 500px;
+		background-image: url('/finalProject/icon/calender1.png'); 
+		background-size: 1000px 500px;
+		background-repeat:no-repeat;
+		margin: auto;		
+		padding-top: 50px;
+	}
+	.dh-calBack{
+	width:100%;
+	height:fit-content;
+	margin:auto;
+	position: fixed;
+	top:95px;
+	left:0px;
+	z-index:6;
+	transition-duration: 1.5s;
+}
+	.calHidden{
+		top:-600px;
+	}
+	div.overlay {
+            z-index: 2;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color:#f1f3f5;
+/*             background-color: rgba(0, 0, 0, 0.5); */
+        }
 	.dh-calender{
 	position:relative;
-	margin:auto;
 	width:680px;
+	margin: 0 auto;
 }
 .dh-dayItem {
 	display: flex;
@@ -123,64 +159,116 @@ a#nextM{
 	top:220px;
 	left:140px;
 }
+.dh-showWhen{
+	display:flex;
+	justify-content: flex-end;
+	align-items: center;
+	padding:20px;
+}
+.dh-showWhen > div > img{
+	padding-bottom:8px;
+}
+.dh-showCal{
+	cursor: pointer;
+	height:40px;
+}
+.dg-tkHome-banner {
+    width:100%;
+    text-align: center;
+    margin: 0 auto 50px auto;
+}
+.dg-tkHome-banner img{
+    width: 100%;
+    height: auto;
+    margin-bottom: 30px;
+    margin-top: 0;
+}
+.dg-tkHome-banner h1 {
+    font-size: 40px;
+    font-weight: 500;
+}
+.dg-tkHome-banner h3 {
+    font-size: 30px;
+    font-weight: 500;
+}
+
 </style>
 
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 
-
+<c:if test="${info.intake==null}">
+	<script>
+		alert('정보를 입력하세요')
+		location.href="${cpath}/diet/info"
+	</script>
+</c:if>
 
 <div class="frame">
 
-	<div class="dh-calender">
+	<div class="dg-tkHome-banner">
+        <img src="${cpath }/upload/mainImage/dietMain.png">
+<%--         <h1>[${login.userid}]님,</h1>	 --%>
+<!--         <h3>Health Protector에 오신 것을 환영합니다</h3> -->
+<!--         <br> -->
+    </div>
+
+	<div class="dh-calBack calHidden">
+		<div class="dh-calM">
 		
-			<div class="dateItem">
-				<div><h3 id="month">${month} ${cal.month }</h3></div>
-				<div>
-					<span id="date">Sun</span> 
-					<span id="date">MON</span>
-					<span id="date">TUE</span>
-					<span id="date">WED</span>
-					<span id="date">THU</span>
-					<span id="date">FRI</span>
-					<span id="date">SAT</span>
-				</div>
-			</div>
-			<div class="dh-dayItem">
-				<c:forEach var="i" begin="1" end="${cal.startDayOfWeek-1 }">
-				<div class="dh-day">
-					<input type="radio" id="day${i+100}" disabled /> 
-					<label style="color: grey;" for="day${i+100}"></label>
-				</div>
-				</c:forEach>
-				<c:forEach var="i" begin="1" end="${cal.lastDay }">
-					<c:set var="day" value="${param.day }" />
-					<c:if test="${!dateList.contains(i)}">
-						<div class="dh-day">
-							<input type="radio" name="when" id="day${i}" value="${i}" ${day==i ? 'checked':''} />
-							<label for="day${i}">${i }</label>
+			<div class="dh-calender">
+					<div class="dateItem">
+						<div><h3 id="month">${month} ${cal.month }</h3></div>
+						<div>
+							<span id="date">Sun</span> 
+							<span id="date">MON</span>
+							<span id="date">TUE</span>
+							<span id="date">WED</span>
+							<span id="date">THU</span>
+							<span id="date">FRI</span>
+							<span id="date">SAT</span>
 						</div>
-					</c:if>
-					<c:if test="${dateList.contains(i)}">
+					</div>
+					<div class="dh-dayItem">
+						<c:forEach var="i" begin="1" end="${cal.startDayOfWeek-1 }">
 						<div class="dh-day">
-							<input type="radio" name="when" id="day${i}" value="${i}" ${day==i ? 'checked':''}/> 
-							<label style="color: grey;" for="day${i}">${i }</label>
+							<input type="radio" id="day${i+100}" disabled /> 
+							<label style="color: grey;" for="day${i+100}"></label>
 						</div>
+						</c:forEach>
+						<c:forEach var="i" begin="1" end="${cal.lastDay }">
+							<c:set var="day" value="${param.day }" />
+							<c:if test="${!dateList.contains(i)}">
+								<div class="dh-day">
+									<input type="radio" name="when" id="day${i}" value="${i}" ${day==i ? 'checked':''} />
+									<label for="day${i}">${i }</label>
+								</div>
+							</c:if>
+							<c:if test="${dateList.contains(i)}">
+								<div class="dh-day">
+									<input type="radio" name="when" id="day${i}" value="${i}" ${day==i ? 'checked':''}/> 
+									<label style="color: grey;" for="day${i}">${i }</label>
+								</div>
+							</c:if>
+						</c:forEach>
+					</div>
+					<c:if test="${month > 1 }">
+						<div class="prev"><a id="nextM" href="${cpath }/diet/home?strmonth=${month-1 }&when=${param.when}">&lt;</a></div>
 					</c:if>
-				</c:forEach>
-			</div>
-			<c:if test="${month > 1 }">
-				<div class="prev"><a id="nextM" href="${cpath }/diet/home?strmonth=${month-1 }&when=${param.when}">&lt;</a></div>
-			</c:if>
-			<c:if test="${month < 12}">
-				<div class="next"><a id="nextM" href="${cpath }/diet/home?strmonth=${month+1 }&when=${param.when}">&gt;</a></div>
-			</c:if>
+					<c:if test="${month < 12}">
+						<div class="next"><a id="nextM" href="${cpath }/diet/home?strmonth=${month+1 }&when=${param.when}">&gt;</a></div>
+					</c:if>
+				</div>
 		</div>
+	</div>
+	<div class="overlay hidden"></div>
 
 	
 	<div class="dh-info">
-		[${login.userid }] (${param.when })
+		<div class="dh-showWhen">
+			<h1>${param.when }　</h1><div><img class="dh-showCal" src="${cpath }/icon/cal.png"></div>
+		</div>
 		<div class="dh-infoDetail">
 			<div class="dh-doughnut">
 				<canvas id="myChart" width="300vh" height="300vh">
@@ -260,6 +348,16 @@ a#nextM{
 		const dhd = document.querySelectorAll('.dh-d')
 		const dhy = document.querySelectorAll('.dh-y')
 		const all = '${info.intake}'
+		const cal = document.querySelector('.dh-showCal')
+		const overlay = document.querySelector('div.overlay')
+		 function clickHandler(event) {
+            const btns = document.querySelector('.dh-calBack')
+            btns.classList.toggle('calHidden')
+            overlay.classList.toggle('hidden')
+        }
+
+		overlay.onclick = clickHandler
+		cal.onclick = clickHandler
 		
 		let m = 0
 		let l = 0
@@ -363,12 +461,6 @@ a#nextM{
 		    radio.addEventListener('click', getDay);
 		});
 	</script>
-
-
-
-
-
-
 
 </body>
 </html>

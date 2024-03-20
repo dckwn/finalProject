@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+	*{  
+ 		box-sizing: unset; 
+ 	}
 .dh-login {
 	border: 1px solid #dadada;
 	padding: 20px;
@@ -201,6 +204,6 @@ p#result {
 		</div>
 	</div>
 </div>
-
+<%@ include file="../footer.jsp" %>
 </body>
 </html>

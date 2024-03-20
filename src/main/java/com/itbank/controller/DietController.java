@@ -85,9 +85,9 @@ public class DietController {
 		List<Integer> dateList = ns.showDate(userid, month);
 		
 		if(dateList != null) {mav.addObject("dateList", dateList);}
+		if(infoDto != null) {mav.addObject("info", infoDto);}
 		mav.addObject("cal", dto);
 		mav.addObject("month", month);
-		mav.addObject("info", infoDto);
 		
 		return mav;
 	}

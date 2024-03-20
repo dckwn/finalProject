@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../userHeader.jsp" %>
 <style>
+*{  
+ 		box-sizing: unset; 
+ 	}
 	input{
 		 font-family: 'Open Sans', sans-serif;
 	}
@@ -101,7 +104,10 @@
 	.dh-input_user:focus + img#loginicon{
 		display:block;
 	}
-	
+	.Mauto{
+	margin: 50px auto;
+	margin-bottom: 650px;
+}
 	
 </style>
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
@@ -111,7 +117,6 @@
 
 <div class="frame">
 	<div class="Mauto">
-				<h2>LOGIN</h2>
 		<div class="center">
 			<div class="dh-login center">
 				<form method="POST">
@@ -136,7 +141,7 @@
 		</div>
 	</div>
 </div>
-
+<%@ include file="../footer.jsp" %>
 <script type="text/javascript">
 //     var naver_id_login = new naver_id_login("HLEF4d7TfziQUSCX1qmd", "http://localhost:8080/Study4/member/login/test");
 //     var state = naver_id_login.getUniqState();

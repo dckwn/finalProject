@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+	*{  
+ 		box-sizing: unset; 
+ 	}
 	.dh-searchbar{
 		padding-top:50px;
 	}
@@ -35,7 +38,7 @@
 		border:none;
 		background:none;
 		cursor:pointer;
-		background-image: url('/finalProject/resources/image/search.png');
+ 		background-image: url('/finalProject/resources/image/search.png'); 
 		background-size: contain;
 		background-repeat:no-repeat;
 		width:30px;
@@ -181,7 +184,7 @@
 	</div>
 	
 	<div id="items"></div>
-	<div class="dh-load hidden"><img src="${cpath }/resources/image/Loading_icon.gif"></div>
+	<div class="dh-load hidden"><img src="${cpath }/icon/giphy.gif"></div>
 </div>
 
 <input type="hidden" name="userid" value="test">
