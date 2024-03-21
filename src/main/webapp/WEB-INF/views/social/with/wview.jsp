@@ -26,24 +26,50 @@
 		<div> 운동 : ${dto.category }</div>
 		<div> 운동날짜 : ${dto.start_date }~${dto.end_date }</div>
 		<div class="bet">
-			<button><a href="${cpath }/social/with/receipt/${dto.idx}">접수하기</a></button>
-			<button><a href="${cpath }/social/with/wlist">취소하기</a></button>
+<%-- 			<button><a href="${cpath }/social/with/receipt/${dto.idx}">접수하기</a></button> --%>
+		     <c:choose>
+                <c:when test="${dto.writer eq loginuser.userid}">
+                    <!-- 작성자인 경우에는 아무 것도 표시하지 않음 -->
+                </c:when>
+                <c:otherwise>
+                    <c:choose>
+                        <c:when test="${alreadyJoined}">
+                            <!-- 이미 참여한 경우 버튼을 숨김 -->
+                            <a href="${cpath }/social/with/cancel/${dto.idx}"><button>취소하기</button></a>
+                        </c:when>
+                        <c:otherwise>
+                            <!-- 참여하지 않은 경우에만 "접수하기" 버튼 표시 -->
+                            <a href="${cpath }/social/with/receipt/${dto.idx}"><button>접수하기</button></a>
+                        </c:otherwise>
+                    </c:choose>
+                    <!-- 이미 참여한 경우 버튼을 숨김 -->
+                    
+                </c:otherwise>
+            </c:choose>
+<%-- 		<a href="${cpath }/social/with/cancel/${dto.idx}"><button>취소하기</button></a> --%>
+		<div><a href="${cpath }/social/with/wlist"><button>나가기</button></a></div>
 		</div>
 	</div>
 
 	<div>
 		<div></div>
-		<div>참여인원(${dto.withNum} /${dto.peopleNum })</div>
+		<div>참여인원(${dto.withNum + 1} /${dto.peopleNum })</div>
 
-			
+				
+				
+				
 		<div>
-				<ul>
-					<li>${dto.writer }</li>
-					<li></li>
-				</ul>
+			<ul>
+				<li>${dto.writer }</li>
+				<c:forEach var="dto" items="${withList }">
+					<li> ${dto.withPeople}</li>
+				</c:forEach>
+			</ul>
 		</div>
-			<div><button><a href="${cpath }/social/with/wlist">나가기</a></button></div>
+		
 	</div>
 </div>
+
+
 </body>
 </html>

@@ -247,8 +247,6 @@
    }
     
     
-    
-    
     document.getElementById('payBtn').addEventListener('click', function(event) {
         event.preventDefault(); 
         requestPay(); 

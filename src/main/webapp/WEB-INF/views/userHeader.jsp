@@ -223,6 +223,14 @@
     	right:-40px;
     	padding:10px;
     }
+    #newMessage{
+    	position: fixed;
+	    right: 50px;
+	    bottom: 100px;
+	    cursor: pointer;
+	    width: 50px;
+	    height: 50px;
+    }
 
 }
 </style>
@@ -286,7 +294,7 @@
         </div>
     </div>
 
-<div><img class="dh-chatButton" src="${cpath }/icon/chat.png"></div>
+<div><img class="dh-chatButton" src="${cpath }/icon/chat.png"><div id="newMessage"></div></div>
 
 <div class="dh-chatFrame hidden">
 	<div id="chat">
@@ -337,9 +345,9 @@ function onConnect() {
 	}))
 }
 
-async function onInput(){		//클라이언트가 채팅 요청을 했을때
+async function onInput(value){		//클라이언트가 채팅 요청을 했을때
 		const text = '님의 상담'
-	
+		let isRead = '1'
 		let tag = ''
 	        tag += '<div class="dh-chatHead">'
 	        tag += '<div><h3>'+userid+'</h3></div>'
@@ -359,7 +367,7 @@ async function onInput(){		//클라이언트가 채팅 요청을 했을때
 		const result = await fetch(url).then(resp=>resp.json())
 		const arr = Array.from(result)
 		
-		
+		if(value == '0') {isRead = ''}
 		if(arr.length != 0){
 			arr.forEach(e => {
 				let po = ''
@@ -369,21 +377,21 @@ async function onInput(){		//클라이언트가 채팅 요청을 했을때
 					po = 'start'
 					who = '관리자'
 				}
-				
 				let	str = ''
-				str += '<div class="dh-message '+ po +'"><h2>'+ who +'</h2><div>' + e.content+'</div></div>'	
+				str += '<div class="dh-message '+ po +'">'+isRead+'<h2>'+ who +'</h2><div>' + e.content+'</div></div>'	
 				show.innerHTML += str
 			})
 		}
 		show.scrollTop = show.scrollHeight
-	
-	
+		
 		chatFrame.classList.remove('hidden');
+		if(value!='0'){
 		stomp.subscribe('/broker/goChat/'+ userid, chatT)
 		stomp.send('/app/openChat/' + userid, {}, JSON.stringify({		
 			text: text,
 			from: userid
 		}))
+		}
 		
 	
 	async function outM(){
@@ -465,18 +473,23 @@ openChatButton.addEventListener('click', function(event) {
 function chatT(chat){
 	const content = JSON.parse(chat.body)
 	const to = content.to
+	if(to == '0'){
+		console.log('to가 0입니다')
+		onInput(to)
+		return
+	}
 	const from = content.from
 	let text = content.text
-	
+	let isRead = ''
 	let po = ''
 	let who = ''
 	let toA = ''
-	if(from == 'admin'){toA = to; po = 'start'; who = '관리자'}
-	if(to == 'admin'){toA = from; po = 'end'}
+	if(from == 'admin'){toA = to; po = 'start'; who = '관리자';}
+	if(to == 'admin'){toA = from; po = 'end'; isRead = '1'}
 	if(text === 'out'){ text = '상담이 종료되었습니다.'; po ='service'; who=''}	
 	
 	let	str = ''
-		str += '<div class="dh-message '+ po +'"><h2>'+ who +'</h2><div>' + text+'</div></div>'
+		str += '<div class="dh-message '+ po +'">'+isRead+'<h2>'+ who +'</h2><div>' + text+'</div></div>'
 
 	const show = document.getElementById(toA)
 	show.innerHTML += str	

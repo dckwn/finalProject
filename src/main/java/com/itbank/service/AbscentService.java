@@ -1,5 +1,6 @@
 package com.itbank.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,17 @@ import com.itbank.repository.AbscentDAO;
 @Service
 public class AbscentService {
 
-	@Autowired AbscentDAO adao;
-	
-	public List<AbscentDTO> abscentList() {
-		List<AbscentDTO> list = adao.selectList();
-		return list;
-	}
+   @Autowired AbscentDAO adao;
 
 
-
+   public List<Integer> abscentList(int month, String userid) {
+      HashMap<String, Object> map1 = new HashMap<>();
+      map1.put("month", month);
+      map1.put("userid", userid);
+      List<Integer> list = adao.abscentList(map1);
+      return list;
+   }
+   
 }
+
+
