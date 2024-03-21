@@ -19,6 +19,10 @@ public interface AbscentDAO {
          + " FROM health_abscent"
          + " WHERE EXTRACT(MONTH FROM checkDate) = #{month} and userid=#{userid}")
    List<Integer> abscentList(HashMap<String, Object> map1);
-
-   
+   			
+   @Select("select count(*) as totalCheckDate"
+   		+ " from health_abscent"
+   		+ " where userid = #{userid}")
+   int getTotaclCheckDate(String userid);
+  
 }

@@ -14,6 +14,7 @@
  	} 
  	.js-feed { 
  		border: 2px solid black; 
+ 		border-bottom: 0px;
  		border-radius: 10px 15px 0 0 ; 
  		width: 650px;
  		height: 80px;  
@@ -28,13 +29,14 @@
  	} 
  	.js-feedInfo {
  		border: 2px solid black;
+ 		border-top:0px;
  		border-radius: 0 0 20px 20px;
  		padding-bottom: 15px; 
  	}
  	.js-feedHomeBtn {
  		display: flex;
  		justify-content: space-between;
- 		margin: 5px;
+/*  		margin: 5px; */
  	}
  	.js-feedList {
  		display: flex;
@@ -89,7 +91,7 @@
 					</fieldset>					
 				</c:forEach>	
 			</div>
-		</div>		
+		</div>	
 		
 	</div>				
 </div>

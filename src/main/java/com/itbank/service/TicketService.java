@@ -25,12 +25,13 @@ public class TicketService {
 	}
 
 	// 이용권 구매
-	public int buy(String counts, String userid) {
+	public int buy(String counts, String imp_uid, String userid) {
 		Map<String, Object> map = new HashMap<>();
 		String[] ticket = counts.split(",");
 		int row = 0;
 		int[] hw = new int[ticket.length];
 		map.put("userid", userid);
+		map.put("imp_uid", imp_uid);
 		
 		for(int i =0; i < ticket.length; i++) {	
 			map.put("ticket_id", i+1);

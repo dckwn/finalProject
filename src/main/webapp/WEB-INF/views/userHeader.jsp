@@ -178,7 +178,7 @@
         background-color:#f1f3f5;
         border-radius: 25px;
         text-align: center;
-        position:absolute;
+        position:fixed;
         top:130px;
         right:20px;
     }
@@ -253,7 +253,7 @@
 	<div class="h_bar">
 		<div class="dh-logo">
 <!-- 			<h1> -->
- 				<a href="${cpath }"><img src="${cpath }/icon/logo1.png"></a>
+ 				<a href="${cpath }/"><img src="${cpath }/icon/logo1.png"></a>
 <!-- 			</h1> -->
 		</div>
 		<div>

@@ -17,12 +17,21 @@ public class DealDTO {
 	private int ticket_id;
 	private Date buyDay;
 	private Date expirDay;
+	private String imp_uid;
 	
 	private int buyCount;   // 구매한 티켓 수
 	private int tkCount;	//
 	private int tk_value;
 	
 	
+	
+	
+	public String getImp_uid() {
+		return imp_uid;
+	}
+	public void setImp_uid(String imp_uid) {
+		this.imp_uid = imp_uid;
+	}
 	public int getTk_value() {
 		return tk_value;
 	}

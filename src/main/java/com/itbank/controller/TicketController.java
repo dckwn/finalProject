@@ -58,16 +58,31 @@ public class TicketController {
 	}
 	
 	// 구매한 거 리스트
-	@GetMapping("/Buy/{counts}")
-	public ModelAndView buybb(@PathVariable("counts") String counts, HttpSession session) {
+	@GetMapping("/Buy/{counts}/{imp_uid}")
+	public ModelAndView buybb(@PathVariable("counts") String counts, @PathVariable("imp_uid") String imp_uid, HttpSession session) {
 		ModelAndView mav = new ModelAndView("redirect:/ticket/tkList");
 		MemberDTO login = (MemberDTO) session.getAttribute("login");
-		int row = ts.buy(counts, login.getUserid());
+		int row = ts.buy(counts, imp_uid, login.getUserid());
 		List<DealDTO> list = ds.buyList(login.getUserid());
 		mav.addObject("list",list);
 		mav.addObject("counts", counts);
 		return mav;
 		
+	}
+	
+	@GetMapping("/refund")
+	public ModelAndView refund(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		
+		MemberDTO login = (MemberDTO) session.getAttribute("login");
+		
+		List<DealDTO> list = ds.getRefundList(login.getUserid());
+		
+		if(list.size() != 0) {
+			mav.addObject("list", list);
+		}
+		
+		return mav;
 	}
 	
 	// 이용권 조회

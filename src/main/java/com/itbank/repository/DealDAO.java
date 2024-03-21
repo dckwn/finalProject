@@ -34,5 +34,20 @@ public interface DealDAO {
 	@Delete("delete from health_deal where idx = #{rf}")
 	int delete(int rf);
 
+	@Select("SELECT "
+			+ "imp_uid, "
+			+ "buyday, "
+			+ "SUM(tkcount) AS tkcount "
+			+ "FROM "
+			+ "health_deal "
+			+ "where "
+			+ "userid = #{userid} "
+			+ "GROUP BY "
+			+ "imp_uid, buyday")
+	List<DealDTO> getRefund(String userid);
+
+	@Delete("delete from health_deal where imp_uid = #{imp_uid}")
+	void cancelDeal(String imp_uid);
+
 	
 }

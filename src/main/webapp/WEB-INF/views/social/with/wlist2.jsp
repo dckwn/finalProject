@@ -5,8 +5,6 @@
 <style>
 	table{
 	 border-collapse: collapse;
-	width: 1300px;
-	 
 	} 
 	tr > td.right {
 	border-right: none ;
@@ -24,9 +22,6 @@
 	padding: 3px;
 	margin: 2px
 	}
-	tr th td{
-		width: 1000px;
-	}
 	div.bet {
 	 display: flex;
 	 justify-content: space-between;
@@ -34,20 +29,10 @@
 	tbody tr.sameNum{
 		background-color: lightblue;
 	}
-	#withframe{
-		border: 1px solid brack;
-	}
-	.mywith{
-		font-size: 30px;
-		padding-top:9px;
-		padding-left: 5px;
-		margin: 0
-	}
 	.js-feedFrame  {
 		width: 1300px;
 		height: 100%;
 		margin-left: 20%;
-		
 	}
  	.js-choice { 
  		display: flex;
@@ -60,8 +45,7 @@
  		border-radius: 10px 15px 0 0 ; 
  		width: 650px;
  		height: 80px;  
- 		font-size: 60px; 	
- 		background-color: #F6F6F6;
+ 		font-size: 60px; 		
  	} 
  	.js-with { 
  		border: 2px solid black; 
@@ -69,17 +53,16 @@
  		width: 650px;
  		height: 80px;  
  		font-size: 60px;
- 		border-bottom: 0;
  	} 
  	.js-feedInfo {
  		border: 2px solid black;
  		border-radius: 0 0 20px 20px;
  		padding-bottom: 15px; 
- 		border-top: 0; 
  	}
  	.js-feedHomeBtn {
  		display: flex;
  		justify-content: space-between;
+ 		margin: 5px;
  	}
  	.js-feedList {
  		display: flex;
@@ -95,58 +78,21 @@
  	.js-listInfoFrame {
  		border: 1px solid black; 	
  	}
- body {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-    }
 
-    .scroll-arrows {
-        position: fixed;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 10px;
-        z-index: 9999;
-    }
-
-    .scroll-arrow {
-        width: 30px;
-        height: 30px;
-        background-color: #ccc;
-        text-align: center;
-        line-height: 30px;
-        cursor: pointer;
-        margin-bottom: 10px;
-    }
-
-    .scroll-arrow:hover {
-        background-color: #999;
-    }
-
-    .scroll-arrow.up {
-        border-radius: 50% 50% 0 0;
-    }
-
-    .scroll-arrow.down {
-        border-radius: 0 0 50% 50%;
-    }
 </style>
-<div class="scroll-arrows">
-    <div class="scroll-arrow up">&uarr;</div>
-    <div class="scroll-arrow down">&darr;</div>
-</div>
-
-
 	<div class="frame">
 		<div class="js-feedFrame">
-			<div class="js-choice">
-			<div class="js-feed center"><a href="${cpath }/social/home">FEED</a></div>
-			<div class="js-with center"><a href="${cpath }/social/with/wlist">WITH</a></div>
-		</div>
-			<div class="center" id="withframe">
+			
+				<div class="js-choice">
+					<ul >
+						<li ><a class="menuLink js-feed center" href="${cpath }/social/home">feed</a></li>
+						<li ><a class="menuLink js-with center" href="${cpath }/social/with/wlist">with</a></li>
+					</ul>
+				</div>
+				
 				<div class="js-feedInfo">	
 					<div class="js-feedHomeBtn" >
-						<div class="mywith">
+						<div>
 							<a href="${cpath }/social/with/mypage">나의with</a>
 						</div>
 					
@@ -162,9 +108,10 @@
 							</form>
 						</div>
 					</div>
-				
-	
-		<table  border="1" cellpadding="10" cellsapcing="0"> 
+				</div>		
+		
+
+		<table border="1" cellpadding="10" cellsapcing="0"> 
 			<c:forEach var="dto" items="${wlist }">
 			
 			<tbody>
@@ -197,46 +144,7 @@
 			</c:forEach>
 		</table>
 		</div>
-		</div>
 	</div>
-</div>		
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const upArrow = document.querySelector('.scroll-arrow.up');
-        const downArrow = document.querySelector('.scroll-arrow.down');
-        const scrollStep = 100; // Adjust scroll step as needed
-
-        upArrow.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        downArrow.addEventListener('click', function() {
-            window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: 'smooth'
-            });
-        });
-
-        window.addEventListener('scroll', function() {
-            const scrollTop = window.scrollY || document.documentElement.scrollTop;
-
-            if (scrollTop === 0) {
-                upArrow.style.visibility = 'hidden';
-            } else {
-                upArrow.style.visibility = 'visible';
-            }
-
-            if (scrollTop + window.innerHeight >= document.body.scrollHeight) {
-                downArrow.style.visibility = 'hidden';
-            } else {
-                downArrow.style.visibility = 'visible';
-            }
-        });
-    });
-</script>
 </body>
 </html>

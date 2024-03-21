@@ -14,6 +14,7 @@
    margin:auto;
    width:680px;
    position:relative;
+   margin-top: 60px;
 }
 .dh-dayItem {
    display: flex;
@@ -35,13 +36,16 @@
    align-items: center;
    border-radius: 25px;
    cursor: pointer;
-    color: #dadada; 
    font-size: 20px;
+   height: 45px;
 }
 
-.dh-day input[type=radio]:checked+label {
-    background-color: #dadada; 
-}
+/* .dh-day input[type=radio]:checked+label {
+    background-image: url("C:/upload/출석체크.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+} */
 span#date {
    display: table-cell;
    vertical-align: middle;
@@ -84,6 +88,11 @@ a#nextM{
    font-weight: 400;
    font-size: 100px;
 }
+.yj-date{
+    display: flex;
+    justify-content: space-between;
+}
+
 </style>
 </head>
 <body>
@@ -108,9 +117,15 @@ a#nextM{
 <!-- </table> -->
 
 <div class="dh-calender">
-      
+      	 
          <div class="dateItem">
-            <div><h3 id="month">${month} ${cal.month }</h3></div>
+            <div class="yj-date">
+            	<div><h3 id="month">${month} ${cal.month }</h3></div>
+            	<div style="display: flex;">
+            		<div style="margin: auto; color: grey;">출석 횟수 ${totalCheckDate }회</div>
+            		<div style="width: 72px;"></div>
+            	</div>
+            </div>
             <div>
                <span id="date">Sun</span> 
                <span id="date">MON</span>
@@ -134,7 +149,7 @@ a#nextM{
                <c:if test="${list.contains(i) }">
                   <div class="dh-day">
                      <input type="radio" name="when" id="day${i}" value="${i }" />
-                     <label for="day${i}">${i }</label>
+                     <label for="day${i}"><img src="${cpath }/upload/출석체크.png" style="width: 50px;"></label>
                   </div>
                </c:if>
                <c:if test="${!list.contains(i) }">
@@ -146,10 +161,10 @@ a#nextM{
             </c:forEach>
          </div>
          <c:if test="${month > 1 }">
-            <div class="prev"><a id="nextM" href="${cpath }?strmonth=${month-1 }">&lt;</a></div>
+            <div class="prev"><a id="nextM" href="${cpath }/ticket/abList?strmonth=${month-1 }">&lt;</a></div>
          </c:if>
          <c:if test="${month < 12}">
-            <div class="next"><a id="nextM" href="${cpath }?strmonth=${month+1 }">&gt;</a></div>
+            <div class="next"><a id="nextM" href="${cpath }/ticket/abList?strmonth=${month+1 }">&gt;</a></div>
          </c:if>
       </div>
       

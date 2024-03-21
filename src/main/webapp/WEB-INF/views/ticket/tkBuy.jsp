@@ -222,28 +222,28 @@
     IMP.request_pay({
         pg: "html5_inicis.INIpayTest", 
         pay_method: "card", 
-        merchant_uid: 'merchant_123456',
+        merchant_uid: 'merchant_' + new Date().getTime(),
         name: "Health Protector",
-        amount: 500,
+        amount: 100,
         buyer_tel : '010-1234-1234',
         buyer_email: " "
     }, function(rsp) {
         if (rsp.success) {
             var imp_uid = rsp.imp_uid; // 결제 고유 번호(imp_uid) 추출
             alert("결제가 완료되었습니다. imp_uid: " + imp_uid); // alert 내용 수정
-            buyHandler();
+            buyHandler(imp_uid);
         } else {
             alert('결제에 실패하였습니다. 에러 메시지: ' + rsp.error_msg);
         }
     });
 }     
     
-    function buyHandler() {
+    function buyHandler(imp_uid) {
       let counts = new Array(selectList.length).fill(0);
       for(let i = 0; i< arr.length; i++) {
          if(arr[i]) { counts[arr[i].idx - 1] = arr[i].count;}
       }
-      location.href = '${cpath}/ticket/Buy/'+ counts;
+      location.href = '${cpath}/ticket/Buy/'+ counts +'/'+imp_uid;
    }
     
     
@@ -253,18 +253,18 @@
     });
    
 
-   /* 
-   function buyHandler(event){
-      event.preventDefault()
-      let counts = new Array(3)
-      for(let i = 0; i < arr.length; i++){
-         if(arr[i]){ counts[i] = arr[i].count}
-         else   {counts[i] = 0}
-      }
-      console.log(counts)
-       location.href = '${cpath}/ticket/Buy/'+ counts
-   }
-   buy.onclick = buyHandler */
+    
+//    function buyHandler(event){
+//       event.preventDefault()
+//       let counts = new Array(3)
+//       for(let i = 0; i < arr.length; i++){
+//          if(arr[i]){ counts[i] = arr[i].count}
+//          else   {counts[i] = 0}
+//       }
+//       console.log(counts)
+//        location.href = '${cpath}/ticket/Buy/'+ counts +'/'+imp_uid
+//    }
+//    buy.onclick = buyHandler 
    
 
 </script>
