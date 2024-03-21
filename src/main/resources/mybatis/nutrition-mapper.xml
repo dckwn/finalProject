@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.itbank.repository.NutritionDAO">
+	
+	<select id="selectDtoByUser" parameterType="map">
+		select 
+			sum(f.kcal) as user_kcal, 
+			sum(f.tan) as user_tan, 
+			sum(f.dan) as user_dan, 
+			sum(f.ji) as user_ji, 
+			sum(f.dang) as user_dang, 
+			sum(f.na) as user_na 
+			from health_nutrition n 
+			join health_food f on n.food_idx=f.idx 
+			where userid=#{userid} AND TRUNC(n.add_date)=TRUNC(#{when})
+	</select>
+
+	<select id="selectByMeal" parameterType="map">
+		select 
+			f.food_name, f.kcal, f.capacity 
+			from health_nutrition n join health_food f on n.food_idx=f.idx 
+			where meal_time=#{meal_time} AND userid=#{userid} AND TRUNC(n.add_date)=TRUNC(#{when})	
+	</select>
+	
+	<insert id="insert" parameterType="nutrition">
+		insert into health_nutrition (userid, food_idx, meal_time, add_date) 
+			values (#{userid}, #{food_idx}, #{meal_time}, #{add_date})
+	</insert>
+	
+	<select id="showDate" parameterType="map">
+		SELECT DISTINCT EXTRACT(DAY FROM add_date) AS day 
+			FROM health_nutrition 
+			WHERE EXTRACT(MONTH FROM add_date) = #{month} and userid=#{userid}
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+

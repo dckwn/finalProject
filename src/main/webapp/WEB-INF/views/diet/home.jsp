@@ -42,7 +42,7 @@
 	.dh-calM{
 		width:1000px;
 		height: 500px;
-		background-image: url('/finalProject/icon/calender1.png'); 
+		background-image: url('/icon/calender.png'); 
 		background-size: 1000px 500px;
 		background-repeat:no-repeat;
 		margin: auto;		
@@ -69,7 +69,7 @@
             width: 100%;
             height: 100%;
             background-color:#f1f3f5;
-/*             background-color: rgba(0, 0, 0, 0.5); */
+            background-color: rgba(0, 0, 0, 0.5); 
         }
 	.dh-calender{
 	position:relative;
@@ -254,10 +254,10 @@ a#nextM{
 						</c:forEach>
 					</div>
 					<c:if test="${month > 1 }">
-						<div class="prev"><a id="nextM" href="${cpath }/diet/home?strmonth=${month-1 }&when=${param.when}">&lt;</a></div>
+						<div class="prev"><a id="nextM" href="${cpath }/diet/home?strmonth=${month-1 }&when=${param.when}&s=1">&lt;</a></div>
 					</c:if>
 					<c:if test="${month < 12}">
-						<div class="next"><a id="nextM" href="${cpath }/diet/home?strmonth=${month+1 }&when=${param.when}">&gt;</a></div>
+						<div class="next"><a id="nextM" href="${cpath }/diet/home?strmonth=${month+1 }&when=${param.when}&s=1">&gt;</a></div>
 					</c:if>
 				</div>
 		</div>
@@ -358,6 +358,11 @@ a#nextM{
 
 		overlay.onclick = clickHandler
 		cal.onclick = clickHandler
+		const test = '${param.s}'
+		console.log(test)
+		if(test == 1){
+			clickHandler()
+		}
 		
 		let m = 0
 		let l = 0
@@ -380,32 +385,6 @@ a#nextM{
 			      borderWidth: 0,
 	              scaleBeginAtZero: true
 		        }]
-		}
-		
-		const doughnutLabelPlugin = {
-// 			beforeDraw: function(chart) {
-// 		        console.log("Plugin is running before drawing!");
-// 		    }
-// 		    afterDraw: function(chart) {
-// 		    	console.log("Plugin is running!");
-// 		        const ctx = chart.ctx
-// 		        const width = chart.width
-// 		        const height = chart.height
-// 		        const text = '텍스트' // 표시할 텍스트
-
-// 		        // 텍스트 스타일 설정
-// 		        ctx.font = 'bold 20px Arial'
-// 		        ctx.fillStyle = 'black'
-// 		        ctx.textAlign = 'center'
-// 		        ctx.textBaseline = 'middle'
-
-// 		        // 텍스트를 화면 중앙에 위치시킵니다.
-// 		        const textX = width / 2
-// 		        const textY = height / 2
-
-// 		        // 텍스트 그리기
-// 		        ctx.fillText(text, textX, textY)
-// 		    }
 		}
 		
 		new Chart(document.getElementById('myChart'), {
@@ -438,13 +417,12 @@ a#nextM{
 			        bodyFontFamily: 'GangwonEdu_OTFBoldA',
 			        bodyFontSize: 20, // 툴팁 본문의 폰트 크기를 설정합니다.
 			        bodyFontColor: 'black'
-		        },
-		        plugins: {
-		            doughnutLabelPlugin // 사용자 정의 플러그인 추가
 		        }
+// 		        plugins: {
+// 		            doughnutLabelPlugin // 사용자 정의 플러그인 추가
+// 		        }
 		    }
 		})
-		
 		
 		
 		function getDay(e) {

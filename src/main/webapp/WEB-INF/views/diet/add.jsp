@@ -38,7 +38,7 @@
 		border:none;
 		background:none;
 		cursor:pointer;
- 		background-image: url('/finalProject/resources/image/search.png'); 
+ 		background-image: url('/resources/image/search.png'); 
 		background-size: contain;
 		background-repeat:no-repeat;
 		width:30px;

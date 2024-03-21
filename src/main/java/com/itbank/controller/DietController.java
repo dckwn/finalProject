@@ -42,7 +42,7 @@ public class DietController {
 		MemberDTO login = (MemberDTO) session.getAttribute("login");
 		String userid = login.getUserid();
 		InfoDTO infoDto = is.getOne(userid);
-		String whenStr = map.get("when"); // 예시로 날짜 문자열을 설정
+		String whenStr = map.get("when");
 		java.util.Date utilDate = new java.util.Date();
 		if(whenStr != null) {
 			try {
@@ -68,12 +68,10 @@ public class DietController {
 		
 		if(userNutDTO != null) {mav.addObject("NutDto", userNutDTO);}
 		
-		
 		CalenderDTO dto = new CalenderDTO();
 		
 		Date wantDate = new Date(new java.util.Date().getTime());
 
-        // SimpleDateFormat 객체를 사용하여 Date를 원하는 형식의 String으로 변환
         SimpleDateFormat sdf = new SimpleDateFormat("MM");
         int month = 0;
         if(strmonth == null) {month = Integer.parseInt(sdf.format(wantDate));}	
@@ -105,18 +103,16 @@ public class DietController {
 	
 	@PostMapping("/add/{meal}")
 	public String add(FoodDTO foodDto) {
-		int row = fs.add(foodDto);
+		fs.add(foodDto);
 		return "redirect:/diet/add/{meal}";
 	}
-	
 	
 	@GetMapping("/info")
 	public void info() {}
 	
 	@PostMapping("/info")
 	public String info(InfoDTO infoDto) {
-		int row = is.add(infoDto);
-		
+		is.add(infoDto);
 		return "redirect:/diet/home";
 	}
 	

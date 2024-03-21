@@ -23,6 +23,12 @@ public class AbscentService {
       List<Integer> list = adao.abscentList(map1);
       return list;
    }
+
+
+   public int getTotalCheckDate(String userid) {
+	   
+	return adao.getTotaclCheckDate(userid);
+}
    
 }
 

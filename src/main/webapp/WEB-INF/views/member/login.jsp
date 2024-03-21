@@ -2,113 +2,68 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../userHeader.jsp" %>
 <style>
-*{  
- 		box-sizing: unset; 
- 	}
-	input{
-		 font-family: 'Open Sans', sans-serif;
-	}
-	.dh-login{
-		border: 1px solid #dadada;
-		padding: 20px;
-		width: 400px;
-  		background-color:white;  
-		border-radius: 6px;
-	}
-	.dh-loform{
-		display: table;
-    	table-layout: fixed;
-		border: 1px solid #dadada;
-		padding: 14px 17px 13px;
-    	box-sizing: border-box;
-    	width:100%;
-	}
-	img#loginicon{
-		width:20px;
-		height:21px;
-		padding-right: 20px;
-		position:absolute;
-		top:14px;
-		left:17px;
-		display:none;
-	}
-	img#passicon{
-		width:19px;
-		height:20px;
-		padding-right: 20px;
-		position:absolute;
-		top:15px;
-		left:17px;
-		display:none;
-	}
-	
-	.dh-loform:nth-child(1){
-		border-radius: 6px 6px 0 0;
-    	box-shadow: none;
-    	position:relative;
-	}
-	.dh-loform:nth-child(2){
-		border-radius: 0 0 6px 6px;
-    	box-shadow: none;
-    	position:relative;
-    	margin-bottom: 40px;
-	}
-	
-	.dh-lobutton{
-	display: block;
-    width: 100%;
-    padding: 13px 0 13px;
-    border-radius: 6px;
-    border: solid 1px rgba(0,0,0,.15);
-    background-color: #dadada;
-    box-sizing: border-box;
-    position:relative;
-    z-index:5;
-	}
-	
-	.dh-input_user,
-	.dh-input_pass{
-	width: 100%;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 19px;
-    letter-spacing: -.5px;
-    color: #222;
-    box-sizing: border-box;
-    display: table-cell;
-    padding-right: 30px;
-	}
-	
-	.dh-loginbutton{
-		text-decoration: none;
-		border: 0px;
-		background: 0 0;
-		font-family: 'Open Sans', sans-serif;
-		font-size: 20px;
-    	font-weight: 700;
-   	 	line-height: 24px;
-    	color: #fff;
-    	margin: 0 auto;
-    	cursor:pointer;
-	}
-	.dh-input_pass,
-	.dh-input_user{
-		border:0px;
-		padding:1px;
-	}
-	.dh-input_pass:focus,
-	.dh-input_user:focus{
-		outline:none;
-	}
-	.dh-input_pass:focus + img#passicon,
-	.dh-input_user:focus + img#loginicon{
-		display:block;
-	}
-	.Mauto{
-	margin: 50px auto;
-	margin-bottom: 650px;
-}
-	
+    .frame {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .dg-container {
+        width: 500px;
+        padding: 60px;
+        border: 2px solid #FAD4D4;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5em;
+        box-shadow: -7px -7px 10px white, 5px 5px 10px rgba(0, 0, 0, 0.585);
+    }
+    h1 {
+        font-size: 45px;
+        color: #8A7575;
+    }
+    .dg-login input {
+        width: 100%;
+        margin: 5px auto;
+        font: 16px;
+        font-weight: 600;
+        color: #8A7575;
+        padding: 15px;
+        border: none;
+        outline: none;
+        border-radius: 25px;
+        background-color: #FAD4D4;
+        box-shadow: inset -5px -5px 10px white, inset 5px 5px 10px #dadada;
+    }
+    .dg-login input[type="submit"] {
+        margin-top: 20px;
+        display: inline-block;
+        width: 200px;
+        height: 50px;
+        color: #8A7575;
+        font-weight: bold;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        font-size: 18px;
+        border-radius: 25px;
+        box-shadow: -5px -5px 10px white, 5px 5px 10px rgba(0, 0, 0, 0.485);
+        background-color: #FAD4D4;
+        border: none;
+        cursor:pointer;
+    }
+    .dg-login input[type="submit"]:hover {
+        background-color: #dadada;
+    }
+    .dg-sign-info a {
+        color: #8A7575;
+        margin: auto 45px;
+    }
+
+
+   
 </style>
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -116,30 +71,34 @@
 <body>
 
 <div class="frame">
-	<div class="Mauto">
-		<div class="center">
-			<div class="dh-login center">
-				<form method="POST">
-					<div class="dh-loform">
-						<div class="center">
-							<img src="${cpath }/icon/login2.png" height="20" width="21" style="padding-right:20px;">
-							<input class="dh-input_user" type="text" name="userid" placeholder="아이디" autofocus required>
-							<img id="loginicon" src="${cpath }/icon/login1.png">
-						</div>
-					</div>
-					<div class="dh-loform">
-						<div class="center">
-							<img src="${cpath }/icon/password2.png" height="20" width="21" style="padding-right:20px;">
-							<input class="dh-input_pass" type="password" name="userpw" placeholder="패스워드" required>
-							<img id="passicon" src="${cpath }/icon/password1.png">
-						</div>
-					</div>
-					<div class="dh-lobutton center"><button class="dh-loginbutton center">로그인</button></div>
-					<div>아이디 저장 아이디 찾기 | 비밀번호 찾기 | <a href="${cpath }/member/join">회원가입</a></div>
-				</form>
-			</div>
-		</div>
-	</div>
+
+   <div class="dg-container">
+            <h1>Sign In</h1>
+            
+            <form method="POST">
+                <div class="dg-login">
+                    <input type="text" name="userid" placeholder="ID" autofocus >
+                    <input type="password" name="userpw" placeholder="Password" required>
+                    <input type="submit" value="Sign In">
+                </div>
+            </form>
+            <div class="dg-sign-info">
+                <a href="${cpath }/member/join">Sign up</a>
+                <a href="#">Forget Password</a>
+            </div>
+     </div>
+   
+
+
+
+
+
+
+
+
+
+
+
 </div>
 <%@ include file="../footer.jsp" %>
 <script type="text/javascript">

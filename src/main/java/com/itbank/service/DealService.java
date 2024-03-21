@@ -52,4 +52,13 @@ public class DealService {
 //		map.put("arr", rf);
 		return row;
 	}
+
+	public List<DealDTO> getRefundList(String userid) {
+		System.out.println(userid);
+		return ddao.getRefund(userid);
+	}
+
+	public void cancelDeal(String imp_uid) {
+		ddao.cancelDeal(imp_uid);	
+	}
 }

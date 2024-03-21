@@ -68,4 +68,10 @@ public class HomeController {
 		mav.addObject("month", month);
 		return mav;
 	}
+	
+		@GetMapping("/about")
+		public String about() {
+			return "/about";
+		}
+	
 }

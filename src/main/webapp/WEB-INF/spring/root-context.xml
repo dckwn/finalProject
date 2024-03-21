@@ -29,7 +29,8 @@
 		<property name="configLocation" value="classpath:mybatis/config.xml"/>
 		<property name="mapperLocations">
 			<list>
-				<value>classpath:mybatis/diet-mapper.xml</value>
+				<value>classpath:mybatis/food-mapper.xml</value>
+				<value>classpath:mybatis/nutrition-mapper.xml</value>
 			</list>
 		</property>
 	</bean>

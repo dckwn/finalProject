@@ -35,6 +35,21 @@
 	    FETCH NEXT #{fetchnum} ROWS ONLY
 	</select>
 	
+	<select id="selectCategory">
+		SELECT group_name FROM health_food 
+			 WHERE group_name IN ('밥류', '구이류', '국류') GROUP BY group_name 
+			 UNION 
+			 SELECT group_name FROM (SELECT group_name FROM health_food 
+			 							WHERE group_name NOT IN ('밥류', '구이류', '국류') 
+			 ORDER BY DBMS_RANDOM.VALUE ) 
+			 WHERE rownum <![CDATA[<=]]> 5
+	</select>
+	
+	<insert id="insert" parameterType="food">
+		insert into health_food (group_name, food_name, capacity, tan, dan, ji ,dang, na, kcal) 
+			values (#{group_name}, #{food_name}, #{capacity}, #{tan}, #{dan}, #{ji}, #{dang}, #{na}, #{kcal})
+	</insert>
+	
 <!-- 	<select id="selectList" resultType="board"> -->
 <!-- 		select * from board3  -->
 <!-- 			order by  -->
