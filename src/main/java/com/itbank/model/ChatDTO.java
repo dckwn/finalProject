@@ -5,6 +5,16 @@ public class ChatDTO {
 	private String who_chat;
 	private String who_send;
 	private String content;
+	private int isRead;
+	
+	
+	
+	public int getIsRead() {
+		return isRead;
+	}
+	public void setIsRead(int isRead) {
+		this.isRead = isRead;
+	}
 	public int getIdx() {
 		return idx;
 	}

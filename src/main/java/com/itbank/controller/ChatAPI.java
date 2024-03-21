@@ -38,4 +38,9 @@ public class ChatAPI {
 		return row;
 	}
 	
+	@GetMapping("/isRead/{who_chat}")
+	public void isRead(@PathVariable("who_chat") String who_chat){
+		cs.read(who_chat);
+	}
+	
 }

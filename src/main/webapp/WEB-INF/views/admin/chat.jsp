@@ -120,6 +120,7 @@ async function loadChat(){
 }
 
 const startChat = async function goChatHandler(e){
+	
 	const userSpan = e.currentTarget.querySelector('#user')		
     if (userSpan) {
     	
@@ -170,6 +171,11 @@ const startChat = async function goChatHandler(e){
         subscriptionId = stomp.subscribe('/broker/goChat/' + who, chatT).id
         
     }
+	stomp.send('/app/sendM/' + who, {}, JSON.stringify({		
+		to: '0',			
+		from: '',
+		text: ''
+	}))
 	const outBtn = document.querySelector('.out')
 	const sendBtn = document.querySelector('.dm')
 	const msgInput = document.querySelector('input[name="msg"]')

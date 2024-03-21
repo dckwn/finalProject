@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../../userHeader.jsp"%>
+
 <style>
 	table{
 	 border-collapse: collapse;
@@ -25,54 +26,125 @@
 	 display: flex;
 	 justify-content: space-between;
 	}
-	
-	</div></div>
+	tbody tr.sameNum{
+		background-color: lightblue;
+	}
+	.js-feedFrame  {
+		width: 1300px;
+		height: 100%;
+		margin-left: 20%;
+	}
+ 	.js-choice { 
+ 		display: flex;
+		justify-content: center;
+ 		width: 1300px;
+ 		 list-style: none; 
+ 	} 
+ 	.js-feed { 
+ 		border: 2px solid black; 
+ 		border-radius: 10px 15px 0 0 ; 
+ 		width: 650px;
+ 		height: 80px;  
+ 		font-size: 60px; 		
+ 	} 
+ 	.js-with { 
+ 		border: 2px solid black; 
+ 		border-radius: 15px 10px 0 0 ; 
+ 		width: 650px;
+ 		height: 80px;  
+ 		font-size: 60px;
+ 	} 
+ 	.js-feedInfo {
+ 		border: 2px solid black;
+ 		border-radius: 0 0 20px 20px;
+ 		padding-bottom: 15px; 
+ 	}
+ 	.js-feedHomeBtn {
+ 		display: flex;
+ 		justify-content: space-between;
+ 		margin: 5px;
+ 	}
+ 	.js-feedList {
+ 		display: flex;
+ 		justify-content: space-between;
+ 		border: 2px solid black;
+ 		width: 1277px;
+ 		margin: 5px;
+ 		padding: 5px;
+ 	}
+ 	.js-listImgFrame {
+ 		border: 1px solid black; 
+ 	}
+ 	.js-listInfoFrame {
+ 		border: 1px solid black; 	
+ 	}
+
 </style>
 	<div class="frame">
-		<div class="bet" >
+		<div class="js-feedFrame">
 			
-		<div><a href="${cpath }/social/with/mypage">나의with</a></div>
-		<div>	
-				<select>
-					<option value="작성자">작성자</option>
-					<option value="제목">제목</option>
-					<option value="날짜">날짜</option>
-				</select>
+				<div class="js-choice">
+					<ul >
+						<li ><a class="menuLink js-feed center" href="${cpath }/social/home">feed</a></li>
+						<li ><a class="menuLink js-with center" href="${cpath }/social/with/wlist">with</a></li>
+					</ul>
+				</div>
 				
-				<input type="text" placeholder="검색어입력">
-				<input type="submit" value="검색">
-		</div>
+				<div class="js-feedInfo">	
+					<div class="js-feedHomeBtn" >
+						<div>
+							<a href="${cpath }/social/with/mypage">나의with</a>
+						</div>
+					
+						<div>	
+							<p>
+								<a href="${cpath }/social/with/wlist?category=요가"> <button>요가</button></a>
+								<a href="${cpath }/social/with/wlist?category=헬스"> <button>헬스</button></a>
+								<a href="${cpath }/social/with/wlist?category=크로스핏"> <button>크로스핏</button></a>
+							</p>
+							<form action="${cpath }/social/with/wlist" method="GET">
+								<input type="text" name="keyword" placeholder="검색어입력">
+								<input type="submit" value="검색">
+							</form>
+						</div>
+					</div>
+				</div>		
 		
-	</div>
 
 		<table border="1" cellpadding="10" cellsapcing="0"> 
-			<thead>
-				<tr>
-					<th colspan="2">목록</th>
-				
-					<th>참여인원</th>
-				</tr>
-			</thead>
-			<tbody>
 			<c:forEach var="dto" items="${wlist }">
-				<tr>
-					<td class="rigth bottom" >작성자 : ${dto.writer}</td>
-					<td class="left bottom" >정원수 : ${dto.peopleNum }</td>
-					<td rowspan="2"><progress value="${dto.withNum }"   max= "${dto.peopleNum}" ></progress> </td>
+			
+			<tbody>
+			 	<tr class="<c:if test="${dto.withNum + 1 == dto.peopleNum}">sameNum</c:if>">
+					<td class="right bottom" >작성자 : ${dto.writer}</td>
+					<td class="left bottom" >운동 : ${dto.category }</td>
+					<td rowspan="2">
+						참여인원(${dto.withNum + 1}/ ${dto.peopleNum } )<br>
+						<progress value="${dto.withNum + 1 }"   max= "${dto.peopleNum}" ></progress> 
+					</td>
 				</tr>
-				<tr>
-					<td class="rigth top"><a href="${cpath }/social/with/${dto.idx}">제목 : ${dto.title}</a></td>
+				<tr class="<c:if test="${dto.withNum + 1 == dto.peopleNum}">sameNum</c:if>">
+				
+					  <td class="right top">
+            <c:choose>
+                <c:when test="${dto.withNum + 1 == dto.peopleNum}">
+                    <span>제목 : ${dto.title}</span>
+                </c:when>
+                <c:otherwise>
+                    <a href="${cpath}/social/with/${dto.idx}">제목 : ${dto.title}</a>
+                </c:otherwise>
+            </c:choose>
+        </td>
 					<td class="left top">운동날 :${dto.start_date } ~ ${dto.end_date }</td>
 					
 				</tr>
 				
-			</c:forEach>
 			</tbody>
 			
+			</c:forEach>
 		</table>
 		</div>
-		
-
+	</div>
 
 </body>
 </html>

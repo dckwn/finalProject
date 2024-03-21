@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.itbank.model.ChatDTO;
@@ -24,5 +25,8 @@ public interface ChatDAO {
 
 	@Select("select who_chat from health_chat group by who_chat")
 	List<String> load();
+
+	@Update("update health_chat set isRead = 0 who_send = #{who_chat}")
+	void read(String who_chat);
 
 }

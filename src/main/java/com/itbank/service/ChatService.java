@@ -28,5 +28,9 @@ public class ChatService {
 	public List<String> loadChat() {
 		return dao.load();
 	}
+
+	public void read(String who_chat) {
+		dao.read(who_chat);		
+	}
 	
 }
