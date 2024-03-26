@@ -21,7 +21,20 @@ public class MemberDTO {
 	
 	
 	private MultipartFile profile_Upload;
+	private String prev_Profile;
 	private String strbirth;
+
+
+
+	
+	public String getPrev_Profile() {
+		return prev_Profile;
+	}
+
+
+	public void setPrev_Profile(String prev_Profile) {
+		this.prev_Profile = prev_Profile;
+	}
 
 
 	public Date getBirth() {

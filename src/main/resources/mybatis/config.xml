@@ -7,6 +7,12 @@
 	<typeAliases>
 		<typeAlias type="com.itbank.model.NutritionDTO" alias="nutrition" />
 		<typeAlias type="com.itbank.model.FoodDTO" alias="food" />
+		<typeAlias type="com.itbank.model.TicketDTO" alias="ticket" />
+		<typeAlias type="com.itbank.model.DealDTO" alias="deal" />
+		<typeAlias type="com.itbank.model.AbscentDTO" alias="abscent" />
+		<typeAlias type="com.itbank.model.ChatDTO" alias="chat" />
+		<typeAlias type="com.itbank.model.InfoDTO" alias="info" />
+		<typeAlias type="com.itbank.model.MemberDTO" alias="member" />
 	</typeAliases>
 </configuration>
 

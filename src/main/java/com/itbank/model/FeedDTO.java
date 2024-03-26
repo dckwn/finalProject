@@ -15,16 +15,16 @@ public class FeedDTO {
 	private String category;
 	private String choice;
 	private Date write_date;
-	private String origianlFileName;
+	private String originalFileName;
 	private String storedFileName;
 	
 	private List<MultipartFile> upload;
 	
 	public String getOrigianlFileName() {
-		return origianlFileName;
+		return originalFileName;
 	}
 	public void setOrigianlFileName(String origianlFileName) {
-		this.origianlFileName = origianlFileName;
+		this.originalFileName = origianlFileName;
 	}
 	public String getStoredFileName() {
 		return storedFileName;

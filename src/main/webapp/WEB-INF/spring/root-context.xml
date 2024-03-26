@@ -28,11 +28,17 @@
 		<property name="dataSource" ref="dataSource"/>
 		<property name="configLocation" value="classpath:mybatis/config.xml"/>
 		<property name="mapperLocations">
-			<list>
-				<value>classpath:mybatis/food-mapper.xml</value>
-				<value>classpath:mybatis/nutrition-mapper.xml</value>
-			</list>
-		</property>
+	         <list>
+	            <value>classpath:mybatis/food-mapper.xml</value>
+	            <value>classpath:mybatis/nutrition-mapper.xml</value>
+	            <value>classpath:mybatis/ticket-mapper.xml</value>
+	            <value>classpath:mybatis/deal-mapper.xml</value>
+	            <value>classpath:mybatis/abscent-mapper.xml</value>
+	            <value>classpath:mybatis/chat-mapper.xml</value>
+	            <value>classpath:mybatis/info-mapper.xml</value>
+	            <value>classpath:mybatis/member-mapper.xml</value>
+	         </list>
+      </property>
 	</bean>
 	
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">

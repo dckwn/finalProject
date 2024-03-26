@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.itbank.repository.MemberDAO">
+	<select id="login" parameterType="member">
+		select * from health_member where userid=#{userid} and userpw=#{userpw}
+	</select>
+
+	<select id="check" parameterType="Map">
+		select count(*) from health_member where userid = #{userid}
+	</select>
+
+	<insert id="insert" parameterType="member">
+		insert into health_member (userid, userpw, username, birth, profile_image, gender, phone_num, email) 
+		values (#{userid}, #{userpw}, #{username}, #{birth}, #{profile_image}, #{gender}, #{phone_num}, #{email})
+	</insert>
+
+	<select id="selectOne" parameterType="string">
+		select * from health_member where userid=#{userid}
+	</select>
+	
+	<select id="selectList">
+		select * from health_member order by idx
+	</select>
+	
+	<update id="update" parameterType="map">
+		update health_member set userpw = #{newPw} where userid = #{userid}
+	</update>
+	
+</mapper>

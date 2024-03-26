@@ -31,26 +31,15 @@ public class SocialController {
 		return mav;
 	}
 	
-	@GetMapping("/view/{idx}")
+	@GetMapping("/feed/view/{idx}")
 	public ModelAndView View(@PathVariable("idx")int idx) {
 		ModelAndView mav = new ModelAndView("/social/feed/view");
 		FeedDTO dto = fs.getHealth_board(idx);
 		mav.addObject("dto", dto);
-		List<ReplyDTO> replylist = rs.getReplyList(idx);
-		mav.addObject("replylist", replylist);
+		List<ReplyDTO> replyList = rs.getReplyList(idx);
+		mav.addObject("replyList", replyList);
 		return mav;
 	}
-	
-
-	
-	@PostMapping("/view/{idx}")
-	public String replyAdd(@PathVariable("idx")int idx, ReplyDTO dto) {
-		int row = rs.replyAdd(dto);
-		System.out.println(dto.getIdx());
-		System.out.println(row != 0 ? "성공" : "실패");
-		return "redirect:/social/view/{idx}";
-	}
-	
 	
 	@GetMapping("/feed/myboard")
 	public ModelAndView myboard() {
@@ -80,14 +69,10 @@ public class SocialController {
 	}
 	
 	@PostMapping("/feed/modify/{idx}")
-	public ModelAndView modify(FeedDTO dto) {
-		ModelAndView mav = new ModelAndView("social/alert");
+	public String modify(FeedDTO dto) {
 		int row = fs.modify(dto);
-		String url = "/alert" + dto.getIdx();
-		String msg = row != 0 ? "성공" : "실패";
-		mav.addObject(url);
-		mav.addObject(msg);
-		return mav;
+		System.out.println(row != 0 ? "성공" : "실패");
+		return "redirect:/social/feed/myboard";
 	}
 	
 	@GetMapping("/feed/delete/{idx}")

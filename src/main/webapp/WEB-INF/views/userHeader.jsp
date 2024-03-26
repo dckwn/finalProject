@@ -13,10 +13,10 @@
 
 <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"> -->
 <style>
-	@font-face {
-        font-family: 'GangwonEdu_OTFBoldA'; 
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
-        font-weight: normal;
+	  @font-face {
+        font-family: 'BookkMyungjo-Bd';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2') format('woff2');
+        font-weight: 700;
         font-style: normal;
     }
     *{
@@ -27,7 +27,7 @@
 	body {
 	    width: 100%;
 	    height: auto;
-	    font-family: 'GangwonEdu_OTFBoldA';
+	    font-family: 'BookkMyungjo-Bd';
 	    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
 	    background-size: 100% 100%;
 	    background-repeat: no-repeat;
@@ -88,6 +88,25 @@
 		justify-content: center;
 		align-items: center;
 	}
+	.dg-tkHome-banner {
+    width:100%;
+    text-align: center;
+    margin: 0 auto 50px auto;
+	}
+	.dg-tkHome-banner img{
+	    width: 100%;
+	    height: auto;
+	    margin-bottom: 30px;
+	    margin-top: 0;
+	}
+	.dg-tkHome-banner h1 {
+	    font-size: 40px;
+	    font-weight: 500;
+	}
+	.dg-tkHome-banner h3 {
+	    font-size: 30px;
+	    font-weight: 500;
+	}
 	.dh-chatButton{
 		position: fixed;
 		right:50px;
@@ -114,12 +133,13 @@
 	}
 	.dh-chatFrame{
 		width:350px;
-		border: 1px solid black;
+/* 		border: 1px solid black; */
 		margin-top:20px;
 		position: fixed;
 		right:20px;
 		bottom:40px;
 		background-color:#f1f3f5;
+		z-index:5;
 	}
 	.dh-chatHead{
 		height:60px;
@@ -181,6 +201,7 @@
         position:fixed;
         top:130px;
         right:20px;
+        z-index:5;
     }
     .dh-flex{
         display:flex;
@@ -224,14 +245,100 @@
     	padding:10px;
     }
     #newMessage{
-    	position: fixed;
-	    right: 50px;
-	    bottom: 100px;
-	    cursor: pointer;
-	    width: 50px;
-	    height: 50px;
+    	position: absolute;
+    	right:45px;
+    	bottom:65px;
+	    width: 35px;
+	    height: 35px;
+	    background-color:red;
+	    border-radius:50%;
+	    display:flex;
+	    justify-content: center;
+	   	align-items: center;
     }
+.alert{
+    background: #ffdb9b;
+    padding: 20px 40px;
+    min-width: 100%;
+    position: fixed;
+    right: 0px;
+    top: 120px;
+    overflow: hidden;
+    border-radius: 4px;
+    border-left: 8px solid #ffa502;
+    z-index:6;
+}
+.alert.show{
+    animation: show_slide 1s ease forwards; 
+}
+.alert.showAlert{
+    opacity: 1;
+    pointer-events: auto;
+}
 
+@keyframes show_slide{
+    0%{
+        transform: translateX(100%);
+    }
+    40%{
+        transform: translateX(-10%);
+    }
+    80%{
+        transform: translateX(0%);
+    }
+    100%{
+        transform: translateX(-10px);
+    } 
+}
+.hide{
+    display: none;
+}
+@keyframes hide_slide{
+    0%{
+        transform: translateX(-10px);
+    }
+    40%{
+        transform: translateX(0%);
+    }
+    80%{
+        transform: translateX(-10%);
+    }
+    100%{
+        transform: translateX(100%);
+    }
+}
+
+.alert .fa-bell{
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ce8500;
+    font-size: 30px;
+}
+.alert .msg{
+    padding: 0 20px;
+    font-size: 18px;
+    color: #ce8500;
+}
+.close-btn{
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ffd080;
+    padding: 20px 18px;
+    cursor: pointer;
+    z-index:7;
+
+}
+.close-btn:hover{
+    background: #ffc766;
+}
+.close-btn .fa-times{
+    color: #ce8500;
+    font-size: 22px;
+    line-height: 100%;
 }
 </style>
 </head>
@@ -294,7 +401,12 @@
         </div>
     </div>
 
-<div><img class="dh-chatButton" src="${cpath }/icon/chat.png"><div id="newMessage"></div></div>
+<div>
+	<img class="dh-chatButton" src="${cpath }/icon/chat.png">
+<!-- 	<div id="newMessage"> -->
+<!-- 		<h4>!</h4> -->
+<!-- 	</div> -->
+</div>
 
 <div class="dh-chatFrame hidden">
 	<div id="chat">
@@ -302,7 +414,13 @@
 	</div>
 </div>
 
-
+<div class="alert hide headAlert">
+        <span class="fa-regular fa-bell"></span>
+        <span class="msg">새로운 메시지가 있슴돠?</span>
+        <div class="close-btn">
+            <span class="fas fa-times"></span>
+        </div>
+    </div>
 
 
 
@@ -311,15 +429,16 @@
 <script>
 
 const cpath = '${cpath}'
-const userid = '${login.userid}'
+let userid = '${login.userid}'
 const to='admin'
 const back = document.getElementById('chat')
 const chatFrame = document.querySelector('.dh-chatFrame')
 const sockJS = new SockJS(cpath + '/endpoint')
 const stomp = Stomp.over(sockJS)
 const openChatButton = document.querySelector('.dh-chatButton'); // 버튼 요소를 가져옵니다.
+const closeBtn = document.querySelector('.close-btn')
+const modal = document.querySelector('.headAlert')
 //const sessionId = '${pageContext.session.getId()}'
-
 
 if(userid != ''){
 	const openMini = document.querySelector('.dh-profile > img')
@@ -339,15 +458,25 @@ if(userid != ''){
 
 
 function onConnect() {
-	
+	stomp.subscribe('/broker/message/'+ userid, alarm)
 	stomp.send('/app/create', {}, JSON.stringify({	// 서버에게 입장 메시지와 시간을 보낸다
 		from: userid
 	}))
 }
 
+closeBtn.addEventListener('click',function(event){
+	modal.classList.add('hide')
+})
+
+function alarm(from){
+	if(chatFrame.classList.contains('hidden')){
+		
+		modal.classList.remove('hide')
+	}
+}
+
 async function onInput(value){		//클라이언트가 채팅 요청을 했을때
 		const text = '님의 상담'
-		let isRead = '1'
 		let tag = ''
 	        tag += '<div class="dh-chatHead">'
 	        tag += '<div><h3>'+userid+'</h3></div>'
@@ -359,17 +488,21 @@ async function onInput(value){		//클라이언트가 채팅 요청을 했을때
 			tag += '<input type="text" name="msg" id="msg">'
 			tag += '<div class="dm">전송</div>'
 			tag += '</div>'
+			
 		back.innerHTML = tag
 		
-		const show = document.getElementById(userid)
+		const show = document.querySelector('div#'+userid)
+		
+		
 		const url = '${cpath}/getChat/'+ userid
 		
 		const result = await fetch(url).then(resp=>resp.json())
 		const arr = Array.from(result)
 		
-		if(value == '0') {isRead = ''}
 		if(arr.length != 0){
-			arr.forEach(e => {
+// 			arr.forEach(e => {
+			for(let i = 0; i < arr.length; i++) {
+				const e = arr[i]
 				let po = ''
 				let who = ''
 				if(e.who_send != 'admin'){po = 'end'}
@@ -378,11 +511,13 @@ async function onInput(value){		//클라이언트가 채팅 요청을 했을때
 					who = '관리자'
 				}
 				let	str = ''
-				str += '<div class="dh-message '+ po +'">'+isRead+'<h2>'+ who +'</h2><div>' + e.content+'</div></div>'	
+				str += '<div class="dh-message '+ po +'"><h2>'+ who +'</h2><div>' + e.content+'</div></div>'	
 				show.innerHTML += str
-			})
+// 			})
+			}
 		}
-		show.scrollTop = show.scrollHeight
+		
+		
 		
 		chatFrame.classList.remove('hidden');
 		if(value!='0'){
@@ -444,6 +579,11 @@ async function onInput(value){		//클라이언트가 채팅 요청을 했을때
 			from: userid,
 			text: text
 		}))
+		stomp.send('/app/alarm/' + 'admin', {}, JSON.stringify({		
+			from: userid
+		}))
+		
+// 		stomp.send('/app/alarm/' + 'admin')
 		
 		document.querySelector('input[name="msg"]').focus()	// 다시 입력할 수 있도록 포커스 잡아주기
 	}	
@@ -457,16 +597,19 @@ async function onInput(value){		//클라이언트가 채팅 요청을 했을때
 		if(e.key == 'Enter') sendM()
 	}
 	
+	
+	show.scrollTop = show.scrollHeight
 }
 
 
 // 버튼이 클릭되었을 때의 이벤트 리스너를 추가합니다.
 openChatButton.addEventListener('click', function(event) {
-    // 버튼을 비활성화합니다.
-    //openChatButton.disabled = true
-    
-    openChatButton.classList.add('hidden')
-    onInput()
+	
+    if(userid==''){openChatButton.disabled = true}
+    else{    
+	    openChatButton.classList.add('hidden')
+	    onInput()
+    }
 });
 
 
@@ -489,7 +632,7 @@ function chatT(chat){
 	if(text === 'out'){ text = '상담이 종료되었습니다.'; po ='service'; who=''}	
 	
 	let	str = ''
-		str += '<div class="dh-message '+ po +'">'+isRead+'<h2>'+ who +'</h2><div>' + text+'</div></div>'
+		str += '<div class="dh-message '+ po +'"><h2>'+ who +'</h2><div>' + text+'</div></div>'
 
 	const show = document.getElementById(toA)
 	show.innerHTML += str	

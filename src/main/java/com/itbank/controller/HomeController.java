@@ -29,17 +29,6 @@ public class HomeController {
 		return "/NewFile";
 	}
 	
-	@GetMapping("/setting")
-	public ModelAndView admin() {
-		ModelAndView mav = new ModelAndView("/admin/home");
-		return mav;
-	}
-	
-	@GetMapping("/admin/chat")
-	public String adminChat() {
-		return "/admin/chat";
-	}
-	
 	@GetMapping("/")
 	public ModelAndView home(@RequestParam(required=false) String strmonth, HttpSession session) {
 		ModelAndView mav = new ModelAndView("/home");

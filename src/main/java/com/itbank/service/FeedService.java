@@ -44,8 +44,20 @@ public class FeedService {
 	}
 
 	public int modify(FeedDTO dto) {
-		
-		return dao.update(dto);
+		int row = 0;
+		List<MultipartFile> list = dto.getUpload();
+		String ori = "";
+		String result = "";
+		for(MultipartFile f : list) {
+			ori += f.getOriginalFilename() + ":";
+			result += filecomponent.upload(f) + ":";
+		}
+		ori = ori.substring(0, ori.length()-1);
+		result = result.substring(0, result.length() - 1);
+		dto.setStoredFileName(result);
+		dto.setOrigianlFileName(ori);
+		row = dao.update(dto);
+		return row;
 	}
 
 	public int delete(int idx) {

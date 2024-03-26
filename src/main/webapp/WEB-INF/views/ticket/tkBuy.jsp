@@ -111,6 +111,10 @@
 
 <div class="frame">
 
+<div class="dg-tkHome-banner">
+        <img src="${cpath }/upload/mainImage/ticketMain.png">
+    </div>
+
    <div class="yj-ment">
    <p>2024-03-19 | health protector </p>
    <h1>welcome weekend</h1>

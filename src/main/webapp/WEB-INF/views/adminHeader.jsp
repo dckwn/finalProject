@@ -17,25 +17,45 @@
     }
     body {
         font-family: 'GangwonEdu_OTFBoldA';
+        height:100%
+        background-color:#f1f3f5;
+        
  	}
  	*{ 
  		padding:0; 
  		margin:0; 
+ 		box-sizing: border-box;
  	} 
-	header{
-		
+ 	.logo{
+ 		margin-top: 100px;
+ 	}
+ 	.logo > img{
+ 		height:70px;
+ 	}
+	.leftHeader{
+		position:fixed;
+		top:0;
+		left:0;
+		border: 1px solid yellow;
+		width: 300px;
+		height: 100%;
 	}
 	.frame{
-	  	padding-top: 160px;
-	  	padding-left:200px;
-	  	background-color:#f1f3f5;
-	  	height: 2000px;
+	  	margin-top: 130px;
+	  	margin-left:320px;
+	  	
+	  	height: 500px;
     }  
+    .leftNav>div{
+    	margin: 20px 0px;
+    	padding:20px;
+    	cursor:pointer;
+    }
     a{
     	text-decoration: none;
     	color:black;
     }
-    a:hover{
+    a:hover, .leftNav>div:hover{
     	cursor:pointer;
     	color:#dadada;
     }
@@ -63,10 +83,16 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
 
-
-
-
-
+<div class="leftHeader">
+	<div class="logo"><h1>관리자페이지</h1></div>
+	<div class="leftNav">
+		<div>Member</div>
+		<div>Ticket</div>
+		<div>Diet</div>
+		<div>Social</div>
+		<div>Consulting</div>
+	</div>
+</div>
 
 <script>
 
@@ -83,6 +109,7 @@ function onConnect() {
 		from: userid
 	}))
 }
+
 
 </script>
 

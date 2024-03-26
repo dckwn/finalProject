@@ -13,27 +13,26 @@ import com.itbank.model.FeedDTO;
 @Repository
 public interface FeedDAO {
 
-	@Select("select * from health_board order by idx desc")
+	@Select("select * from health_board where choice = 'feed' order by idx")
 	List<FeedDTO> selectList();
 
 	@Select("select * from health_board where idx = #{idx}")
 	FeedDTO selectOne(int idx);
 
-	@Insert("insert into health_board (writer, title, maintext, origianlFileName, storedFileName) "
-			+ "values (#{writer}, #{title}, #{maintext}, #{origianlFileName}, #{storedFileName})")
+	@Insert("insert into health_board (writer, title, maintext, originalFileName, storedFileName, choice) "
+			+ "values (#{writer}, #{title}, #{maintext}, #{originalFileName}, #{storedFileName}, 'feed')")
 	int insert(FeedDTO dto);
 
 	@Update("update health_board set"
 			+ " title = #{title}, "
-			+ " maintext = #{maintext}"
-			+ " origianlFileName = #{origianlFileName}"
+			+ " maintext = #{maintext},"
+			+ " originalFileName = #{originalFileName},"
 			+ " storedFileName = #{storedFileName}"
 			+ " where"
-			+ " writer = #{writer} and "
 			+ " idx = #{idx}")
 	int update(FeedDTO dto);
 
-	@Delete("delete health_board where idx = #{idx}")
+	@Delete("delete from health_board where idx = #{idx}")
 	int delete(int idx);
 
 

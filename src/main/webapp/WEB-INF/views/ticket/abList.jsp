@@ -7,6 +7,95 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+.alert{
+    background: #ffdb9b;
+    padding: 20px 40px;
+    min-width: 100%;
+    position: fixed;
+    right: 0px;
+    top: 120px;
+    overflow: hidden;
+    border-radius: 4px;
+    border-left: 8px solid #ffa502;
+    z-index:6;
+}
+.alert.show{
+    animation: show_slide 1s ease forwards; 
+}
+.alert.showAlert{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@keyframes show_slide{
+    0%{
+        transform: translateX(100%);
+    }
+    40%{
+        transform: translateX(-10%);
+    }
+    80%{
+        transform: translateX(0%);
+    }
+    100%{
+        transform: translateX(-10px);
+    } 
+}
+.hide{
+    display: none;
+}
+@keyframes hide_slide{
+    0%{
+        transform: translateX(-10px);
+    }
+    40%{
+        transform: translateX(0%);
+    }
+    80%{
+        transform: translateX(-10%);
+    }
+    100%{
+        transform: translateX(100%);
+    }
+}
+
+.alert .fa-exclamation-circle{
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ce8500;
+    font-size: 30px;
+}
+.alert .msg{
+    padding: 0 20px;
+    font-size: 18px;
+    color: #ce8500;
+}
+.close-btn{
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ffd080;
+    padding: 20px 18px;
+    cursor: pointer;
+    z-index:7;
+
+}
+.close-btn:hover{
+    background: #ffc766;
+}
+.close-btn .fa-times{
+    color: #ce8500;
+    font-size: 22px;
+    line-height: 100%;
+}
+
+
+
+
+<!-- -->
 *{
     box-sizing: unset;
 }
@@ -170,6 +259,16 @@ a#nextM{
       
    </div>
    
+   <div class="alert hide ticketZero">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="msg">Warning: "${tkCount}"개 이용권이 있습니다</span>
+        <div class="close-btn ticketClose">
+            <span class="fas fa-times"></span>
+        </div>    
+    </div>
+   
+   
+   
    <script>
       const dayList = document.querySelectorAll('input[type="radio"]');
       
@@ -187,6 +286,27 @@ a#nextM{
           radio.addEventListener('click', getDay);
       });
    </script>
+  
+  <script>
+  const ZeroModal = document.querySelector('.ticketZero')
+  const ticketClose = document.querySelector('.ticketClose')
+  
+  window.onload = function() {
+	  const login = '${login.userid}'
+	  if(login != '' && 0 < '${tkCount}' && '${tkCount}' < 3 ){
+		  event.preventDefault()
+		  ZeroModal.classList.remove('hide')
+	  }
+  }
+  
+  ticketClose.addEventListener('click',function(event){
+	  ZeroModal.classList.add('hide')
+})
+  
+  </script> 
+   
+   
+   
    
 <%@ include file="../footer.jsp" %>
 </body>
