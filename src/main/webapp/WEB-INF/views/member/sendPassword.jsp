@@ -1,8 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../userHeader.jsp" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 <style>
-    .frame {
+  .frame {
         height: 100vh;
         display: flex;
         justify-content: center;
@@ -62,53 +67,26 @@
         margin: auto 45px;
     }
 
-
-   
 </style>
-<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 </head>
 <body>
-
 <div class="frame">
 
-   <div class="dg-container">
-            <h1>Sign In</h1>
+	<div class="dg-container">
+            <h1>Find Password</h1>
             
             <form method="POST">
                 <div class="dg-login">
-                    <input type="text" name="userid" placeholder="ID" autofocus >
-                    <input type="password" name="userpw" placeholder="Password" required>
-                    <input type="submit" value="Sign In">
+                    <input type="text" name="username" placeholder="ID" autofocus >
+                    <input type="text" name="email" placeholder="email" required>
+                    <input type="submit" value="Find Password">
                 </div>
             </form>
-            <div class="dg-sign-info">
-                <a href="${cpath }/member/join">Sign up</a>
-                <a href="${cpath }/member/sendPassword">Forget Password</a>
-            </div>
      </div>
-   
-
-
-
-
-
-
-
-
 
 
 
 </div>
 <%@ include file="../footer.jsp" %>
-<script type="text/javascript">
-//     var naver_id_login = new naver_id_login("HLEF4d7TfziQUSCX1qmd", "http://localhost:8080/Study4/member/login/test");
-//     var state = naver_id_login.getUniqState();
-//     naver_id_login.setButton("white", 2,40);
-//     naver_id_login.setDomain("http://localhost:8080");
-//     naver_id_login.setState(state);
-//     naver_id_login.setPopup();
-//     naver_id_login.init_naver_id_login();
-</script>
 </body>
 </html>

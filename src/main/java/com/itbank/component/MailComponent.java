@@ -120,9 +120,7 @@ public class MailComponent {
 //               tag += "<p>인증번호는 [%s]입니다 </p>";
 //               tag += "</div>";
 
-               content = String.format(tag,content);
-               
-               message.setContent(content, "text/html; charset=utf-8");
+       
                Transport.send(message);         // 3) 준비가 끝난 메시지를 발송한다
                return 1;
                

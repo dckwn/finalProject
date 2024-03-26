@@ -94,7 +94,7 @@ public class MemberController {
 			
 			int row = ms.chPw(param);
 			System.out.println(row!=0 ? "변경 성공":"변경 실패");
-			
+			if(row!=0) {session.invalidate();}
 			return "redirect:/";	
 		}
 		

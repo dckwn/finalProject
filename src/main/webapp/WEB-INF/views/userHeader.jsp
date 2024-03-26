@@ -340,6 +340,13 @@
     font-size: 22px;
     line-height: 100%;
 }
+.headNav > li > a{
+	font-size:18px;
+}
+.headNav > li > a > i{
+	font-size:15px;
+	padding-right: 5px;
+}
 </style>
 </head>
 
@@ -364,11 +371,11 @@
 <!-- 			</h1> -->
 		</div>
 		<div>
-			<ul class="sb">
-				<li><a href="${cpath }/about">About</a></li>
-				<li><a href="${cpath }/ticket/tkHome">Ticket</a></li>
-				<li><a href="${cpath }/diet/home?when=<%= LocalDate.now() %>&day=<%=day%>">Diet</a></li>
-				<li><a href="${cpath }/social/home">Social</a></li>
+			<ul class="sb headNav">
+				<li><a href="${cpath }/about"><i class="fa-solid fa-circle-info"></i> About</a></li>
+				<li><a href="${cpath }/ticket/tkHome"><i class="fa-solid fa-ticket"></i> Ticket</a></li>
+				<li><a href="${cpath }/diet/home?when=<%= LocalDate.now() %>&day=<%=day%>"><i class="fa-solid fa-dumbbell"></i> Diet</a></li>
+				<li><a href="${cpath }/social/home"><i class="fa-regular fa-message"></i> Social</a></li>
 				<li>
 					<c:if test="${empty login }">
 						<a href="${cpath }/member/login"><i class="fa-solid fa-cat"></i> Login</a>
@@ -437,7 +444,7 @@ const sockJS = new SockJS(cpath + '/endpoint')
 const stomp = Stomp.over(sockJS)
 const openChatButton = document.querySelector('.dh-chatButton'); // 버튼 요소를 가져옵니다.
 const closeBtn = document.querySelector('.close-btn')
-const modal = document.querySelector('.headAlert')
+const headAlert = document.querySelector('.headAlert')
 //const sessionId = '${pageContext.session.getId()}'
 
 if(userid != ''){
@@ -465,13 +472,13 @@ function onConnect() {
 }
 
 closeBtn.addEventListener('click',function(event){
-	modal.classList.add('hide')
+	headAlert.classList.add('hide')
 })
 
 function alarm(from){
 	if(chatFrame.classList.contains('hidden')){
 		
-		modal.classList.remove('hide')
+		headAlert.classList.remove('hide')
 	}
 }
 

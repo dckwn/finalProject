@@ -27,7 +27,7 @@ public class MailController {
 		int num = ran.nextInt(999999);
 		String authNumber = String.format("%06d", num);
 		
-		param.put("subject", "안녕");
+		param.put("subject", "안녕하세요, health protector입니다");
 		param.put("content", authNumber );
 		session.setAttribute("authNumber", authNumber);
 		session.setMaxInactiveInterval(180);
