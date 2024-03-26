@@ -32,6 +32,7 @@ public class AbscentController {
       ModelAndView mav = new ModelAndView("/ticket/abList");
       MemberDTO login = (MemberDTO) session.getAttribute("login");
       String userid = login.getUserid();
+      int totalCheckDate = as.getTotalCheckDate(login.getUserid());
       
       String strmonth = (String) map.get("strmonth");
        int month = 0;
@@ -49,6 +50,7 @@ public class AbscentController {
       if(list!=null) {mav.addObject("list",list);}
       mav.addObject("cal", dto);
       mav.addObject("month", month);
+      mav.addObject("totalCheckDate", totalCheckDate);
       
       return mav;
    }

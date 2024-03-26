@@ -13,4 +13,6 @@ public interface FoodDAO {
 
 	int insert(FoodDTO foodDto);
 
+	List<FoodDTO> selectListByUserInsert();
+
 }

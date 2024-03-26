@@ -1,5 +1,6 @@
 package com.itbank.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import com.itbank.model.DealDTO;
 import com.itbank.model.MemberDTO;
@@ -28,8 +28,11 @@ public class TicketController {
 	
 	// 티켓 홈
 	@GetMapping("/tkHome")
-	public String tkhome() {
-		return "/ticket/tkHome";	
+	public ModelAndView tkhome(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		MemberDTO login = (MemberDTO) session.getAttribute("login");
+		mav.addObject("login", login);
+		return mav;	
 	}
 	
 	// 티켓 리스트
@@ -37,7 +40,9 @@ public class TicketController {
 	public ModelAndView getList() {
 		ModelAndView mav = new ModelAndView();
 		List<TicketDTO> list = ts.getList();
-		mav.addObject("list",list);
+		mav.addObject("list",list);	
+		Date today = new Date();
+		mav.addObject("today", today);
 		return mav;
 	}
 	

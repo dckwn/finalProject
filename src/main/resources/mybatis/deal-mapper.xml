@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.itbank.repository.DealDAO">
+
+	<select id="buyList" parameterType="deal">
+		select health_deal.idx, userid, ticket_id, tk_value * 0.75 as tk_value, TRUNC(buyday) as buyDay, TRUNC(expirday) as expirDay ,tkCount from health_deal
+		join health_ticket
+		on health_ticket.idx = health_deal.ticket_id
+		where userid=#{userid}
+		group by health_deal.idx, userid, health_deal.ticket_id,tk_value, TRUNC(buyday), TRUNC(expirday), tkCount
+	</select>
+	
+	<insert id="insert" parameterType="deal">
+		insert into health_deal (userid, ticket_id, buyDay, expirDay, tkcount
+		values (#{userid}, #{ticket_id}, #{buyDay},'#{expirDay}, (select tk_value from health_ticket where idx = #{idx}) )
+	</insert>
+	
+	<update id="decrease" parameterType="int">
+		update health_deal set tkCount = tkCount - 1 where idx = #{idx}
+	</update>
+	
+	<select id="useTicket">
+		select idx from (select * from health_deal where userid= #{userid} order by tkCount, buyDay) where rownum =1
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		delete from health_deal where idx = #{rf}
+	</delete>
+	
+	<select id="getRefund" parameterType="deal">
+		SELECT
+			imp_uid, buyday, SUM(tkcount) AS tkcount
+			FROM health_deal where userid = #{userid} 
+			GROUP BY imp_uid, buyday
+	</select>
+	
+	
+	<delete id="cancelDeal" parameterType="String">
+		delete from health_deal where imp_uid = #{imp_uid}
+	</delete>
+	
+	<select id="selectList">
+		SELECT 
+			userid, 
+			SUM(CASE WHEN ticket_id = 1 THEN 1 ELSE 0 END) AS ticket_1, 
+			SUM(CASE WHEN ticket_id = 2 THEN 1 ELSE 0 END) AS ticket_2, 
+			SUM(CASE WHEN ticket_id = 3 THEN 1 ELSE 0 END) AS ticket_3, 
+			buyday 
+			FROM health_deal GROUP BY userid, buyday
+	</select>
+	
+	
+	
+</mapper>

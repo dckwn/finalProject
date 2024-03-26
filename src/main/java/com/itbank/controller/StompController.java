@@ -3,6 +3,7 @@ package com.itbank.controller;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.itbank.model.MessageDTO;
 
@@ -28,6 +29,16 @@ public class StompController {
 	@SendTo("/broker/goChat/{userid}")
 	public MessageDTO chat(MessageDTO message) {
 		return message;
+	}
+	
+	@MessageMapping("/alarm/{userid}")
+	@SendTo("/broker/message/{userid}")
+	public String chat(String from) {
+		if(from == "") {
+			
+			from = "관리자";
+		}
+		return from;
 	}
 	
 //	@MessageMapping("/sendM/{userid}/{sendTo}")

@@ -1,17 +1,20 @@
 package com.itbank.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.zxing.WriterException;
 import com.itbank.model.FoodDTO;
 import com.itbank.model.NutritionDTO;
 import com.itbank.service.FoodService;
@@ -47,6 +50,15 @@ public class DietAPI {
 	public int addFood(@RequestBody NutritionDTO dto) {
 		int row = ns.addNutrition(dto);
 		return row;
+	}
+	
+	@PostMapping("/capture")
+	public String capture(@RequestBody String url) throws WriterException, IOException {
+		System.out.println(url);
+		
+		//String qrName = fs.qrTest(url);
+		
+		return url;
 	}
 	
 }

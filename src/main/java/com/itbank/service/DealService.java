@@ -61,4 +61,8 @@ public class DealService {
 	public void cancelDeal(String imp_uid) {
 		ddao.cancelDeal(imp_uid);	
 	}
+
+	public List<DealDTO> getList() {
+		return ddao.selectList();
+	}
 }

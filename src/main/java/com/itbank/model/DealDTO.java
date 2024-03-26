@@ -22,10 +22,29 @@ public class DealDTO {
 	private int buyCount;   // 구매한 티켓 수
 	private int tkCount;	//
 	private int tk_value;
+	private int ticket_1;
+	private int ticket_2;
+	private int ticket_3;
 	
 	
-	
-	
+	public int getTicket_1() {
+		return ticket_1;
+	}
+	public void setTicket_1(int ticket_1) {
+		this.ticket_1 = ticket_1;
+	}
+	public int getTicket_2() {
+		return ticket_2;
+	}
+	public void setTicket_2(int ticket_2) {
+		this.ticket_2 = ticket_2;
+	}
+	public int getTicket_3() {
+		return ticket_3;
+	}
+	public void setTicket_3(int ticket_3) {
+		this.ticket_3 = ticket_3;
+	}
 	public String getImp_uid() {
 		return imp_uid;
 	}

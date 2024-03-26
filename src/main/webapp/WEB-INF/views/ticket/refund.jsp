@@ -44,54 +44,40 @@ margin: 20px 20px;
   border-radius: 5px;
   box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
   background-color: #fff;
-  padding: 10px 10px;
   position: relative;
-}
+  display:flex;
+  align-items: center;
+  }
 
 .main{
    display: flex;
     justify-content: space-between;
-    padding: 27px 49px;
     align-items: center;
+    text-align:center;
+    width:inherit;
 }
-.card::after {
-  position: absolute;
-  content: "";
-  height: 40px;
-  right: -20px;
-  border-radius: 40px;
-  z-index: 1;
-  top: 70px;
-  width: 40px;
+.main > div:nth-child(1){
+	flex: 1;
+}
+.main > div:nth-child(2){
+	flex: 2;
 }
 
-.card::before {
-  position: absolute;
-  content: "";
-  height: 40px;
-  left: -20px;
-  border-radius: 40px;
-  z-index: 1;
-  top: 70px;
-  width: 40px;
+.co-img{
+	width: fit-content;
 }
-
 .co-img img {
   width: 100px;
   height: 100px;
 }
-.vertical {
-   border-left: 5px dotted black;
-    height: 153px;
-    position: absolute;
-  left: 42%;
-}
 .content{
-	padding-left:95px;
+	border-left: 5px dotted black;
+	padding-left: 45px;
+	text-align: left;
 }
 .content h1 {
   font-size: 35px;
-/*   margin-left: -20px; */
+  margin-left: -20px;
   color: #565656;
 }
 
@@ -100,7 +86,7 @@ margin: 20px 20px;
 }
 .content h2 {
   font-size: 18px;
-/*   margin-left: -20px; */
+  margin-left: -20px;
   color: #565656;
   text-transform: uppercase;
 }
@@ -108,7 +94,7 @@ margin: 20px 20px;
 .content p {
   font-size: 16px;
   color: #696969;
-/*   margin-left: -20px; */
+  margin-left: -20px;
 }
 
 .copy-button {
@@ -195,7 +181,9 @@ body {
  p.leftTitle {
     font-weight: lighter;
  }
-
+.co-img > input{
+	
+}
 </style>
 
 </head>
@@ -203,6 +191,18 @@ body {
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
 <div class="frame">
+
+<div class="dg-tkHome-banner">
+        <img src="${cpath }/upload/mainImage/ticketMain.png">
+	        <div class="yj-hello">
+		        <c:if test="${not empty login }">
+		        <h1 style="padding: 50px;">[${login.username}]님</h1>	
+		        </c:if>
+	        <h3>Health Protector에 오신 것을 환영합니다</h3>
+	        <br>
+	        </div>
+    </div>
+
 <div class="yj-container">
 
   <div class="yj-left">
@@ -233,13 +233,9 @@ body {
        <div class="container">
          <div class="card">
            <div class="main">
-             <div class="co-img">
-               <img
-                 src="로고.png"
-                 alt=""
-               />
+            <div class="co-img">
+               <img src="${cpath }/upload/logo.png"/>
              </div>
-             <div class="vertical"></div>
              <div class="content">
                <h2>환불 가능 이용권</h2>
                <p>구매날짜 :${dto.buyDay }</p>

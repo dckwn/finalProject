@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.itbank.repository.TicketDAO">
+
+	<select id="getList" parameterType="ticket" >
+		select * from health_ticket
+	</select>
+	
+	<select id="getOne" parameterType="Int">
+		select * from health_ticket where idx = #{idx}
+	</select>
+	
+	<insert id="buy" parameterType="map">
+		insert into health_deal (userid, ticket_id, imp_uid, expirDay, tkCount)
+		values( #{userid}, #{ticket_id}, #{imp_uid},
+		(SYSDATE + NVL((SELECT SUM(tkcount) FROM health_deal WHERE userid = #{userid}), 0) + 180),
+		(select tk_value from health_ticket where idx = #{ticket_id}))
+	</insert>
+	
+	<select id="getAlarm" parameterType="String">
+		SELECT sum(tkcount) AS total_tk_count
+		FROM health_deal
+		WHERE userid = #{userid}
+	</select>
+</mapper>

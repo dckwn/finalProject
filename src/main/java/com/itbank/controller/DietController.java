@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDate;
 
 import javax.servlet.http.HttpSession;
 
@@ -104,7 +105,8 @@ public class DietController {
 	@PostMapping("/add/{meal}")
 	public String add(FoodDTO foodDto) {
 		fs.add(foodDto);
-		return "redirect:/diet/add/{meal}";
+//		String day = new SimpleDateFormat("dd").format(new java.util.Date());
+		return "redirect:/diet/add/{meal}?when="+LocalDate.now();
 	}
 	
 	@GetMapping("/info")
@@ -112,8 +114,10 @@ public class DietController {
 	
 	@PostMapping("/info")
 	public String info(InfoDTO infoDto) {
+		
+	    String day = new SimpleDateFormat("dd").format(new java.util.Date());
 		is.add(infoDto);
-		return "redirect:/diet/home";
+		return "redirect:/diet/home?when="+LocalDate.now()+"&day="+day;
 	}
 	
 }

@@ -23,8 +23,22 @@ public class ReplyService {
 		return dao.insert(dto);
 	}
 
+	public int replydelete(ReplyDTO dto) {
+	
+		return dao.delete(dto);
+	}
+
+
+	public int replyModify(ReplyDTO dto) {
+		return dao.update(dto);
+	}
 
 
 
 
+
+	
+
+	
+	
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.itbank.repository.AbscentDAO">
+	<insert id="insert" parameterType="String">
+		insert into health_abscent (userid) values (#{userid})
+	</insert>
+	
+	<select id="abscentList" parameterType="map">
+		SELECT DISTINCT EXTRACT(DAY FROM checkDate) AS day
+		 FROM health_abscent
+		WHERE EXTRACT(MONTH FROM checkDate) = #{month} and userid=#{userid}
+	</select>
+	
+	<select id="getTotaclCheckDate">
+		select count(*) as totalCheckDate
+		 from health_abscent
+		 where userid = #{userid}
+	</select>
+	
+</mapper>

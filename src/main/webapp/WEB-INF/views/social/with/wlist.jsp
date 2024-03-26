@@ -3,11 +3,16 @@
 <%@ include file="../../userHeader.jsp"%>
 
 <style>
+	
 	table{
+	
 	 border-collapse: collapse;
-	width: 1300px;
+	width: 1296px;
 	 
 	} 
+	tr > td,th {
+		border: 1px solid black;
+	}
 	tr > td.right {
 	border-right: none ;
 	}
@@ -38,15 +43,15 @@
 		border: 1px solid brack;
 	}
 	.mywith{
-		font-size: 30px;
-		padding-top:9px;
+		font-size: 20px;
+		padding-top:7px;
 		padding-left: 5px;
 		margin: 0
 	}
 	.js-feedFrame  {
 		width: 1300px;
 		height: 100%;
-		margin-left: 20%;
+		margin: 0 auto;
 		
 	}
  	.js-choice { 
@@ -130,24 +135,49 @@
     .scroll-arrow.down {
         border-radius: 0 0 50% 50%;
     }
+    .dg-tkHome-banner {
+	    width:100%;
+	    text-align: center;
+	    margin: 0  auto;
+	}
+	.dg-tkHome-banner img{
+	    width: 100%;
+	    height: auto;
+	    margin-bottom: 30px;
+	    margin-top: 0;
+	    
+	}
+
+ 	div.back{
+ 		background-image: url("${cpath }/upload/icon/yoga.png");
+ 		background-repeat:no-repeat;
+ 		background-size: contain; 
+		margin-left: 90px;
+ 	}
+ 
 </style>
-<div class="scroll-arrows">
-    <div class="scroll-arrow up">&uarr;</div>
-    <div class="scroll-arrow down">&darr;</div>
-</div>
 
 
 	<div class="frame">
+	
+       <div class="dg-tkHome-banner">
+        <img src="${cpath }/upload/mainImage/socialMain.png">
+		</div>
+		<div class="scroll-arrows">
+		    <div class="scroll-arrow up">&uarr;</div>
+		    <div class="scroll-arrow down">&darr;</div>
+		</div>	
 		<div class="js-feedFrame">
 			<div class="js-choice">
-			<div class="js-feed center"><a href="${cpath }/social/home">FEED</a></div>
-			<div class="js-with center"><a href="${cpath }/social/with/wlist">WITH</a></div>
-		</div>
+				<div class="js-feed center"><a href="${cpath }/social/home">FEED</a></div>
+				<div class="js-with center"><a href="${cpath }/social/with/wlist">WITH</a></div>
+			</div>
 			<div class="center" id="withframe">
 				<div class="js-feedInfo">	
 					<div class="js-feedHomeBtn" >
 						<div class="mywith">
-							<a href="${cpath }/social/with/mypage">나의with</a>
+							<a href="${cpath }/social/with/mypage">나의with </a>/
+							<a href="${cpath }/social/with/add"> 동행하기</a>
 						</div>
 					
 						<div>	
@@ -163,43 +193,40 @@
 						</div>
 					</div>
 				
-	
-		<table  border="1" cellpadding="10" cellsapcing="0"> 
-			<c:forEach var="dto" items="${wlist }">
-			
-			<tbody>
-			 	<tr class="<c:if test="${dto.withNum + 1 == dto.peopleNum}">sameNum</c:if>">
-					<td class="right bottom" >작성자 : ${dto.writer}</td>
-					<td class="left bottom" >운동 : ${dto.category }</td>
-					<td rowspan="2">
-						참여인원(${dto.withNum + 1}/ ${dto.peopleNum } )<br>
-						<progress value="${dto.withNum + 1 }"   max= "${dto.peopleNum}" ></progress> 
-					</td>
-				</tr>
-				<tr class="<c:if test="${dto.withNum + 1 == dto.peopleNum}">sameNum</c:if>">
-				
-					  <td class="right top">
-            <c:choose>
-                <c:when test="${dto.withNum + 1 == dto.peopleNum}">
-                    <span>제목 : ${dto.title}</span>
-                </c:when>
-                <c:otherwise>
-                    <a href="${cpath}/social/with/${dto.idx}">제목 : ${dto.title}</a>
-                </c:otherwise>
-            </c:choose>
-        </td>
-					<td class="left top">운동날 :${dto.start_date } ~ ${dto.end_date }</td>
-					
-				</tr>
-				
-			</tbody>
-			
-			</c:forEach>
-		</table>
+					<div>
+						<table > 
+							<c:forEach var="dto" items="${wlist }">
+							
+								<tbody>
+								 	<tr class="<c:if test="${dto.withNum + 1 == dto.peopleNum}">sameNum</c:if>">
+										<td class="right bottom" >작성자 : ${dto.writer}</td>
+										<td class="left bottom" >운동 : ${dto.category }</td>
+										<td rowspan="2">
+											참여인원(${dto.withNum + 1}/ ${dto.peopleNum } )<br>
+											<progress value="${dto.withNum + 1 }"   max= "${dto.peopleNum}" ></progress> 
+										</td>
+									</tr>
+									<tr class="<c:if test="${dto.withNum + 1 == dto.peopleNum}">sameNum</c:if>">
+										<td class="right top">
+								            <c:choose>
+								                <c:when test="${dto.withNum + 1 == dto.peopleNum}">
+								                    <span>제목 : ${dto.title}</span>
+								                </c:when>
+								                <c:otherwise>
+								                    <a href="${cpath}/social/with/${dto.idx}">제목 : ${dto.title}</a>
+								                </c:otherwise>
+								            </c:choose>
+								        </td>
+										<td class="left top">운동날 :${dto.start_date } ~ ${dto.end_date }</td>
+									</tr>
+								</tbody>
+							</c:forEach>
+						</table>
+					</div>
+				</div>
+			</div>
 		</div>
-		</div>
-	</div>
-</div>		
+	</div>		
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
