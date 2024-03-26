@@ -103,7 +103,7 @@ public String sendPassword(HashMap<String, String> param) {
 			 int result = mailComponent.sendMimeMessage(param);
 	            
 	            if(result > 0) {
-	            	
+	            	param.put("content", hashComponent.getHash(newPwd));
 	            	int changePassword = memberDao.changePassword(param);
 	            	System.out.println(changePassword != 0 ? "변경 성공" : "변경 실패");
 	            	
