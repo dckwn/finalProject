@@ -1,11 +1,9 @@
 package com.itbank.repository;
 
 import java.util.List;
+import java.util.Map;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.itbank.model.ChatDTO;
@@ -27,6 +25,9 @@ public interface ChatDAO {
 	List<String> load();
 
 //	@Update("update health_chat set isRead = 0 who_send = #{who_chat}")
-	void read(String who_chat);
+	void read(Map<String, String> map);
+
+	@Select("select count(*) from health_chat where who_chat = #{who_chat} and who_send=#{who_send} and isRead=1")
+	String readCheck(Map<String, String> map);
 
 }

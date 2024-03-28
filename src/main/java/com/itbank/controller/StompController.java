@@ -18,7 +18,6 @@ public class StompController {
 		return message;
 	}
 	
-		
 	@MessageMapping("/openChat/{userid}")
 	@SendTo("/broker/cons/admin")
 	public MessageDTO message(MessageDTO message) {

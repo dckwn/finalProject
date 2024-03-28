@@ -1,6 +1,7 @@
 package com.itbank.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +30,13 @@ public class ChatService {
 		return dao.load();
 	}
 
-	public void read(String who_chat) {
-		dao.read(who_chat);		
+	public void read(Map<String, String> map) {
+		dao.read(map);		
+	}
+
+	public String readCheck(Map<String, String> map) {
+		
+		return dao.readCheck(map);
 	}
 	
 }

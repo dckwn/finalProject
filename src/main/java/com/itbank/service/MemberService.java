@@ -86,36 +86,27 @@ public class MemberService {
 		return 0;
 	}
 	
-public String sendPassword(HashMap<String, String> param) {
-		
-		int memberCount = memberDao.sendPassword(param);
-		
-		System.out.println(memberCount);
-		
-		if(memberCount > 0) {
-			 String newPwd = UUID.randomUUID().toString().replace("-", "").substring(0,8);
-			 System.out.println(newPwd);
-			 
-			 param.put("address",param.get("email"));
-			 param.put("subject", "비밀번호 재설정 안내");
-			 param.put("content", newPwd);
-			 
-			 int result = mailComponent.sendMimeMessage(param);
-	            
-	            if(result > 0) {
-	            	param.put("content", hashComponent.getHash(newPwd));
-	            	int changePassword = memberDao.changePassword(param);
-	            	System.out.println(changePassword != 0 ? "변경 성공" : "변경 실패");
-	            	
-	            	return "redirect:/member/login";
-	            }else {
-	            	return "redirect:/member/sendPassword";
-	            }    
-	        }else {
-	        	return "redirect:/member/sendPassword";
-	        }
-	
-	}
+	public MemberDTO sendPassword(MemberDTO dto) {
+	      MemberDTO memberCount = memberDao.sendPassword(dto);
+	     
+	      if(memberCount != null) {
+	          String newPwd = UUID.randomUUID().toString().replace("-", "").substring(0,8);
+	          HashMap<String,String> param = new HashMap<>();
+	          
+	          param.put("address",dto.getEmail());
+	          param.put("subject", "비밀번호 재설정 안내");
+	          param.put("content", newPwd);
+	          
+	          int result = mailComponent.sendMimeMessage(param);
+	               
+	               if(result > 0) {
+	            	  dto.setUserpw(hashComponent.getHash(newPwd));
+	                  memberDao.changePassword(dto);
+	               }
+	       }
+	      
+	      return memberCount;
+	   }
 
 	public int updateInfo(MemberDTO login, MemberDTO dto) {
 		

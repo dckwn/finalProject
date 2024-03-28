@@ -1,6 +1,8 @@
 package com.itbank.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,9 +40,20 @@ public class ChatAPI {
 		return row;
 	}
 	
-	@GetMapping("/isRead/{who_chat}")
-	public void isRead(@PathVariable("who_chat") String who_chat){
-		cs.read(who_chat);
+	@GetMapping("/isRead/{who_chat}/{who_send}")
+	public void isRead(@PathVariable("who_chat") String who_chat, @PathVariable("who_send") String who_send){
+		Map<String, String> map = new HashMap<>();
+		map.put("who_chat", who_chat);
+		map.put("who_send", who_send);
+		cs.read(map);
+	}
+	
+	@GetMapping("/readCheck/{who_chat}/{who_send}")
+	public String readCheck(@PathVariable("who_chat") String who_chat, @PathVariable("who_send") String who_send){
+		Map<String, String> map = new HashMap<>();
+		map.put("who_chat", who_chat);
+		map.put("who_send", who_send);
+		return cs.readCheck(map);
 	}
 	
 }

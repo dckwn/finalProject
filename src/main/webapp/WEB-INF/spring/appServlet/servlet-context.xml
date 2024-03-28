@@ -46,14 +46,29 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-<!-- 	<view-controller path="/" view-name="home"/> -->
+	<interceptors>
+      <interceptor>
+<!-- 	          <mapping path="/**" /> -->
+<!-- 	         <exclude-mapping path="/" /> -->
+<!-- 	         <exclude-mapping path="/home" /> -->
+<!-- 	         <exclude-mapping path="/member/*" /> -->
+<!-- 	         <exclude-mapping path="/ajax/*" /> -->
+<!-- 	         <exclude-mapping path="/admin/chat" /> -->
+<!-- 	      <exclude-mapping path="/member/join" /> -->
+<!-- 	         <exclude-mapping path="/member/login" /> -->
+<!-- 	         <exclude-mapping path="/member/chIf" /> -->
+<!-- 	         <exclude-mapping path="/member/chPw" /> -->
+	         
+<!-- 	         <exclude-mapping path="/member/sendPassword" /> -->
+<!-- 	         <exclude-mapping path="/about" /> -->
+<!-- 	         <exclude-mapping path="/social/*" /> --> 
+	          <mapping path="/ticket/*" />
+	          <mapping path="/diet/home" />
+	       
+	         <beans:bean class="com.itbank.interceptor.LoginInterceptor" />
+	      </interceptor>
+	</interceptors>  
 	
-<!-- 	<websocket:handlers> -->
-<!-- 		<websocket:mapping handler="chatComponent" path="/chat"/> -->
-<!-- 		<websocket:sockjs websocket-enabled="true"></websocket:sockjs> -->
-<!-- 	</websocket:handlers> -->
-	
-<!-- 	<beans:bean id="chatComponent" class="com.itbank.component.ChatComponent"></beans:bean> -->
 	
 	<websocket:message-broker application-destination-prefix="/app">
 		<websocket:stomp-endpoint path="/endpoint">
