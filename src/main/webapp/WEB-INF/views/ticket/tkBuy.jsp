@@ -73,7 +73,7 @@
     .pay1{
     font-size: 50px;
     display: flex;
-   	justify-content: space-between;
+      justify-content: space-between;
     }
     
     select {
@@ -99,8 +99,8 @@
    }
    
    .dg-right{
-   	width: 975px;
-   	margin:auto;
+      width: 975px;
+      margin:auto;
    }
        
 </style>
@@ -205,7 +205,7 @@
          price: e.target.getAttribute('price') || 0
       }
       arr[ob.idx-1] = ob
-      
+      console.log()
       getTotal()      
    }
    

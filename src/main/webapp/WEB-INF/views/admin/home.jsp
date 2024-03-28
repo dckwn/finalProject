@@ -211,13 +211,6 @@
 <script>
 	const menuList = document.querySelectorAll('.leftNav > div')
 	
-// 	menuList.forEach(e => {
-// 		document.querySelector('.'+e.innerText).classList = e.innerText + ' hidden'
-//     e.onclick = function(event) {
-// 			document.querySelector('.'+e.innerText).classList.remove('hidden')
-//         // Add your desired actions here
-//     };
-// });
 	menuList.forEach(e => {
 	    e.onclick = function(event) {
 	        // 클릭된 메뉴 항목과 동일한 텍스트를 가진 모든 요소 선택
@@ -246,6 +239,7 @@ const messageArea = document.getElementById('root')
 const back = document.getElementById('chat')
 const chatFrame = document.querySelector('.dh-chatFrame')
 var subscriptionId
+let isIn = '0'
 stomp.connect({}, onConnect)
 
 function onConnect() {
@@ -253,45 +247,100 @@ function onConnect() {
 	stomp.subscribe('/broker/cons/admin', receiveA)
 }
 
+function updateIsIn(value) {
+    isIn = value;
+}
+
 function alarm(from){
 	const body = JSON.parse(from.body)
 	const who = body.from
-	const chatHead = document.querySelector('.dh-chatHead')
-	if(chatFrame.classList.contains('hidden') || (chatHead!=null && !chatHead.classList.contains(who))){
-		document.querySelector('a#' + who).style.backgroundColor = 'red'		
+	const chat = body.chat
+	const isInFromServer = body.isIn;
+	if(who != null){
+		const chatHead = document.querySelector('.dh-chatHead')
+		if(chatFrame.classList.contains('hidden') || (chatHead!=null && !chatHead.classList.contains(who))){
+			document.querySelector('a#' + who).style.backgroundColor = '#F0CFC6'		
+		}
 	}
-
+	if(isInFromServer != null){updateIsIn(isInFromServer);}
+	if(isInFromServer == 1 && !chatFrame.classList.contains('hidden')){
+		readChat(chat)
+	}
+	
 }
 
 loadChat()
+
+function readCheck() {
+    const goChat = document.querySelectorAll('.goChat');
+    goChat.forEach(async e => {
+        const readCheckUrl = '${cpath}/readCheck/'+e.id+'/'+e.id;
+        const isread = await fetch(readCheckUrl).then(resp => resp.text());
+        if (isread != 0) {
+            e.style.backgroundColor = '#F0CFC6';
+        }
+    });
+}
 
 async function loadChat(){
 		const url = '${cpath}/loadChat'
 		
 		const result = await fetch(url).then(resp=>resp.json())
 		const arr = Array.from(result)
-		arr.forEach(e=> {
-			let str = ''
+		let str = ''
+		arr.forEach(e=> {	
 			str += '<a class="goChat" id="'+e+'"><span id="user">'+ e +'</span>님의 상담</a>'
-			messageArea.innerHTML += str
 		})
+		messageArea.innerHTML = str
 		const goChat = document.querySelectorAll('.goChat')
 		goChat.forEach(e => e.addEventListener('click', startChat));
+		
+		readCheck()
+}
+
+async function readChat(who){
+	
+	const show = document.querySelector('#chatbody'+who)
+	const url = '${cpath}/getChat/'+ who
+	
+	const result = await fetch(url).then(resp=>resp.json())
+	const arr = Array.from(result)
+	
+	let	str = ''
+	if(arr.length != 0){
+		arr.forEach(e => {
+			let po = ''
+			let who = ''
+			if(e.who_send == 'admin'){po = 'end'}
+			else {
+				po = 'start'
+				who = e.who_send
+			}
+			
+			str += '<div class="dh-message '+ po +'"><h2>'+ who +'</h2><div style="margin: 0px 10px;">' + e.content+'</div></div>'	
+		})
+	}
+	show.innerHTML = str
+	
+	chatFrame.classList.remove('hidden')
+	show.scrollTop = show.scrollHeight
 }
 
 const startChat = async function goChatHandler(e){
-	
 	const userSpan = e.currentTarget.querySelector('#user')		
     if (userSpan) {
     	
         who = userSpan.innerText
         
+        const readURL = '${cpath}/isRead/'+ who +'/' + who
+//         await fetch(readURL)
+        
        	const allLinks = document.querySelectorAll('a'); // 모든 <a> 태그 선택
 
 	     allLinks.forEach(link => {
 	         if (link.id === who) {
-	             link.style.backgroundColor = 'blue';
-	         } else if(link.style.backgroundColor != 'red'){
+	             link.style.backgroundColor = '#8ABDCF';
+	         } else if(link.style.backgroundColor != '#F0CFC6'){
 	             link.style.backgroundColor = 'inherit';
 	         }
 	     });
@@ -301,51 +350,32 @@ const startChat = async function goChatHandler(e){
         tag += '<div><h3>'+who+'</h3></div>'
         tag += '<div class="out">상담종료</div>'
         tag += '</div>'
-        tag += '<div id="'+who+'" style="width: 900px; height: 500px; overflow-y: scroll;">'
+        tag += '<div id="chatbody'+who+'" style="width: 900px; height: 500px; overflow-y: scroll;">'
 		tag += '</div>'
 		tag += '<div class="dh-send">'
 		tag += '<input type="text" name="msg" id="msg">'
 		tag += '<div class="dm">전송</div>'
 		tag += '</div>'
 		back.innerHTML = tag
+		const msgInput = document.querySelector('input[name="msg"]');
 		
-		const show = document.querySelector('div#'+who)
-		const url = '${cpath}/getChat/'+ who
+		readChat(who)
 		
-		const result = await fetch(url).then(resp=>resp.json())
-		const arr = Array.from(result)
-		
-		
-		if(arr.length != 0){
-			arr.forEach(e => {
-				let po = ''
-				let who = ''
-				if(e.who_send == 'admin'){po = 'end'}
-				else {
-					po = 'start'
-					who = e.who_send
-				}
-				
-				let	str = ''
-				str += '<div class="dh-message '+ po +'"><h2>'+ who +'</h2><div>' + e.content+'</div></div>'	
-				show.innerHTML += str
-			})
-		}
-		
-		chatFrame.classList.remove('hidden')
-        
         if (subscriptionId) {
 		    stomp.unsubscribe(subscriptionId)
 		}
         subscriptionId = stomp.subscribe('/broker/goChat/' + who, chatT).id
         
-        show.scrollTop = show.scrollHeight
+        msgInput.addEventListener('focus', () => {
+//         	readChat(who)
+			fetch(readURL)
+			stomp.send('/app/alarm/' + who, {}, JSON.stringify({ chat: who, isIn: '1' }));
+		});
+			
+		msgInput.addEventListener('blur', () => {
+		    stomp.send('/app/alarm/' + who, {}, JSON.stringify({ chat: who, isIn: '0'}));
+		});
     }
-// 	stomp.send('/app/sendM/' + who, {}, JSON.stringify({		
-// 		to: '0',			
-// 		from: '',
-// 		text: ''
-// 	}))
 	const outBtn = document.querySelector('.out')
 	const sendBtn = document.querySelector('.dm')
 	const msgInput = document.querySelector('input[name="msg"]')
@@ -355,7 +385,7 @@ const startChat = async function goChatHandler(e){
 	msgInput.onkeyup = function(e){
 		if(e.key == 'Enter') sendM()
 	}
-	
+// 	msgInput.focus()
 	
 }
 
@@ -364,19 +394,21 @@ function chatT(chat){
 	const to = content.to
 	const from = content.from
 	let text = content.text
-	
 	let po = ''
+	let isReadUser = ''
+	let isReadAdmin = ''
 	let who = ''
 	let toA = ''
-	if(from == 'admin'){toA = to; po = 'end'}
-	if(to == 'admin'){who = from; toA = from; po = 'start'}
-	if(text === 'out'){ text = '상담이 종료되었습니다.'; po ='service'; who=''}	
+	
+	if(from == 'admin'){toA = to; po = 'end'; isReadUser='1'}
+	if(to == 'admin'){who = from; toA = from; po = 'start'; isReadAdmin='1'}
+	if(text === 'out'){ text = '상담이 종료되었습니다.'; po ='service'; who=''; isReadUser=''; isReadAdmin=''; loadChat()}	
+	if(isIn == '1') { isReadUser = '';}
 	
 	let	str = ''
-		str += '<div class="dh-message '+ po +'"><h2>'+ who +'</h2><div>' + text+'</div></div>'
+	str += '<div class="dh-message '+ po +'"><h2>'+ who +'</h2>'+isReadUser+'<div style="margin: 0px 10px;">' + text+'</div>'+isReadAdmin+'</div>'
 		
-			
-	const show = document.querySelector('div#'+toA)
+	const show = document.querySelector('#chatbody'+toA)
 	show.innerHTML += str	
 	show.scrollTop = show.scrollHeight
 }
@@ -404,7 +436,6 @@ async function sendM(){
 	}
 	
 	const addResult = await fetch(url,opt).then(resp=>resp.text())
-	if(addResult != 0) {console.log(addResult)}
 	
 // 	stomp.send('/app/alarm/' + who)
 	stomp.send('/app/alarm/' + who, {}, JSON.stringify({	
@@ -412,11 +443,11 @@ async function sendM(){
 		}))
 	stomp.send('/app/sendM/' + who, {}, JSON.stringify({		
 		to: who,			
-		from: userid,
+		from: 'admin',
 		text: text
 	}))
 	
-	document.querySelector('input[name="msg"]').focus()	// 다시 입력할 수 있도록 포커스 잡아주기
+ 	document.querySelector('input[name="msg"]').focus()	// 다시 입력할 수 있도록 포커스 잡아주기
 }	
 
 async function outM(){
@@ -440,6 +471,7 @@ async function outM(){
 	stomp.disconnect(function() {
 	    console.log('Disconnected');
 	});
+	loadChat()
 }	
 
 	function receiveA(chat) {
@@ -451,6 +483,7 @@ async function outM(){
 		
 		let str = ''
 		str += '<a class="goChat" id="'+from+'"><span id="user">'+from +'</span>' + text + '</a>'
+		
 		const check = document.querySelectorAll('#user')
 		if(check != null ){
 			check.forEach(e => {

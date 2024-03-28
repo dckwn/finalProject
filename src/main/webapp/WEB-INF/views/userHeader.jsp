@@ -442,10 +442,15 @@ const back = document.getElementById('chat')
 const chatFrame = document.querySelector('.dh-chatFrame')
 const sockJS = new SockJS(cpath + '/endpoint')
 const stomp = Stomp.over(sockJS)
-const openChatButton = document.querySelector('.dh-chatButton'); // 버튼 요소를 가져옵니다.
+const openChatButton = document.querySelector('.dh-chatButton');
 const closeBtn = document.querySelector('.close-btn')
 const headAlert = document.querySelector('.headAlert')
+let isIn = '0'
 //const sessionId = '${pageContext.session.getId()}'
+
+closeBtn.addEventListener('click',function(event){
+	headAlert.classList.add('hide')
+})
 
 if(userid != ''){
 	const openMini = document.querySelector('.dh-profile > img')
@@ -463,26 +468,63 @@ if(userid != ''){
 	openChatButton.disabled = false
 }
 
-
 function onConnect() {
 	stomp.subscribe('/broker/message/'+ userid, alarm)
-	stomp.send('/app/create', {}, JSON.stringify({	// 서버에게 입장 메시지와 시간을 보낸다
-		from: userid
-	}))
+	stomp.send('/app/create', {}, JSON.stringify({from: userid}))
 }
 
-closeBtn.addEventListener('click',function(event){
-	headAlert.classList.add('hide')
-})
+function updateIsIn(value) {
+    isIn = value;
+}
 
 function alarm(from){
-	if(chatFrame.classList.contains('hidden')){
+	const body = JSON.parse(from.body)
+	const isInFromServer = body.isIn;
+	if(isInFromServer != null){updateIsIn(isInFromServer);}
+	if(isInFromServer == 1 && !chatFrame.classList.contains('hidden')){
+		readChat()
+	}
+	if(isInFromServer == null && chatFrame.classList.contains('hidden')){
 		
 		headAlert.classList.remove('hide')
 	}
 }
 
-async function onInput(value){		//클라이언트가 채팅 요청을 했을때
+async function readChat(){
+	const show = document.querySelector('div#'+userid)
+	
+	const url = '${cpath}/getChat/'+ userid
+	
+	const result = await fetch(url).then(resp=>resp.json())
+	const arr = Array.from(result)
+	
+	const chatInput = document.querySelector('input[name="msg"]')		
+	let	str = ''
+	
+	if(arr.length != 0){
+		for(let i = 0; i < arr.length; i++) {
+			const e = arr[i]
+			let po = ''
+			let who = ''
+			let ReadUser = ''
+			let ReadAdmin =''
+			if(e.who_send != 'admin'){po = 'end'; ReadUser= e.isRead}
+			else {
+				po = 'start'
+				who = '관리자'
+				ReadAdmin= e.isRead
+			}
+			str += '<div class="dh-message '+ po +'"><h2>'+ who +'</h2><div style="margin: 0px 10px;">' + e.content+'</div></div>'	
+			
+		}
+	}
+	show.innerHTML = str
+	chatFrame.classList.remove('hidden');
+	show.scrollTop = show.scrollHeight
+	
+}
+
+async function onInput(value){
 		const text = '님의 상담'
 		let tag = ''
 	        tag += '<div class="dh-chatHead">'
@@ -497,103 +539,21 @@ async function onInput(value){		//클라이언트가 채팅 요청을 했을때
 			tag += '</div>'
 			
 		back.innerHTML = tag
+
+// 		async function readgo(){
+// 			const readURL = '${cpath}/isRead/'+ userid +'/' + 'admin'
+// 			await fetch(readURL)
+// 		}
+		readChat()
 		
-		const show = document.querySelector('div#'+userid)
-		
-		
-		const url = '${cpath}/getChat/'+ userid
-		
-		const result = await fetch(url).then(resp=>resp.json())
-		const arr = Array.from(result)
-		
-		if(arr.length != 0){
-// 			arr.forEach(e => {
-			for(let i = 0; i < arr.length; i++) {
-				const e = arr[i]
-				let po = ''
-				let who = ''
-				if(e.who_send != 'admin'){po = 'end'}
-				else {
-					po = 'start'
-					who = '관리자'
-				}
-				let	str = ''
-				str += '<div class="dh-message '+ po +'"><h2>'+ who +'</h2><div>' + e.content+'</div></div>'	
-				show.innerHTML += str
-// 			})
-			}
-		}
-		
-		
-		
-		chatFrame.classList.remove('hidden');
+		const chatInput = document.querySelector('input[name="msg"]')
 		if(value!='0'){
-		stomp.subscribe('/broker/goChat/'+ userid, chatT)
-		stomp.send('/app/openChat/' + userid, {}, JSON.stringify({		
-			text: text,
-			from: userid
-		}))
-		}
-		
-	
-	async function outM(){
-			chatFrame.classList.add('hidden')
-			openChatButton.classList.remove('hidden')
-			const url = '${cpath}/outChat/'+ userid
-			
-			const result = await fetch(url).then(resp=>resp.text())
-			
-			const text = 'out'	
-			if(text == ''){													
-				return
-			}
-			stomp.send('/app/sendM/' + userid, {}, JSON.stringify({		
-				to: to,			
-				from: userid,
-				text: text
+			stomp.subscribe('/broker/goChat/'+ userid, chatT)
+			stomp.send('/app/openChat/' + userid, {}, JSON.stringify({		
+				text: text,
+				from: userid
 			}))
-			stomp.disconnect(function() {
-			    console.log('Disconnected');
-			});
-		}
-	
-	async function sendM(){
-		const text = document.querySelector('input[name="msg"]').value	// 내용을 불러와서
-		if(text == ''){													// 내용이 없으면 중단
-			return
-		}
-		document.querySelector('input[name="msg"]').value = ''			// 입력창 비우기
-		
-		const url = '${cpath}/saveChat'
-		
-		const opt = {
-		  method: 'POST',
-		  body: JSON.stringify({ 
-		  	who_send: userid,			
-			who_chat: userid,
-			content: text
-		  }),
-		  headers: {
-	           'Content-Type': 'application/json; charset=utf-8'
-	       }
-		}
-		
-		const addResult = await fetch(url,opt).then(resp=>resp.text())
-		if(addResult != 0) {console.log(addResult)}
-		
-		stomp.send('/app/sendM/' + userid, {}, JSON.stringify({		
-			to: to,			
-			from: userid,
-			text: text
-		}))
-		stomp.send('/app/alarm/' + 'admin', {}, JSON.stringify({		
-			from: userid
-		}))
-		
-// 		stomp.send('/app/alarm/' + 'admin')
-		
-		document.querySelector('input[name="msg"]').focus()	// 다시 입력할 수 있도록 포커스 잡아주기
-	}	
+		}	
 	const outBtn = document.querySelector('.out')
     const sendBtn = document.querySelector('.dm')
 	const msgInput = document.querySelector('input[name="msg"]')
@@ -604,12 +564,80 @@ async function onInput(value){		//클라이언트가 채팅 요청을 했을때
 		if(e.key == 'Enter') sendM()
 	}
 	
+	chatInput.addEventListener('focus', () => {
+// 		readgo()
+// 		readChat()
+	    stomp.send('/app/alarm/' + 'admin', {}, JSON.stringify({ chat: userid, isIn: '1' }));
+	});
 	
-	show.scrollTop = show.scrollHeight
+	chatInput.addEventListener('blur', () => {
+	    stomp.send('/app/alarm/' + 'admin', {}, JSON.stringify({ chat: userid, isIn: '0' }));
+	});
+	
+// 	show.scrollTop = show.scrollHeight
+// 	if(value==0){
+// 		chatInput.focus()
+// 		value=1
+// 	}
 }
 
+async function sendM(){
+	const text = document.querySelector('input[name="msg"]').value	// 내용을 불러와서
+	if(text == ''){													// 내용이 없으면 중단
+		return
+	}
+	document.querySelector('input[name="msg"]').value = ''			// 입력창 비우기
+	
+	const url = '${cpath}/saveChat'
+	
+	const opt = {
+	  method: 'POST',
+	  body: JSON.stringify({ 
+	  	who_send: userid,			
+		who_chat: userid,
+		content: text
+	  }),
+	  headers: {
+           'Content-Type': 'application/json; charset=utf-8'
+       }
+	}
+	
+	const addResult = await fetch(url,opt).then(resp=>resp.text())
+	if(addResult != 0) {console.log(addResult)}
+	
+	stomp.send('/app/sendM/' + userid, {}, JSON.stringify({		
+		to: to,			
+		from: userid,
+		text: text
+	}))
+	stomp.send('/app/alarm/' + 'admin', {}, JSON.stringify({		
+		from: userid
+	}))
+			
+		document.querySelector('input[name="msg"]').focus()	// 다시 입력할 수 있도록 포커스 잡아주기
+}
 
-// 버튼이 클릭되었을 때의 이벤트 리스너를 추가합니다.
+async function outM(){
+	chatFrame.classList.add('hidden')
+	openChatButton.classList.remove('hidden')
+	const url = '${cpath}/outChat/'+ userid
+	
+	const result = await fetch(url).then(resp=>resp.text())
+	
+	const text = 'out'	
+	if(text == ''){													
+		return
+	}
+	stomp.send('/app/sendM/' + userid, {}, JSON.stringify({		
+		to: to,			
+		from: userid,
+		text: text
+	}))
+	stomp.disconnect(function() {
+	    console.log('Disconnected');
+	});
+}
+
 openChatButton.addEventListener('click', function(event) {
 	
     if(userid==''){openChatButton.disabled = true}
@@ -623,23 +651,23 @@ openChatButton.addEventListener('click', function(event) {
 function chatT(chat){
 	const content = JSON.parse(chat.body)
 	const to = content.to
-	if(to == '0'){
-		console.log('to가 0입니다')
-		onInput(to)
-		return
-	}
 	const from = content.from
 	let text = content.text
-	let isRead = ''
+	console.log('isIn : '+isIn)
+	let isReadUser = ''
+	let isReadAdmin = ''
 	let po = ''
 	let who = ''
 	let toA = ''
-	if(from == 'admin'){toA = to; po = 'start'; who = '관리자';}
-	if(to == 'admin'){toA = from; po = 'end'; isRead = '1'}
-	if(text === 'out'){ text = '상담이 종료되었습니다.'; po ='service'; who=''}	
+	console.log(from)
+	if(from == 'admin'){toA = to; po = 'start'; who = '관리자'; isReadAdmin='1'}
+	if(to == 'admin'){toA = from; po = 'end'; isReadUser = '1'}
+	if(text === 'out'){ text = '상담이 종료되었습니다.'; po ='service'; who=''; isReadUser=''; isReadAdmin=''}	
+	
+	if(isIn == '1') {isReadUser = ''}
 	
 	let	str = ''
-		str += '<div class="dh-message '+ po +'"><h2>'+ who +'</h2><div>' + text+'</div></div>'
+		str += '<div class="dh-message '+ po +'"><h2>'+ who +'</h2>'+isReadUser+'<div style="margin: 0px 10px;">' + text+'</div>'+isReadAdmin+'</div>'
 
 	const show = document.getElementById(toA)
 	show.innerHTML += str	

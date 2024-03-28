@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.itbank.model.InfoDTO;
@@ -31,12 +32,24 @@ public class MemberController {
 	@GetMapping("/login")
 	public void login() {}
 	
-	@PostMapping("/login")
-	public String login(MemberDTO dto, HttpSession session) {
-		MemberDTO login = ms.login(dto);
-		session.setAttribute("login", login);
-		return "redirect:/";
-	}
+   @PostMapping("/login")
+   public String login(MemberDTO dto, HttpSession session) {
+       MemberDTO login = ms.login(dto);
+       
+       if (login != null) {
+           session.setAttribute("login", login);
+           
+           String prevPage = (String) session.getAttribute("prevPage");
+           if (prevPage != null) {
+               session.removeAttribute("prevPage"); 
+               return "redirect:/" + prevPage; 
+           } else {
+               return "redirect:/"; 
+           }
+       } else {
+           return "redirect:/member/login?error";
+       }
+   }
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
@@ -100,19 +113,19 @@ public class MemberController {
 		
 		// 비밀번호 재발급
 		
-			@GetMapping("/sendPassword")
-			public void sendPassword() {}
-			
-			
-			@PostMapping("/sendPassword")
-			public String sendPassword(@RequestParam HashMap<String, String>param, MemberDTO dto) {
-				
-				param.put("email",dto.getEmail());
-				param.put("username", dto.getUsername());
-				String ResultMessage = ms.sendPassword(param);
-				
-				return ResultMessage;
-			}
+		@GetMapping("/sendPassword")
+		public void sendPassword() {}
+		
+		
+		@PostMapping("/sendPassword")
+		@ResponseBody
+		public String sendPassword(@RequestBody MemberDTO dto) {		    
+		    MemberDTO sendPass = ms.sendPassword(dto);
+		    if (sendPass == null) {
+		        return "0";
+		    }
+		    return "1";
+		}
 		
 		@GetMapping("/chIf")
 		public void chIf() {}

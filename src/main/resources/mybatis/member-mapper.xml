@@ -25,6 +25,18 @@
 		select * from health_member order by idx
 	</select>
 	
+	<select id="sendPassword" parameterType="member">
+		select * from health_member where email = #{email} and userid = #{userid}
+	</select>
+	
+	<update id="changePassword" parameterType="member">
+		update health_member set userpw = #{userpw} where email = #{email} and userid = #{userid}
+	</update>
+	
+	<update id="updateInfo" parameterType="member">
+		update health_member set profile_image=#{profile_image}, username=#{username}, phone_num=#{phone_num} where userid=#{userid}
+	</update>
+	
 	<update id="update" parameterType="map">
 		update health_member set userpw = #{newPw} where userid = #{userid}
 	</update>

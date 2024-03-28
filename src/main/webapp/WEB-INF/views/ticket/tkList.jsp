@@ -44,36 +44,50 @@ margin: 20px 20px;
   border-radius: 5px;
   box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
   background-color: #fff;
+  padding: 10px 10px;
   position: relative;
-  display:flex;
-  align-items: center;
-  }
+}
 
 .main{
    display: flex;
     justify-content: space-between;
+    padding: 19px 50px;
     align-items: center;
-    text-align:center;
-    width:inherit;
 }
-.main > div:nth-child(1){
-	flex: 1;
-}
-.main > div:nth-child(2){
-	flex: 2;
+.card::after {
+  position: absolute;
+  content: "";
+  height: 40px;
+  right: -20px;
+  border-radius: 40px;
+  z-index: 1;
+  top: 70px;
+  width: 40px;
 }
 
-.co-img{
-	width: fit-content;
+.card::before {
+  position: absolute;
+  content: "";
+  height: 40px;
+  left: -20px;
+  border-radius: 40px;
+  z-index: 1;
+  top: 70px;
+  width: 40px;
 }
+
 .co-img img {
   width: 100px;
   height: 100px;
 }
+.vertical {
+   border-left: 5px dotted black;
+    height: 153px;
+    position: absolute;
+  left: 42%;
+}
 .content{
-	border-left: 5px dotted black;
-	padding-left: 45px;
-	text-align: left;
+   margin: 21px -22px;
 }
 .content h1 {
   font-size: 35px;
@@ -222,8 +236,15 @@ body {
          <div class="card">
            <div class="main">
              <div class="co-img">
-               <img src="${cpath }/upload/logo.png"/>
+                   <c:if test="${dto.tkCount > dto.tk_value}">
+                  <input type="checkbox" name="arr" value="${dto.idx}">
+               </c:if>
+               <img
+                 src="${cpath }/upload/logo.png"
+               />
              </div>
+             <div></div>
+             <div class="vertical"></div>
              <div class="content">
                <h2>헬스장 이용권</h2>
                <h1>${dto.ticket_id}<span>Coupon</span></h1>
@@ -236,7 +257,7 @@ body {
        </c:forEach>
        </div>
        <div style="display: flex; margin-left: 55px; margin-top: 40px;">
-         <a href="${cpath }/ticket/refund">
+          <a href="${cpath }/ticket/refund">
           	<button type="button" style="border: 2px solid grey; width: 250px; height: 50px;margin-left: 10px; cursor:pointer; font-family: 'GangwonEdu_OTFBoldA'; font-size: 20px;">환불하기</button>
           </a>
           <a href="${cpath }/ticket/tkBuy">

@@ -1,5 +1,6 @@
 package com.itbank.service;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ public class TicketService {
 	public int buy(String counts, String imp_uid, String userid) {
 		Map<String, Object> map = new HashMap<>();
 		String[] ticket = counts.split(",");
+		System.out.println(Arrays.toString(ticket));
 		int row = 0;
 		int[] hw = new int[ticket.length];
 		map.put("userid", userid);

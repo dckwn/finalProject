@@ -21,7 +21,7 @@
 		select who_chat from health_chat group by who_chat
 	</select>
 	
-	<update id="read" parameterType="string">
-		update health_chat set isRead = 0 who_send = #{who_chat}
+	<update id="read" parameterType="map">
+		update health_chat set isRead = 0 where who_chat = #{who_chat} and who_send = #{who_send}
 	</update>
 </mapper>

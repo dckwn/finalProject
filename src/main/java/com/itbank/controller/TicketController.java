@@ -32,6 +32,12 @@ public class TicketController {
 		ModelAndView mav = new ModelAndView();
 		MemberDTO login = (MemberDTO) session.getAttribute("login");
 		mav.addObject("login", login);
+		
+		if(login!=null) {
+		int tkCount = ts.getAlarm(login.getUserid());
+		mav.addObject("tkCount", tkCount);
+		}
+		
 		return mav;	
 	}
 	
